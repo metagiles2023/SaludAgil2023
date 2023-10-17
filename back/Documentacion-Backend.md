@@ -7,6 +7,11 @@ Ir a la clase
 Apretar el boton de Run (VSCode)
 ```
 
+# Dependencias
+Java 17 (openjdk sirve)
+- Probablemente quieran actualizar JAVA_HOME y PATH
+Maven
+
 # Estructura de la aplicacion
 En [Clase1.java](/src/main/java/com/metagiles/demometagiles/Clase1.java) se define una entidad (una clase serializable para guardar y tomar de la base de datos).
 - El constructor default vacio es necesario
