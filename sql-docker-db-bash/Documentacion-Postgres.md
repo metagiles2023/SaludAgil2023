@@ -35,6 +35,8 @@ Para ver los logs de un container
 Para pullear una imagen (el docker-compose up lo hace solo, es raro necesitar esto)
 - docker pull image-name
 
+- Tuve que pullear dpage/pgadmin4 porque el pgadmin daba un error "unrecognized configuration parameter lc_collate"
+
 # Credenciales
 En el docker-compose.yml estan definidos los usuario y contrasena de pgadmin y de postgres.
 
