@@ -2,7 +2,7 @@
 # Indice
 
 - [Dependencias](#dependencias)
-- [Como correr la aplicacion localmente](#como-correr-la-aplicacion-localmente)
+- [Como correr la aplicacion](#como-correr-la-aplicacion-localmente)
     - [Pre-configuracion de la URL de la base de datos](#pre-configuracion-de-la-url-de-la-base-de-datos)
     - [Opcion 1 - IDE](#opcion-1---se-corre-desde-demometagilesapplicationjava)
     - [Opcion 2 - Terminal](#opcion-2---se-corre-desde-la-terminal)
@@ -17,7 +17,7 @@ Java 17 (openjdk sirve)
 - Probablemente quieran actualizar JAVA_HOME y PATH
 Maven
 
-# Como correr la aplicacion localmente
+# Como correr la aplicacion
 
 ## Pre-configuracion de la URL de la base de datos
 Para correrlo localmente, application.propierties dentro de src/main/resources debe ir con
