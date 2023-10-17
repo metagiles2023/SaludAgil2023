@@ -1,3 +1,8 @@
+Indice
+- [Como ejecutar los servidores](#como-ejecutar-los-servidores)
+- [Credenciales](#credenciales)
+- [Scripts](#scripts)
+
 # Como ejecutar los servidores
 
 En el docker-compose.yml (archivo de descripcion de containers) hay dos servicios: postgres-16 y pgadmin4
@@ -34,19 +39,19 @@ Para pullear una imagen (el docker-compose up lo hace solo, es raro necesitar es
 En el docker-compose.yml estan definidos los usuario y contrasena de pgadmin y de postgres.
 
 # Scripts
-Hay una carpeta de scripts con tres utilidades: dropear una base, dumpearla, y hacer create y restore.
+Hay una carpeta de [scripts](/scripts/) con tres utilidades: dropear una base, dumpearla, y hacer create y restore.
 
-- db-docker-drop.sh: dropea una base.
+- [db-docker-drop.sh](/scripts/db-docker-drop.sh): dropea una base.
 
 ```sh
 bash db-docker-drop.sh dbname
 ```
-- db-docker-dump.sh: hace un dump (un volcado) de una base de datos. Ese dump se puede dar a otra persona para que utilize el comando de create-and-restore para crear una base a partir de dicho dump.
+- [db-docker-dump.sh](/scripts/db-docker-dump.sh): hace un dump (un volcado) de una base de datos. Ese dump se puede dar a otra persona para que utilize el comando de create-and-restore para crear una base a partir de dicho dump.
 
 ```sh
 bash db-docker-dump.sh dbname
 ```
-- db-docker-create-and-restore.sh: es el unico que hay que ejecutar en el directorio de la carpeta /scripts. El resto se puede ejecutar de cualquier lado. Crea una base nueva con el nombre {db}, y pone en dicha base los datos del dump correspondiente tomado de /dumps/{db}.sql
+- [db-docker-create-and-restore.sh](/scripts/db-docker-create-and-restore.sh): es el unico que hay que ejecutar en el directorio de la carpeta /scripts. El resto se puede ejecutar de cualquier lado. Crea una base nueva con el nombre {db}, y pone en dicha base los datos del dump correspondiente tomado de /dumps/{db}.sql
 
 ```sh
 #Ir al directorio /scripts
