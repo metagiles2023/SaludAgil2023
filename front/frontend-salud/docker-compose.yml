@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+
+  frontend-salud:
+    image: salud-next-app
+    container_name: frontend-salud
+    # environment:
+    #   - SOMEVAR=somevalue
+    ports:
+      - 3000:3000
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    name: 'network-metagiles'
+    external: true
+
