@@ -13,10 +13,21 @@
 - [Generacion de la carpeta y el entorno](#generacion-de-la-carpeta-y-el-entorno)
 
 # Dependencias
-Java 17 (openjdk sirve)
-- Probablemente quieran actualizar JAVA_HOME y PATH
-Maven
+- Java 17 (openjdk sirve)
 
+```bash
+# Sin tener java instalado:
+sudo apt-get update
+sudo apt-get install openjdk-17-jdk
+java -version
+```
+
+Probablemente quieran actualizar JAVA_HOME y PATH
+
+- Maven
+```bash
+sudo apt install maven
+```
 # Como correr la aplicacion
 
 ## Pre-configuracion de la URL de la base de datos
@@ -63,13 +74,13 @@ docker-compose up
 ```
 
 ## Nota para docker
-Recomiendo correr localmente primero, y si todo anda bien, pasar al docker.
+Correr localmente primero, y si todo anda bien, pasar al docker.
 
 Para pasar al docker, application.propierties dentro de src/main/resources debe ir con
 ```
 spring.datasource.url=jdbc:postgresql://postgres-16:5432/db1?characterEncoding=UTF-8
 ```
-Esa linea le permite al container de spring conocer al container "postgres-16" mediante la docker network configurada.
+Esa linea le permite al container de spring conocer al container "postgres-16" mediante la docker network configurada. Utilizar 'localhost' no funciona dentro del container. Si el container llamado 'postgres-16' no existe, la aplicacion no podra conectarse a la base de datos.
 
 # Generacion de la carpeta y el entorno
 Se genero utilizando https://start.spring.io/ con las siguientes configuraciones
