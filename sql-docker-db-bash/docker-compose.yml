@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+
+  postgres-1:
+    image: postgres:16
+    container_name: 'postgres-16'
+    restart: always
+    environment:
+      - POSTGRES_USER=metadmin
+      - POSTGRES_PASSWORD=met!pass2023
+    ports:
+      - '5432:5432'
+    volumes: 
+      - ./data:/var/lib/postgresql/data
+      - ./logs:/var/log/postgres
+      - ./dumps:/dumps
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: unless-stopped
+    container_name: 'pgadmin4'
+    environment:
+      - TZ=America/Argentina/Buenos_Aires
+      - PGADMIN_DEFAULT_EMAIL=admin@metagiles.com
+      - PGADMIN_DEFAULT_PASSWORD=metagiles2023
+    ports:
+      - '5050:80'
+
