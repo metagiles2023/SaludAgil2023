@@ -77,7 +77,7 @@ Se genero utilizando https://start.spring.io/ con las siguientes configuraciones
 - Maven
 - Spring Boot 3.1.4
 - Project Metadata -> group: com.metagiles | artifact: demo-metagiles | name: demo-metagiles | description: ... | package name: com.metagiles.demo-metagiles | packaging: Jar | java: 17
-- Dependencias -> Spring Web, Spring Data JPA, PostgreSQL Driver
+- Dependencias -> Spring Boot DevTools, Lombok, Spring Web, Spring Data JPA, PostgreSQL Driver.
 - JUnit (Jupiter) lo trae Spring Boot. Ver.
 
 Y leyendo este tutorial: https://spring.io/guides/tutorials/rest/
