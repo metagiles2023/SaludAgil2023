@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+
+  backend-salud:
+      image: amazoncorretto:17-alpine3.17
+      restart: unless-stopped
+      container_name: 'backend-salud'
+      # environment:
+      #   - SOMEVAR=somevalue
+      volumes:
+        - ./target/demo-metagiles-0.0.1-SNAPSHOT.jar:/app/app.jar
+      ports:
+        - '8080:8080'
+      networks:
+        - mynetwork
+      command: ["java", "-jar", "app/app.jar"]
+
+networks:
+  mynetwork:
+    name: 'network-metagiles'
+    external: true
