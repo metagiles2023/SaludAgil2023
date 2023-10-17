@@ -1,3 +1,8 @@
+Indice
+- [Como ejecutar los servidores](#como-ejecutar-los-servidores)
+- [Credenciales](#credenciales)
+- [Scripts](#scripts)
+
 # Como ejecutar los servidores
 
 En el docker-compose.yml (archivo de descripcion de containers) hay dos servicios: postgres-16 y pgadmin4
