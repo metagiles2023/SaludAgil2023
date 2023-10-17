@@ -10,6 +10,6 @@ class DemoMetagilesApplicationTests {
 
 	@Test
 	void contextLoads() {
-	
-    }
+	}
+
 }
