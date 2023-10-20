@@ -5,12 +5,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
 
 @Entity(name = "Usuario")
 @Table(name = "usuario")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Usuario {
     @Id
     @Column(
@@ -29,25 +32,25 @@ public class Usuario {
     private Long idUsuario;
 
     @Column(
-            name = "u_nombre",
+            name = "nombre",
             nullable = false
     )
     private String nombre;
 
     @Column(
-            name = "u_apellido",
+            name = "apellido",
             nullable = false
     )
     private String apellido;
 
     @Column(
-            name = "u_dni",
+            name = "dni",
             nullable = false
     )
     private String dni;
 
     @Column(
-            name = "u_rol",
+            name = "rol",
             nullable = false
     )
     private String rol;
