@@ -1,6 +1,7 @@
 package com.metagiles.demometagiles.models.usuario;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,7 +14,8 @@ import jakarta.persistence.Table;
 
 @Entity(name = "Usuario")
 @Table(name = "usuario")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy=InheritanceType.JOINED)
+@DiscriminatorColumn(name="user_type")
 public class Usuario {
     @Id
     @Column(
@@ -61,7 +63,7 @@ public class Usuario {
     }
 
     public Usuario(String nombre, String apellido, String dni, String rol) {
-        System.out.println("Se crea una instancia de Clase1");
+        System.out.println("Se crea una instancia de Usuario");
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
