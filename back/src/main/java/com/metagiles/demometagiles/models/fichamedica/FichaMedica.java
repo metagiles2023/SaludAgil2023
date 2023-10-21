@@ -2,8 +2,8 @@ package com.metagiles.demometagiles.models.fichamedica;
 
 import java.sql.Date;
 
-import com.metagiles.demometagiles.models.medico.Medico;
-import com.metagiles.demometagiles.models.paciente.Paciente;
+// import com.metagiles.demometagiles.models.medico.Medico;
+// import com.metagiles.demometagiles.models.paciente.Paciente;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,17 +32,17 @@ public class FichaMedica {
     )
     private Long idFichaMedica;
 
-    @Column(
-            name = "medico",
-            nullable = false
-    )
-    private Medico medico;
+    // @Column(
+    //         name = "medico",
+    //         nullable = false
+    // )
+    // private Medico medico;
 
-    @Column(
-            name = "paciente",
-            nullable = false
-    )
-    private Paciente paciente;
+    // @Column(
+    //         name = "paciente",
+    //         nullable = false
+    // )
+    // private Paciente paciente;
 
     @Column(
             name = "date",
@@ -74,21 +74,21 @@ public class FichaMedica {
         return idFichaMedica;
     }
 
-    public Medico getMedico() {
-        return medico;
-    }
+    // public Medico getMedico() {
+    //     return medico;
+    // }
 
-    public void setMedico(Medico medico) {
-        this.medico = medico;
-    }
+    // public void setMedico(Medico medico) {
+    //     this.medico = medico;
+    // }
 
-    public Paciente getPaciente() {
-        return paciente;
-    }
+    // public Paciente getPaciente() {
+    //     return paciente;
+    // }
 
-    public void setPaciente(Paciente paciente) {
-        this.paciente = paciente;
-    }
+    // public void setPaciente(Paciente paciente) {
+    //     this.paciente = paciente;
+    // }
 
     public Date getDate() {
         return date;
