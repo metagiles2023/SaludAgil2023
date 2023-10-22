@@ -18,9 +18,9 @@ public class Paciente extends Usuario{
     // )
     // private List<String> obrasSociales;
     
-    @Column(name = "obra_social", nullable = false)
+    @Column(name = "obra_social", nullable = true) //true porque medicos no tienen
     private String obraSocial;
-    
+
     //Necesario
     public Paciente() {
         
@@ -31,6 +31,14 @@ public class Paciente extends Usuario{
         //obrasSociales = new ArrayList<String>(null);
     }
 
+    public String getObraSocial() {
+        return obraSocial;
+    }
+
+    public void setObraSocial(String obraSocial) {
+        this.obraSocial = obraSocial;
+    }
+
     // public List<String> getObrasSociales() {
     //     return obrasSociales;
     // }
@@ -38,6 +46,8 @@ public class Paciente extends Usuario{
     // public void add(String obraSocial) {
     //     this.obrasSociales.add(obraSocial);
     // }
+
+    
 
     
 }

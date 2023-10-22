@@ -9,7 +9,7 @@ import jakarta.persistence.Entity;
 @Entity(name = "Medico")
 @DiscriminatorValue("M")
 public class Medico extends Usuario{
-    @Column(name = "especialidad", nullable = false)
+    @Column(name = "especialidad", nullable = true) //true porque pacientes no tienen
     private String especialidad;
 
     public Medico() {
