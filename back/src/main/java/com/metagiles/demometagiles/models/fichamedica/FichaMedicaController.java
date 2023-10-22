@@ -25,6 +25,12 @@ public class FichaMedicaController {
         System.out.println("getting fichas medicas");
         return repository.findAll();
     }
+
+    // @GetMapping("/ficha-medica/get")
+    // public List<FichaMedica> getOne(@RequestParam String pacienteId) {
+    //     System.out.println("getting ficha medica");
+    //     return repository.findAll();
+    // }
     
     /*
      * Necesita un JSON en el body de esta manera:
