@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import com.metagiles.demometagiles.models.medico.MedicoRepository;
 import com.metagiles.demometagiles.models.paciente.PacienteRepository;
 
-import jakarta.persistence.PostLoad;
-
 @RestController
 public class FichaMedicaController {
     private final FichaMedicaRepository repository;
