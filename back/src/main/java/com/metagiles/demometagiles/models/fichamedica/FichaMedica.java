@@ -10,6 +10,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
@@ -17,10 +19,7 @@ import jakarta.persistence.Table;
 @Table(name = "ficha_medica")
 public class FichaMedica {
     @Id
-    @Column(
-            name = "fm_id",
-            updatable = false
-    )
+    @Column(name = "fm_id", updatable = false)
     @SequenceGenerator(
             name = "ficha_medica_sequence",
             sequenceName = "ficha_medica_sequence",
@@ -32,40 +31,24 @@ public class FichaMedica {
     )
     private Long idFichaMedica;
 
-    @Column(
-            name = "medico",
-            nullable = false
-    )
+    @ManyToOne
+    @JoinColumn(name = "medico_id", nullable = false)
     private Medico medico;
 
-    @Column(
-            name = "paciente",
-            nullable = false
-    )
+    @ManyToOne
+    @JoinColumn(name = "paciente_id", nullable = false)
     private Paciente paciente;
 
-    @Column(
-            name = "date",
-            nullable = false
-    )
+    @Column(name = "date", nullable = false)
     private Date date;
 
-    @Column(
-            name = "diagnostico",
-            nullable = false
-    )
+    @Column(name = "diagnostico", nullable = false)
     private String diagnostico;
 
-    @Column(
-            name = "es_grave",
-            nullable = false
-    )
+    @Column(name = "es_grave", nullable = false)
     private boolean esGrave;
 
-    @Column(
-            name = "uso_emergencia",
-            nullable = false
-    )
+    @Column(name = "uso_emergencia", nullable = false)
     private boolean usoEmergencia;
 
 

@@ -2,6 +2,7 @@ package com.metagiles.demometagiles.models.usuario;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,47 +15,29 @@ import jakarta.persistence.Table;
 
 @Entity(name = "Usuario")
 @Table(name = "usuario")
-@Inheritance(strategy=InheritanceType.JOINED)
-@DiscriminatorColumn(name="user_type")
-public class Usuario {
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="user_type", discriminatorType = DiscriminatorType.STRING)
+public abstract class Usuario {
     @Id
-    @Column(
-            name = "u_id",
-            updatable = false
-    )
+    @Column(name = "u_id", updatable = false)
     @SequenceGenerator(
             name = "usuario_sequence",
             sequenceName = "usuario_sequence",
             allocationSize = 1
     )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "usuario_sequence"
-    )
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "usuario_sequence")
     private Long idUsuario;
 
-    @Column(
-            name = "nombre",
-            nullable = false
-    )
+    @Column(name = "nombre", nullable = false)
     private String nombre;
 
-    @Column(
-            name = "apellido",
-            nullable = false
-    )
+    @Column(name = "apellido", nullable = false)
     private String apellido;
 
-    @Column(
-            name = "dni",
-            nullable = false
-    )
+    @Column(name = "dni", nullable = false)
     private String dni;
 
-    @Column(
-            name = "rol",
-            nullable = false
-    )
+    @Column(name = "rol", nullable = false)
     private String rol;
 
     //Necesario
