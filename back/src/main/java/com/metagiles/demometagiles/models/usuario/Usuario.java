@@ -31,7 +31,7 @@ public abstract class Usuario {
     @Column(name = "nombre", nullable = false)
     private String nombre;
 
-    @Column(name = "apellido", nullable = false)
+    @Column(name = "apellido", nullable = false, unique = true)
     private String apellido;
 
     @Column(name = "dni", nullable = false)

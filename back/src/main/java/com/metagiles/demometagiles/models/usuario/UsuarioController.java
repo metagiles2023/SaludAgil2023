@@ -14,7 +14,6 @@ public class UsuarioController {
 
     @GetMapping("/users/getAll")
     List<Usuario> getAll() {
-        System.out.println("hi!");
         return repository.findAll();
     }
 

@@ -55,15 +55,8 @@ Ir a [Docker](#docker)
 
 # Estructura base de la aplicacion
 
-Disclaimer 17 octubre: La idea es que esto esta super mal hecho a proposito, los archivos estan todos sueltos para que tengamos algo con que trabajar, pero compila y anda bien.
-
-En [Clase1.java](/src/main/java/com/metagiles/demometagiles/Clase1.java) se define una entidad (una clase serializable para guardar y tomar de la base de datos).
-- El constructor default vacio es necesario
-
-En [Clase1Controller.java](/src/main/java/com/metagiles/demometagiles/Clase1Controller.java) se definen los metodos (via REST) que van a recibir los endpoints (como "/getAll").
-- El repository lo recibe por dependency injection, no se lo tenemos que dar nosotros.
-
-En [Clase1Repository.java](/src/main/java/com/metagiles/demometagiles/Clase1Repository.java) se crea una interfaz que extiende de la de Jakarta (ver JPA) llamada JpaRepository, que provee metodos via Hibernate para hacer pedidos a la base de datos (ver findAll() utilizado en Clase1Controller).
+En [/src/.../models](/src/main/java/com/metagiles/demometagiles/models) estan los distintos modelos con sus controladores.
+Cada modelo (ficha medica, usuario, etc) tiene su respectivo archivo de definicion de Entidad, su Repositorio que extiende de JPARepository y su Controller, que define las rutas.
 
 # Docker
 

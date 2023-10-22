@@ -22,7 +22,7 @@ public class FichaMedicaController {
 
     @GetMapping("/ficha-medica/getAll")
     public List<FichaMedica> getAll() {
-        System.out.println("getting las fichas medicas");
+        System.out.println("getting fichas medicas");
         return repository.findAll();
     }
 
@@ -49,9 +49,9 @@ public class FichaMedicaController {
             
             // Save the FichaMedica to the repository
             FichaMedica savedFicha = repository.save(fichaMedica);
-            return ResponseEntity.ok(savedFicha);
+            return ResponseEntity.ok(savedFicha.getIdFichaMedica());
         } catch(Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error creating FichaMedica");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error creating FichaMedica: "  + e.getMessage());
         }
     }
 }

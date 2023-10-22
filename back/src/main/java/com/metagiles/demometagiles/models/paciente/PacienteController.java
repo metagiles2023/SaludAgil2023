@@ -18,29 +18,44 @@ public class PacienteController {
 
     @GetMapping("/paciente/getAll")
     public List<Paciente> getAll() {
-        System.out.println("hi!");
         return repository.findAll();
     }
-
+    
+    /*
+     * Necesita un JSON en el body de esta manera:
+     * {
+     *   "apellido": "apellX",
+     *   "nombre": "nomX",
+     *   "dni": "dniX",
+     *   "obraSocial": "obraX"
+     * }
+     *  Y los headers deben tener Content-Type = application/json como cualquier POST.
+     * 
+     * Retorna un JSON con el id del usuario agregado.
+     */
     @PostMapping("/paciente/create")
     public ResponseEntity<?> createPaciente(@RequestBody Paciente request) {
         try {
-            // Parse JSON request data into a FichaMedica object
+            // Parse JSON request data into a Paciente object
             Paciente paciente = new Paciente();
-            
+            System.out.println(request.getObraSocial());
+            if (repository.existsBydni(request.getDni())) {
+                throw new Exception("DNI ya presente en la tabla.");
+            }
             // Set properties from the request
             paciente.setApellido(request.getApellido());
             paciente.setNombre(request.getNombre());
             paciente.setDni(request.getDni());
             paciente.setRol("paciente");
-            paciente.setObraSocial("obraDefault");
-            //Falta obra social
+            paciente.setObraSocial(request.getObraSocial());
+            //Falta que obra social sea una lista en vez de un String
             
-            // Save the FichaMedica to the repository
+            // Save Paciente to the repository
             Paciente savedPaciente = repository.save(paciente);
-            return ResponseEntity.ok(savedPaciente);
+            return ResponseEntity.ok(savedPaciente.getIdUsuario());
         } catch(Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error creating Paciente");
+            System.out.println("Error creating Paciente: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error creating Paciente: " + e.getMessage());
         }
     }
 }
