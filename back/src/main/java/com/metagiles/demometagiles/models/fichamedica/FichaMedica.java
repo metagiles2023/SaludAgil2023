@@ -2,8 +2,7 @@ package com.metagiles.demometagiles.models.fichamedica;
 
 import java.sql.Date;
 
-import com.metagiles.demometagiles.models.medico.Medico;
-import com.metagiles.demometagiles.models.paciente.Paciente;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,7 +10,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
@@ -31,14 +29,15 @@ public class FichaMedica {
     )
     private Long idFichaMedica;
 
-    @ManyToOne
+    //@ManyToOne
     @JoinColumn(name = "medico_id", nullable = false)
-    private Medico medico;
+    private Long medicoId;
 
-    @ManyToOne
+    //@ManyToOne
     @JoinColumn(name = "paciente_id", nullable = false)
-    private Paciente paciente;
+    private Long pacienteId;
 
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "America/Argentina/Buenos_Aires")
     @Column(name = "date", nullable = false)
     private Date date;
 
@@ -57,20 +56,20 @@ public class FichaMedica {
         return idFichaMedica;
     }
 
-    public Medico getMedico() {
-        return medico;
+    public Long getMedico() {
+        return medicoId;
     }
 
-    public void setMedico(Medico medico) {
-        this.medico = medico;
+    public void setMedico(Long medicoId) {
+        this.medicoId = medicoId;
     }
 
-    public Paciente getPaciente() {
-        return paciente;
+    public Long getPaciente() {
+        return pacienteId;
     }
 
-    public void setPaciente(Paciente paciente) {
-        this.paciente = paciente;
+    public void setPaciente(Long pacienteId) {
+        this.pacienteId = pacienteId;
     }
 
     public Date getDate() {

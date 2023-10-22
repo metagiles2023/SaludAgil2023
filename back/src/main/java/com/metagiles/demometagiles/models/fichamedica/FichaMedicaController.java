@@ -25,14 +25,28 @@ public class FichaMedicaController {
         System.out.println("getting fichas medicas");
         return repository.findAll();
     }
-
+    
+    /*
+     * Necesita un JSON en el body de esta manera:
+     * {
+     *   "medico": "...", //id
+     *   "paciente": "...", //id
+     *   "date": "...", //ISO 8601 -> Ejemplo: "date": "2023-10-26T10:00:00"
+     *   "diagnostico": "dniX",
+     *   "esGrave": bool.
+     *   "usoEmergencia": bool
+     * }
+     *  Y los headers deben tener Content-Type = application/json como cualquier POST.
+     * 
+     * Retorna un JSON con el id del usuario agregado.
+     */
     @PostMapping("/ficha-medica/create")
     public ResponseEntity<?> crearFichaMedica(@RequestBody FichaMedica request) {
         try {
-            if (!mRepository.existsById(request.getMedico().getIdUsuario())) {
+            if (!mRepository.existsById(request.getMedico())) {
                 throw new Exception("Medico no existe.");
             }
-            if (!pRepository.existsById(request.getPaciente().getIdUsuario())) {
+            if (!pRepository.existsById(request.getPaciente())) {
                 throw new Exception("Paciente no existe.");
             }
             
@@ -51,6 +65,7 @@ public class FichaMedicaController {
             FichaMedica savedFicha = repository.save(fichaMedica);
             return ResponseEntity.ok(savedFicha.getIdFichaMedica());
         } catch(Exception e) {
+            System.out.println("Error creating FichaMedica: "  + e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error creating FichaMedica: "  + e.getMessage());
         }
     }
