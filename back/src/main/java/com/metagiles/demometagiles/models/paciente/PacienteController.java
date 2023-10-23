@@ -37,6 +37,7 @@ public class PacienteController {
      */
     @PostMapping("/paciente/create")
     public ResponseEntity<?> createPaciente(@RequestBody Paciente request) {
+        System.out.println("Creando paciente");
         try {
             // Parse JSON request data into a Paciente object
             Paciente paciente = new Paciente();
