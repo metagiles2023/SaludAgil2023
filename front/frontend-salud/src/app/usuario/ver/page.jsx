@@ -1,11 +1,12 @@
 "use client" //para que ejecute cosas en el cliente
 import React, { useState, useEffect } from 'react';
-import ListaMultiple from '@/components/ListaMultiple/ListaMultiple';
+import ListaMultiple from '@/components/SeleccionMultiples/ListaMultiple';
 import NavBar from '@/components/NavBar/NavBar';
 import { CartelDescripcion } from '@/components/carteles/CartelDescripcion';
 import { CartelDescripcionChildren } from '@/components/carteles/CartelDescripcionChildren'
+import { Redireccionador } from '@/components/Redireccionador/Redireccionador';
 
-    export default function Home() {
+export default function Home() {
     const [datos, setDatos] = useState([]);
     const [selectedUserType, setSelectedUserType] = useState('usuario');
     useEffect(() => {
@@ -35,7 +36,6 @@ import { CartelDescripcionChildren } from '@/components/carteles/CartelDescripci
         </div>
         
         <CartelDescripcion mensaje="Pagina para ver usuarios"/>
-        <div>
         <CartelDescripcionChildren>
             <div className="flex space-x-4 my-4">
             <button onClick={() => handleUserTypeChange('usuario')}>Todos los usuarios</button>
@@ -44,9 +44,8 @@ import { CartelDescripcionChildren } from '@/components/carteles/CartelDescripci
             <button onClick={() => handleUserTypeChange('administrador')}>Administradores</button>
             </div>
         </CartelDescripcionChildren>
-        
-      </div>
         <ListaMultiple lista={selectedUserType} datos={datos} />
+        <Redireccionador mensaje="Crear Usuario" ruta="/usuario/crear"/>
     </main>
     );
     }
