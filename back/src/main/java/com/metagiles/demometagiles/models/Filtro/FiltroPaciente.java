@@ -11,7 +11,7 @@ public class FiltroPaciente implements Filtro {
     
     @Override
     public boolean cumple(FichaMedica fichaMedica){
-        return fichaMedica.getPaciente().equals(this.paciente);
+        return fichaMedica.getPaciente().equals(this.paciente.getIdUsuario());
     }
 
     

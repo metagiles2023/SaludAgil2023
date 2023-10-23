@@ -12,6 +12,6 @@ public class FiltroMedico implements Filtro {
     }
     
     public boolean cumple(FichaMedica fichaMedica){
-        return fichaMedica.getMedico().equals(this.medico);
+        return fichaMedica.getMedico().equals(this.medico.getIdUsuario());
     }
 }
