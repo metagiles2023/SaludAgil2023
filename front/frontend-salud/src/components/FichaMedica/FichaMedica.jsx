@@ -24,8 +24,8 @@ const FichaMedica = ({ fichaMedica }) => {
               <td>{fila.paciente}</td>
               <td>{fila.date}</td>
               <td>{fila.diagnostico}</td>
-              <td>{fila.esGrave}</td>
-              <td>{fila.usoEmergencia}</td>
+              <td>{fila.esGrave ? "Si" : "No"}</td>
+              <td>{fila.usoEmergencia ? "Si" : "No"}</td>
             </tr>
           ))}
         </tbody>
