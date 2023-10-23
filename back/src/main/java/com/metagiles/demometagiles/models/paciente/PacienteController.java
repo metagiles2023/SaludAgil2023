@@ -26,11 +26,11 @@ public class PacienteController {
     /*
      * Necesita un JSON en el body de esta manera:
      * {
-     *   "apellido": "apellX",
-     *   "nombre": "nomX",
-     *   "dni": "dniX",
-     *   "obraSocial": "obraX"
-     * }
+        "apellido": "apellX",
+        "nombre": "nomX",
+        "dni": "dniX",
+        "obraSocial": "obraX"
+      }
      *  Y los headers deben tener Content-Type = application/json como cualquier POST.
      * 
      * Retorna un JSON con el id del usuario agregado.
