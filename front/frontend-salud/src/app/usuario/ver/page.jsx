@@ -1,26 +1,32 @@
 "use client" //para que ejecute cosas en el cliente
 import React, { useState, useEffect } from 'react';
-import ListaUsuarios from '@/components/Usuario/Usuario';
+import ListaMultiple from '@/components/ListaMultiple/ListaMultiple';
 import NavBar from '@/components/NavBar/NavBar';
 import { CartelDescripcion } from '@/components/carteles/CartelDescripcion';
+import { CartelDescripcionChildren } from '@/components/carteles/CartelDescripcionChildren'
 
     export default function Home() {
-    const [usuarios, setUsuarios] = useState([]);
-
+    const [datos, setDatos] = useState([]);
+    const [selectedUserType, setSelectedUserType] = useState('usuario');
     useEffect(() => {
     // Make an HTTP GET request to your backend API
-    fetch("/api/usuario", {
+    fetch(`/api/${selectedUserType}`, {
         method: 'GET',
     })
         .then((response) => response.json())
         .then((data) => {
         // Update the fichaMedica state with the data from the backend
-        setUsuarios(data);
+        setDatos(data);
         })
         .catch((error) => {
         console.error('Error fetching data:', error);
         });
-    }, []); // The empty dependency array ensures the effect runs only once
+    }, [selectedUserType]); // The empty dependency array ensures the effect runs only once
+
+    const handleUserTypeChange = (newUserType) => {
+        console.log(newUserType)
+        setSelectedUserType(()=>newUserType);
+      };
 
     return (
     <main className="flex flex-col">
@@ -29,7 +35,18 @@ import { CartelDescripcion } from '@/components/carteles/CartelDescripcion';
         </div>
         
         <CartelDescripcion mensaje="Pagina para ver usuarios"/>
-        <ListaUsuarios usuarios={usuarios} />
+        <div>
+        <CartelDescripcionChildren>
+            <div className="flex space-x-4 my-4">
+            <button onClick={() => handleUserTypeChange('usuario')}>Todos los usuarios</button>
+            <button onClick={() => handleUserTypeChange('paciente')}>Pacientes</button>
+            <button onClick={() => handleUserTypeChange('medico')}>Médicos</button>
+            <button onClick={() => handleUserTypeChange('administrador')}>Administradores</button>
+            </div>
+        </CartelDescripcionChildren>
+        
+      </div>
+        <ListaMultiple lista={selectedUserType} datos={datos} />
     </main>
     );
     }

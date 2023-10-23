@@ -1,5 +1,5 @@
-export async function GET() { 
-    const res = await fetch(process.env.URL_BACKEND + '/ficha-medica/getAll', {
+export async function GET() {
+    const res = await fetch(process.env.URL_BACKEND + '/medico/getAll', {
         method: 'GET',
         cache: "no-store"
     });
