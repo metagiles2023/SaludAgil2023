@@ -1,7 +1,7 @@
 import React from 'react';
 import './fichaMedica.css'; 
 
-const FichaMedica = ({ fichaMedica }) => {
+const FichaMedica = ({ fichasMedicas }) => {
   return (
     <div className="fichaMedicaTable">
       <table>
@@ -17,7 +17,7 @@ const FichaMedica = ({ fichaMedica }) => {
           </tr>
         </thead>
         <tbody>
-          {fichaMedica.map((fila) => (
+          {fichasMedicas.map((fila) => (
             <tr key={fila.idFichaMedica}>
               <td>{fila.idFichaMedica}</td>
               <td>{fila.medico}</td>
