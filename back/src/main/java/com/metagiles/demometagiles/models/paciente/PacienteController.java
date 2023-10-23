@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.metagiles.demometagiles.utils.Utils;
+
 @RestController
 public class PacienteController {
     private final PacienteRepository repository;
@@ -45,6 +47,7 @@ public class PacienteController {
             // Set properties from the request
             paciente.setApellido(request.getApellido());
             paciente.setNombre(request.getNombre());
+            if (!Utils.esDniValido(request.getDni())) throw new Exception("DNI input invalido: " + request.getDni());
             paciente.setDni(request.getDni());
             paciente.setRol("paciente");
             paciente.setObraSocial(request.getObraSocial());

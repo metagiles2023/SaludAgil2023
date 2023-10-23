@@ -12,7 +12,7 @@ public class UsuarioController {
         this.repository = repository;
     }
 
-    @GetMapping("/users/getAll")
+    @GetMapping("/usuario/getAll")
     List<Usuario> getAll() {
         return repository.findAll();
     }

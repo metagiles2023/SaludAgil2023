@@ -29,13 +29,13 @@ public class FichaMedicaController {
     /*
      * Necesita un JSON en el body de esta manera:
      * {
-     *   "medico": "...", //id
-     *   "paciente": "...", //id
-     *   "date": "...", //ISO 8601 -> Ejemplo: "date": "2023-10-26T10:00:00"
-     *   "diagnostico": "dniX",
-     *   "esGrave": bool.
-     *   "usoEmergencia": bool
-     * }
+        "medico": "...", //id
+        "paciente": "...", //id
+        "date": "...", //ISO 8601 -> Ejemplo: "date": "2023-10-26T10:00:00"
+        "diagnostico": "dniX",
+        "esGrave": bool.
+        "usoEmergencia": bool
+      }
      *  Y los headers deben tener Content-Type = application/json como cualquier POST.
      * 
      * Retorna un JSON con el id del usuario agregado.

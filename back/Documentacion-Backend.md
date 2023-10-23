@@ -36,6 +36,9 @@ Para correrlo localmente, application.propierties dentro de src/main/resources d
 spring.datasource.url=jdbc:postgresql://localhost:5432/db1?characterEncoding=UTF-8
 ```
 
+## Crear la base de datos 'salud'
+Ir a pgadmin o por la terminal del postgres, crear la base de datos con nombre 'salud'.
+
 Varias opciones
 ## Opcion 1 - Se corre desde [DemoMetagilesApplication.java](/src/main/java/com/metagiles/demometagiles/DemoMetagilesApplication.java)
 ```

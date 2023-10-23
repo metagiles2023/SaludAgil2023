@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.metagiles.demometagiles.utils.Utils;
+
 
 @RestController
 public class MedicoController {
@@ -17,7 +19,7 @@ public class MedicoController {
         this.repository = repository;
     }
 
-    @GetMapping("/medicos/getAll")
+    @GetMapping("/medico/getAll")
     List<Medico> getAll() {
         return repository.findAll();
     }
@@ -25,11 +27,11 @@ public class MedicoController {
     /*
      * Necesita un JSON en el body de esta manera:
      * {
-     *   "apellido": "apellX",
-     *   "nombre": "nomX",
-     *   "dni": "dniX",
-     *   "especialidad": "especialidadX"
-     * }
+        "apellido": "apellX",
+        "nombre": "nomX",
+        "dni": "dniX",
+        "especialidad": "especialidadX"
+      }
      *  Y los headers deben tener Content-Type = application/json como cualquier POST.
      * 
      * Retorna un JSON con el id del usuario agregado.
@@ -45,6 +47,7 @@ public class MedicoController {
             // Set properties from the request
             medico.setApellido(request.getApellido());
             medico.setNombre(request.getNombre());
+            if (!Utils.esDniValido(request.getDni())) throw new Exception("DNI input invalido: " + request.getDni());
             medico.setDni(request.getDni());
             medico.setRol("medico");
             medico.setEspecialidad(request.getEspecialidad());
