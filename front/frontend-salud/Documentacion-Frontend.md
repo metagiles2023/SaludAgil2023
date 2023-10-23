@@ -31,4 +31,4 @@ docker-compose up
 
 > la carpeta /src/app/blog tiene un archivo page.js que responde cuando se accede a localhost:3000/blog
 
-> lo mismo con /src/app/crear/turno y localhost:3000/crear/turno
+> lo mismo con /src/app/ficha-medica/ver/page.js y localhost:3000/ficha-medica/ver

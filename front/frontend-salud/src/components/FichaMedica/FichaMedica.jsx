@@ -1,7 +1,7 @@
 import React from 'react';
 import './fichaMedica.css'; 
 
-const FichaMedica = ({ fichasMedicas }) => {
+const ListaFichasMedicas = ({ fichasMedicas }) => {
   return (
     <div className="fichaMedicaTable">
       <table>
@@ -34,4 +34,4 @@ const FichaMedica = ({ fichasMedicas }) => {
   );
 };
 
-export default FichaMedica;
+export default ListaFichasMedicas;
