@@ -13,6 +13,8 @@ public class Turno {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    @Column(name = "ocupado", nullable = false)
+    private boolean ocupado;
     @ManyToOne
     private Paciente paciente;
     @ManyToOne
@@ -55,7 +57,7 @@ public class Turno {
 
     @Override
     public String toString(){
-        return this.paciente.toString() + " -- " + this.medico.toString() + " / " + this.date;
+        return this.id + "-" +this.paciente.toString() + "-" +   this.medico.toString() + "-" + this.date;
     }
 
 }

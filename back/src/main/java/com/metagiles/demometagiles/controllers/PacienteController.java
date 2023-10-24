@@ -28,22 +28,26 @@ public class PacienteController {
         return new HashMap<String,String>(){{put("key","value");}};
 
     }
-    //devuelve los turnos de acuerdo al id del paciente
+    //devuelve los turnos de un paciente en base a su id
+    //Devuelve un mapa con todos los turnos en el siguiente formato
+    // idTurno-idPaciente-idMedico-Date
     @GetMapping(value = "/turnos/{id}")
-    public Map<String,String> test2(@PathVariable String id){
-
-        long aux_id = 1;
+    public Map<String,String> getTurnosByIdPaciente(@PathVariable String id){
+        Map<String,String> output =new HashMap<String,String>();
+        long aux_id;
         try {
             aux_id = Long.parseLong(id);
-            System.out.println("ID: " + aux_id);
         } catch (NumberFormatException e) {
             System.err.println("ID erroneo");
         }
         Optional<List<Turno>> turnos = Optional.ofNullable(turnoRepository.getTurnosById(Long.valueOf(id)));
-        //System.out.println(turnos);
+        for(int i = 0; i < turnos.get().size(); i++){
+            output.put(String.valueOf(i),turnos.get().get(i).toString());
+        };
 
 
-        return new HashMap<String,String>(){{put("key",id);}};
+
+        return output;
 
     }
 

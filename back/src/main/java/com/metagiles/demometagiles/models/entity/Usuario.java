@@ -91,7 +91,7 @@ public abstract class Usuario {
 
     @Override
     public String toString(){
-        return this.nombre + " " + this.apellido;
+        return String.valueOf(this.idUsuario);
     }
 
 

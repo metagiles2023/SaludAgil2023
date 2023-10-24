@@ -16,7 +16,7 @@ public class TurnoRepositoryImpl implements TurnoRepository {
     private EntityManager em;
     @Override
     public List<Turno> getTurnosById(Long idPaciente) {
-        String query = "SELECT t FROM Turno t WHERE t.paciente.id = :idPaciente";
+        String query = "SELECT t FROM Turno t WHERE t.paciente.id = :idPaciente AND t.ocupado = true";
         TypedQuery<Turno> result = em.createQuery(query,Turno.class);
         result.setParameter("idPaciente",idPaciente);
 
