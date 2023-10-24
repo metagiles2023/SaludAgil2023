@@ -16,4 +16,10 @@ public class Utils {
         json.put(key, value);
         return json;
     }
+
+    public static HashMap<String, Long> jsonificar(String key, Long value) {
+        HashMap<String, Long> json = new HashMap<>();
+        json.put(key, value);
+        return json;
+    }
 }
