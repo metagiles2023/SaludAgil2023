@@ -1,0 +1,14 @@
+.container{
+    display: flex;
+
+}
+
+.izquierda{
+    flex: 0 0 auto;
+    padding: 10px;
+}
+
+.derecha{
+    flex: 1;
+    padding: 10px;
+}
