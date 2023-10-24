@@ -26,17 +26,14 @@ const FormularioPaciente = () => {
             },
             body: JSON.stringify(formData)
         })
-        .then((response) => response.json())
-        .then((data) => {
-        // Manejar la respuesta si es necesario
-            console.log('Respuesta:', data);
-            setTextoBackend('')
+        .then((response) => {
+            if (response.statusText) {
+                console.log('hay status text y es ' + response.statusText)
+                setTextoBackend('Error:' + response.statusText)
+            }else setTextoBackend('')
         })
         .catch((error) => {
             console.error('Error:', error);
-            setTextoBackend('Error:' + error)
-            console.log('texto backend es ' + textoBackend)
-            console.log()
         });
     };
 
