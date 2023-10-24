@@ -1,7 +1,9 @@
 package com.metagiles.demometagiles.models.paciente;
 
+import java.util.HashMap;
 import java.util.List;
 
+import org.hibernate.mapping.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,23 +45,30 @@ public class PacienteController {
             Paciente paciente = new Paciente();
             System.out.println(request.getObraSocial());
             if (repository.existsBydni(request.getDni())) {
-                throw new Exception("DNI ya presente en la tabla.");
+                System.out.println(HttpStatus.BAD_REQUEST + "Error creating Paciente: ya existe en la tabla.");
+                HashMap<String, String> json = Utils.jsonificar("error", "Error creating Paciente: ya existe en la tabla.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(json);
             }
+
             // Set properties from the request
             paciente.setApellido(request.getApellido());
             paciente.setNombre(request.getNombre());
-            if (!Utils.esDniValido(request.getDni())) throw new Exception("DNI input invalido: " + request.getDni());
+            if (!Utils.esDniValido(request.getDni())) {
+                System.out.println(HttpStatus.BAD_REQUEST + "DNI Inputted invalido: " + request.getDni());
+                HashMap<String, String> json = Utils.jsonificar("error", "DNI Inputted invalido: " + request.getDni());
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(json);
+            }
             paciente.setDni(request.getDni());
             paciente.setRol("paciente");
-            paciente.setObraSocial(request.getObraSocial());
-            //Falta que obra social sea una lista en vez de un String
-            
+            paciente.setObraSocial(request.getObraSocial()); //Falta que obra social sea una lista en vez de un String
+
             // Save Paciente to the repository
             Paciente savedPaciente = repository.save(paciente);
             return ResponseEntity.ok(savedPaciente.getIdUsuario());
         } catch(Exception e) {
             System.out.println("Error creating Paciente: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error creating Paciente: " + e.getMessage());
+            HashMap<String, String> json = Utils.jsonificar("error", "Error creating Paciente: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(json);
         }
     }
 }
