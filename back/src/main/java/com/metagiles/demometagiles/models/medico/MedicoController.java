@@ -1,5 +1,6 @@
 package com.metagiles.demometagiles.models.medico;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.metagiles.demometagiles.utils.Utils;
+
+import ch.qos.logback.classic.pattern.Util;
 
 
 @RestController
@@ -42,24 +45,31 @@ public class MedicoController {
         try {
             // Parse JSON request data into a Medico object
             Medico medico = new Medico();
-            if (repository.existsBydni(request.getDni())) {
-                throw new Exception("DNI ya presente en la tabla.");
-            }
+            if (repository.existsBydni(request.getDni()))
+                return genResponseError("Error creating Medico: ya existe en la tabla.");
+        
             // Set properties from the request
             medico.setApellido(request.getApellido());
             medico.setNombre(request.getNombre());
-            if (!Utils.esDniValido(request.getDni())) throw new Exception("DNI input invalido: " + request.getDni());
+            if (!Utils.esDniValido(request.getDni()))
+                return genResponseError("DNI input invalido: " + request.getDni());
+
             medico.setDni(request.getDni());
             medico.setRol("medico");
             medico.setEspecialidad(request.getEspecialidad());
 
             // Save Medico to the repository
             Medico savedMedico = repository.save(medico);
-            return ResponseEntity.ok(savedMedico.getIdUsuario());
+            return ResponseEntity.ok(Utils.jsonificar("id", savedMedico.getIdUsuario()));
         } catch(Exception e) {
-            System.out.println("Error creating Medico: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error creating Medico: " + e.getMessage());
+            return genResponseError("Error creating Medico: " + e.getMessage());
         }
+    }
+
+    private ResponseEntity<HashMap<String, String>> genResponseError(String texto) {
+        System.out.println(HttpStatus.BAD_REQUEST + texto);
+        HashMap<String, String> json = Utils.jsonificar("error", texto);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(json);
     }
 }
 //
