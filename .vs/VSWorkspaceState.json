@@ -1,0 +1,18 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\back",
+    "\\back\\src",
+    "\\back\\src\\main",
+    "\\back\\src\\main\\java",
+    "\\back\\src\\main\\java\\com",
+    "\\back\\src\\main\\java\\com\\metagiles",
+    "\\back\\src\\main\\java\\com\\metagiles\\demometagiles",
+    "\\back\\src\\test\\java",
+    "\\back\\src\\test\\java\\com",
+    "\\back\\src\\test\\java\\com\\metagiles",
+    "\\back\\src\\test\\java\\com\\metagiles\\demometagiles"
+  ],
+  "SelectedNode": "\\back\\src\\main\\java\\com\\metagiles\\demometagiles\\DemoMetagilesApplication.java",
+  "PreviewInSolutionExplorer": false
+}

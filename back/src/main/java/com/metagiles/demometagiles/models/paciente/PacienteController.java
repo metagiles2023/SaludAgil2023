@@ -43,20 +43,19 @@ public class PacienteController {
             // Parse JSON request data into a Paciente object
             Paciente paciente = new Paciente();
             System.out.println(request.getObraSocial());
-            if (repository.existsBydni(request.getDni())) {
+            if (repository.existsBydni(request.getDni())) 
                 return genResponseError("Error creating Paciente: ya existe en la tabla.");
-            }
-
+            
             // Set properties from the request
             paciente.setApellido(request.getApellido());
             paciente.setNombre(request.getNombre());
-            if (!Utils.esDniValido(request.getDni())) {
+            if (!Utils.esDniValido(request.getDni())) 
                 return genResponseError("DNI Inputted invalido: " + request.getDni());
-            }
+            
             paciente.setDni(request.getDni());
             paciente.setRol("paciente");
             paciente.setObraSocial(request.getObraSocial()); //Falta que obra social sea una lista en vez de un String
-
+            System.out.println("creando un paciente, veo que su obra social es " + request.getObraSocial());
             // Save Paciente to the repository
             Paciente savedPaciente = repository.save(paciente);
             return ResponseEntity.ok(Utils.jsonificar("id", savedPaciente.getIdUsuario()));

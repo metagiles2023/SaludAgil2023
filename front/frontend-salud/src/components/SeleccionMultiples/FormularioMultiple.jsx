@@ -23,9 +23,9 @@ const FormularioMultiple = ({ formulario }) => {
                 <h1>este es el formulario de crear administrador</h1>
             )    
         case "paciente":
-            fields = ['nombre', 'apellido', 'dni', 'obra social']
+            fields = ['nombre', 'apellido', 'dni', 'obraSocial']
             url = "/api/paciente/create"
-            tema = "pirincuncun"
+            tema = "paciente"
             return (
                 <Formulario
                 fields={fields}
@@ -33,6 +33,17 @@ const FormularioMultiple = ({ formulario }) => {
                 tema={tema}
                 />
             )
+            case "especialidad":
+                fields = ['nombre', 'descripcion']
+                url = "/api/medico/especialidad/create"
+                tema = "especialidad"
+                return (
+                    <Formulario
+                    fields={fields}
+                    url={url}
+                    tema={tema}
+                    />
+                )
     }
 };
 
