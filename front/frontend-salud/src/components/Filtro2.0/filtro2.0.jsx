@@ -2,30 +2,36 @@
 import React, { useState, useEffect } from 'react';
 import ListaFichasMedicas from '../FichaMedica/FichaMedica';
 import './filtro2.0.css'; 
+const controller = new AbortController(); // Create an AbortController
+const signal = controller.signal; // Get the signal from the controller
 
-export default function Example(){
+const FichasMedicasFiltradas = () => {
     const [filtroSeleccionado, setFiltroSeleccionado] = useState({
-        Gravedad: false,
-        Leve: false,
+        "filtraEmergencia": false
     })
-    const [datoFiltrado, setDatoFiltrado] = useState([]);
+    const [datoFiltrado, setDatoFiltrado] = useState([]);//este se tiene que ir, las fichas ya estan filtradas
     const [fichasMedicas, setFichasMedicas] = useState([]);
 
     useEffect(() => {
-    console.log('xd')
-    // Make an HTTP GET request to your backend API
-    fetch("/api/ficha-medica", {
-        method: 'GET',
-    })
-        .then((response) => response.json())
-        .then((data) => {
-        // Update the fichaMedica state with the data from the backend
-        setFichasMedicas(data);
-        })
-        .catch((error) => {
-        console.error('Error fetching data:', error);
-        });
-    }, []);
+        console.log('xd')
+        // Make an HTTP GET request to your backend API
+        fetch("/api/ficha-medica", {
+                method: 'POST',
+                body: JSON.stringify(filtroSeleccionado),
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                signal: signal, // Provide the signal option
+            })
+            .then(async (response) => {
+                const respuesta = await response.json()
+                console.log(respuesta)
+                setFichasMedicas(respuesta);
+            })
+            .catch((error) => {
+            console.error('Error fetching data:', error);
+            });
+    }, [filtroSeleccionado]); //cuando cambia el body, 
     const handleOnCheckbox = e => {
         setFiltroSeleccionado({
             ...filtroSeleccionado,[e.target.value]:e.target.checked,
@@ -67,28 +73,30 @@ export default function Example(){
                 <h2> Gravedad </h2>
                 <div className='input-checkbox'>
                     <input onChange={handleOnCheckbox} type='checkbox' name='Gravedad' value= 'true' id='Gravedad' />
-                    <label htmlfor='si'> Grave </label>
+                    <label htmlFor='si'> Grave </label>
                 </div>
                 <div className='input-checkbox'>
                     <input onChange={handleOnCheckbox} type='checkbox' name='Gravedad' value='false' id='Leve' />
-                    <label htmlfor='no'> Leve </label>
+                    <label htmlFor='no'> Leve </label>
                 </div> 
 
                 <h2> Servicio de Emergencia</h2>
                 <div className='input-checkbox'>
                     <input onChange={handleOnCheckbox} type='checkbox' name='Emergencia' value= 'true' id='Servicio de emergencia' />
-                    <label htmlfor='si'> Si </label>
+                    <label htmlFor='si'> Si </label>
                 </div>
                 <div className='input-checkbox'>
                     <input onChange={handleOnCheckbox} type='checkbox' name='Emergencia' value='false' id='Servicio de emergencia' />
-                    <label htmlfor='no'> No </label>
+                    <label htmlFor='no'> No </label>
                 </div> 
             </div>
         
             <div >
-            <ListaFichasMedicas fichasMedicas={datoFiltrado} />
+            <ListaFichasMedicas fichasMedicas={fichasMedicas} />
             </div>
         </div>
     );
 
 }
+
+export default FichasMedicasFiltradas;

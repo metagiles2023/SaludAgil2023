@@ -31,13 +31,14 @@ public class FichaMedicaController {
         this.pRepository = pRepository;
     }
 
-    @GetMapping("/ficha-medica/getAll")
+    @PostMapping("/ficha-medica/getAll")
     public List<FichaMedica> getAll(@RequestBody FiltroRequest fRequest) {
         System.out.println("getting fichas medicas");
         List<FichaMedica> fichas = null;
         try {
             fichas = repository.findAll();
             fichas = filtrarFichas(fichas, fRequest);
+            System.out.println("fichas length " + fichas.size());
             return fichas;
         } catch (Exception e) {
             System.out.println(e.getMessage());
