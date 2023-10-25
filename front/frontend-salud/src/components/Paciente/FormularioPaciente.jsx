@@ -2,6 +2,12 @@ import React, { useState } from 'react';
 import './paciente.css'; 
 
 const FormularioPaciente = () => {
+    const initialFormData = {
+        nombre: '',
+        apellido: '',
+        dni: '',
+        obraSocial: ''
+    };
     const [formData, setFormData] = useState({
         nombre: '',
         apellido: '',
@@ -29,12 +35,18 @@ const FormularioPaciente = () => {
         .then((response) => {
             if (response.statusText) {
                 console.log('hay status text y es ' + response.statusText)
-                setTextoBackend('Error:' + response.statusText)
-            }else setTextoBackend('')
+                setTextoBackend(response.statusText)
+            }else {
+                setTextoBackend('')
+                clearForm()
+            }
         })
         .catch((error) => {
             console.error('Error:', error);
         });
+    };
+    const clearForm = () => {
+        setFormData(initialFormData); // Reset the form data to its initial state
     };
 
     return (
