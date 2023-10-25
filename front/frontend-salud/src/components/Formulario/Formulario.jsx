@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+"use client"
+import React, { useEffect, useState } from 'react';
 
 const Formulario = ({fields, url, tema}) => {
     const initialFormData = {}
-    console.log(fields)
     fields.forEach(element => {
         initialFormData[element] = ''
     });
 
     const [formData, setFormData] = useState(initialFormData);
     const [textoBackend, setTextoBackend] = useState('')
+    useEffect(() => {
+        clearForm()
+    }, [fields, url, tema]); // Cada vez que cambien fields, url o tema, limpiar el form
     
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -28,11 +31,15 @@ const Formulario = ({fields, url, tema}) => {
             body: JSON.stringify(formData)
         })
         .then((response) => {
-            if (response.statusText) {
-                console.log('hay status text y es ' + response.statusText)
-                setTextoBackend(response.statusText)
-            }else {
-                setTextoBackend('')
+            console.log('ha llegado la respuesta de la api del front')
+            console.log(response)
+            if (response.status >= 400) {
+                if (response.statusText) {
+                    console.log('hay status text y es ' + response.statusText)
+                    setTextoBackend(response.statusText)
+                }
+            } else {
+                setTextoBackend(`${capFirst(tema)} creado con exito`)
                 clearForm()
             }
         })

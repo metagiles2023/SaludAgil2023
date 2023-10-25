@@ -4,6 +4,7 @@ import FormularioMultiple from '@/components/SeleccionMultiples/FormularioMultip
 import NavBar from '@/components/NavBar/NavBar';
 import { CartelDescripcion } from '@/components/carteles/CartelDescripcion';
 import { CartelDescripcionChildren } from '@/components/carteles/CartelDescripcionChildren'
+import { Redireccionador } from '@/components/Redireccionador/Redireccionador';
 
 export default function Home() {
     const [selectedUserType, setSelectedUserType] = useState('usuario');
@@ -28,6 +29,7 @@ export default function Home() {
             </CartelDescripcionChildren>
 
             <FormularioMultiple formulario={selectedUserType} />
+            <Redireccionador mensaje="Volver" ruta="/usuario/ver"/>
         </main>
     );
 }

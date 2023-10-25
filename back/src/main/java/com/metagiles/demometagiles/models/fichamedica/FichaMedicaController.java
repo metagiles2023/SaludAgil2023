@@ -47,12 +47,6 @@ public class FichaMedicaController {
             return fichas;
         }
     }
-
-    // @GetMapping("/ficha-medica/get")
-    // public List<FichaMedica> getOne(@RequestParam String pacienteId) {
-    //     System.out.println("getting ficha medica");
-    //     return repository.findAll();
-    // }
     
     /*
      * Necesita un JSON en el body de esta manera:
