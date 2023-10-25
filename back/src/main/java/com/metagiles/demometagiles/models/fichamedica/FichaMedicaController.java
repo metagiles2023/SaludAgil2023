@@ -1,6 +1,7 @@
 package com.metagiles.demometagiles.models.fichamedica;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,7 @@ import com.metagiles.demometagiles.models.Filtro.FiltroMedico;
 import com.metagiles.demometagiles.models.Filtro.FiltroPaciente;
 import com.metagiles.demometagiles.models.medico.MedicoRepository;
 import com.metagiles.demometagiles.models.paciente.PacienteRepository;
+import com.metagiles.demometagiles.utils.Utils;
 
 @RestController
 public class FichaMedicaController {
@@ -70,10 +72,10 @@ public class FichaMedicaController {
     public ResponseEntity<?> crearFichaMedica(@RequestBody FichaMedica request) {
         try {
             if (!mRepository.existsById(request.getMedico())) {
-                throw new Exception("Medico no existe.");
+                return genResponseError("Medico no existe.");
             }
             if (!pRepository.existsById(request.getPaciente())) {
-                throw new Exception("Paciente no existe.");
+                return genResponseError("Paciente no existe.");
             }
             
             // Parse JSON request data into a FichaMedica object
@@ -91,8 +93,7 @@ public class FichaMedicaController {
             FichaMedica savedFicha = repository.save(fichaMedica);
             return ResponseEntity.ok(savedFicha.getIdFichaMedica());
         } catch(Exception e) {
-            System.out.println("Error creating FichaMedica: "  + e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error creating FichaMedica: "  + e.getMessage());
+            return genResponseError("Error creating FichaMedica: "  + e.getMessage());
         }
     }
 
@@ -140,5 +141,11 @@ public class FichaMedicaController {
             }
         } else return fichas;
         return filteredFichas;
+    }
+
+    private ResponseEntity<HashMap<String, String>> genResponseError(String texto) {
+        System.out.println(HttpStatus.BAD_REQUEST + texto);
+        HashMap<String, String> json = Utils.jsonificar("error", texto);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(json);
     }
 }
