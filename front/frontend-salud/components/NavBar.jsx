@@ -16,6 +16,9 @@ const NavBar = () => {
         <li>
           <Link href="/crear/turno">Crear Turno</Link>
         </li>
+        <li>
+          <Link href="/turnos">Portal Pacientes</Link>
+        </li>
       </ul>
     );
   };
