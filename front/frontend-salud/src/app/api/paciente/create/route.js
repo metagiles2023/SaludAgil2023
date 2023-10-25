@@ -9,14 +9,15 @@ export async function POST(request) {
         body: JSON.stringify(body)
     });
     const resultado = await res.json();
-    console.log('el res.status es ' + res.status)
-    console.log(resultado)
+    console.log(res.status, resultado)
     if (res.status >= 400) { //logica de control de errores
         return new Response(JSON.stringify(null), {
             status: res.status,
-            statusText: resultado.error,
+            statusText: resultado.error, //espero que el backend me mande un error en el json
         });
     } else {
-        return new Response(JSON.stringify(resultado));
+        return new Response(JSON.stringify(resultado), {
+            statusText: resultado.id //espero que me mande el id
+        });
     }
 }

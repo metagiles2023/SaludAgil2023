@@ -19,7 +19,7 @@ const Formulario = ({fields, url, tema}) => {
     };
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('llamando api ' + e)
+        console.log('llamando api ' + url)
         fetch(url, {
             method: 'POST',
             headers: {
