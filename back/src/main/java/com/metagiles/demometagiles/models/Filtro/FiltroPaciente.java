@@ -1,17 +1,17 @@
 package com.metagiles.demometagiles.models.Filtro;
 import com.metagiles.demometagiles.models.fichamedica.FichaMedica;
-import com.metagiles.demometagiles.models.paciente.Paciente;
 
 public class FiltroPaciente implements Filtro {
-    private Paciente paciente;
+    private Long paciente;
 
-    public FiltroPaciente (Paciente paciente){
+    public FiltroPaciente (Long paciente){
         this.paciente = paciente;
     }
     
     @Override
     public boolean cumple(FichaMedica fichaMedica){
-        return fichaMedica.getPaciente().equals(this.paciente.getIdUsuario());
+        Long pacienteDeFicha = fichaMedica.getPaciente();
+        return pacienteDeFicha.equals(this.paciente);
     }
 
     
