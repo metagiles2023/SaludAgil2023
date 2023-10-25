@@ -1,6 +1,5 @@
 package com.metagiles.demometagiles.models.entity;
 
-import com.metagiles.demometagiles.models.repository.PacienteRepository;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -57,7 +56,12 @@ public class Turno {
 
     @Override
     public String toString(){
-        return this.id + "-" +this.paciente.toString() + "-" +   this.medico.toString() + "-" + this.date;
+        String pacienteString = "null";
+        if(this.paciente != null){
+            pacienteString = this.paciente.toString();
+        }
+
+        return this.id + "-" + pacienteString + "-" + this.date;
     }
 
 }

@@ -1,6 +1,8 @@
 package com.metagiles.demometagiles.models.repository;
 
+import com.metagiles.demometagiles.models.entity.Medico;
 import com.metagiles.demometagiles.models.entity.Turno;
+import com.metagiles.demometagiles.models.entity.Usuario;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
@@ -51,4 +53,17 @@ public class TurnoRepositoryImpl implements TurnoRepository {
             }
         }
     };
+
+
+    @Override
+    public List<Turno> getTurnosDisponiblesMedicoByDia(Long idMedico, int dia) {
+        String query = "SELECT t FROM Turno t WHERE t.medico.id = :idMedico AND t.ocupado = false AND DAY(t.date) = :dia";
+        TypedQuery<Turno> result = em.createQuery(query,Turno.class);
+        result.setParameter("idMedico",idMedico);
+        result.setParameter("dia",dia);
+        List<Turno> turnos = result.getResultList();
+
+
+        return turnos;
+    }
 }
