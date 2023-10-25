@@ -1,5 +1,3 @@
-import "tailwindcss/tailwind.css";
-
 const Footer = () => {
     return (
         <>

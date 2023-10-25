@@ -1,5 +1,3 @@
-import React from 'react';
-
 const ListaTurno = ({ turnos }) => {
     return (
     <div className="turnoTable">
