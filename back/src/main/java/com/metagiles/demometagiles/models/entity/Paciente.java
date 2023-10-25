@@ -20,6 +20,10 @@ public class Paciente extends Usuario{
 
     @Column(name = "obra_social", nullable = true) //true porque medicos no tienen
     private String obraSocial;
+    @Column(name = "email", nullable = true) //deja de ser null cuando el paciente saca un turno por primera vez
+    private String email;
+    @Column(name = "telefono", nullable = true) //deja de ser null cuando el paciente saca un turno por primera vez
+    private String telefono;
 
     //Necesario
     public Paciente() {
@@ -33,6 +37,14 @@ public class Paciente extends Usuario{
 
     public void setObraSocial(String obraSocial) {
         this.obraSocial = obraSocial;
+    }
+
+    public void setEmail(String email){
+        this.email = email;
+    }
+
+    public void setTelefono(String telefono){
+        this.telefono = telefono;
     }
 
     @Override

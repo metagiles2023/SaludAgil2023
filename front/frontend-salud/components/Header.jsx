@@ -16,7 +16,7 @@ const Header = () => {
                     <img src="/usuario.svg" alt="Usuario"></img>
                 </div>
             </div>
-            <img className="absolute bottom-0 w-full h-full -z-10" src="/fondo.png"></img>
+            <img className="absolute top-0 w-full h-full -z-10" src="/fondo.png"></img>
         </>
     );
   };

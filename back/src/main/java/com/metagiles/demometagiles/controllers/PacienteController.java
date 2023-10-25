@@ -72,10 +72,27 @@ public class PacienteController {
         return output;
     }
 
-    @GetMapping(value = "/reservarturnos/{pid}/{especialidad}/{mid}/{tid}/{mail}/{nrotelefono}")
-    public Map<String,String> darInfoTurno(@PathVariable String pid,@PathVariable String especialidad,@PathVariable String mid,
-                                        @PathVariable String tid,@PathVariable String email,@PathVariable String nrotelefono){
-        return null;
-    }
+    @GetMapping(value = "/reservarturnos/{pid}/{mail}/{nrotelefono}")
+    public void darInfoTurno(@PathVariable String pid, @PathVariable String mail,@PathVariable String nrotelefono) throws Exception{
+        long aux_pid;
+        try {
+            aux_pid = Long.parseLong(pid);
+        } catch (NumberFormatException e) {
+            System.err.println("ID erroneo");
+        }
+        long aux_long; 
+        try {
+           aux_long = Long.valueOf(nrotelefono);
+        } catch (NumberFormatException e) {
+            System.err.println("Nro de telefono erroneo");
+        }
+        try {
+            if(nrotelefono.length() != 10)
+               throw new Exception("El número debe tener 10 dígitos");
+        } catch (NumberFormatException e) {
+           System.out.println(e.getMessage());
+        }
 
+        pacienteRepository.PedirDatos(Long.valueOf(pid), mail, Long.valueOf(nrotelefono));
+    }
 }
