@@ -5,8 +5,7 @@ export default function Turnos() {
     return (
         <>
             <Header />
-            <main className="absolute bottom-0 h-full -z-10">
-                <img src="/fondo.png"></img>
+            <main>
             </main>
             <Footer />
         </>
