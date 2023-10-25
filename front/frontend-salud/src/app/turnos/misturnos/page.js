@@ -35,16 +35,16 @@ export default function MisTurnos() {
         <>
             <div className="flex flex-col min-h-screen">
                 <Header />
-                <main className="w-full flex space-x-10 justify-center items-center  left-0 right-0">
-                    <div className="justify-center h-14 font-bold text-black text-5xl text-center tracking-[0] leading-[normal] whitespace-nowrap relative left-0 top-10">Mis Turnos</div>
+                <h1 className="justify-center h-14 font-bold text-black text-5xl text-center py-6">Mis Turnos</h1>
+                <main className="w-full flex flex-1 space-x-10 justify-center items-center">
+                    <div> <img class="flechas" src="/vector.svg" /></div>
                     <Turno />
                     <Turno />
                     <Turno />
                     <Turno />
-                    
+                    <div className="rotate-180"><img class="flechas" src="/vector.svg" /></div>
                 </main>
-                <div className="w-full flex items-center fixed bottom-5 left-10 top-0"><img class="flechas" src="/vector.svg" /></div>
-                <div className="flex items-center fixed bottom-5 end-10 top-0 rotate-180"><img class="flechas" src="/vector.svg" /></div>
+                
                 <Footer />
             </div>
             
