@@ -1,7 +1,8 @@
 export async function GET() { 
     const res = await fetch(process.env.URL_BACKEND + '/ficha-medica/getAll', {
         method: 'GET',
-        cache: "no-store"
+        cache: "no-store",
+        body: {}
     });
     const resultado = await res.json();
     if (false) { //logica de control de errores
