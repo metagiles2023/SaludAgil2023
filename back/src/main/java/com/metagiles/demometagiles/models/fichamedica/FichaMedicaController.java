@@ -1,11 +1,21 @@
 package com.metagiles.demometagiles.models.fichamedica;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.metagiles.demometagiles.models.Filtro.Filtro;
+import com.metagiles.demometagiles.models.Filtro.FiltroAND;
+import com.metagiles.demometagiles.models.Filtro.FiltroEmergencia;
+import com.metagiles.demometagiles.models.Filtro.FiltroFechaDesde;
+import com.metagiles.demometagiles.models.Filtro.FiltroFechaHasta;
+import com.metagiles.demometagiles.models.Filtro.FiltroRequest;
+import com.metagiles.demometagiles.models.Filtro.FiltroGrave;
+import com.metagiles.demometagiles.models.Filtro.FiltroMedico;
+import com.metagiles.demometagiles.models.Filtro.FiltroPaciente;
 import com.metagiles.demometagiles.models.medico.MedicoRepository;
 import com.metagiles.demometagiles.models.paciente.PacienteRepository;
 
@@ -14,6 +24,7 @@ public class FichaMedicaController {
     private final FichaMedicaRepository repository;
     private final MedicoRepository mRepository;
     private final PacienteRepository pRepository;
+
     public FichaMedicaController(FichaMedicaRepository repository, MedicoRepository mRepository, PacienteRepository pRepository) {
         this.repository = repository;
         this.mRepository = mRepository;
@@ -21,9 +32,17 @@ public class FichaMedicaController {
     }
 
     @GetMapping("/ficha-medica/getAll")
-    public List<FichaMedica> getAll() {
+    public List<FichaMedica> getAll(@RequestBody FiltroRequest fRequest) {
         System.out.println("getting fichas medicas");
-        return repository.findAll();
+        List<FichaMedica> fichas = null;
+        try {
+            fichas = repository.findAll();
+            fichas = filtrarFichas(fichas, fRequest);
+            return fichas;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return fichas;
+        }
     }
 
     // @GetMapping("/ficha-medica/get")
@@ -74,5 +93,51 @@ public class FichaMedicaController {
             System.out.println("Error creating FichaMedica: "  + e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error creating FichaMedica: "  + e.getMessage());
         }
+    }
+
+    public List<FichaMedica> filtrarFichas(List<FichaMedica> fichas, FiltroRequest fRequest){
+        Filtro filtroGeneral = null;
+        List<FichaMedica> filteredFichas = new ArrayList<>();
+
+        //Preparacion del filtroGeneral
+        if (fRequest.getFechaDesde() != null && fRequest.getFechaHasta() != null){
+            //devolver entre ambos
+            FiltroFechaDesde fDesde = new FiltroFechaDesde(fRequest.getFechaDesde());
+            FiltroFechaHasta fHasta = new FiltroFechaHasta(fRequest.getFechaHasta());
+            filtroGeneral = new FiltroAND(fDesde, fHasta); //Sin ternaria porque es el primero
+        }
+        if (fRequest.getFechaDesde() == null && fRequest.getFechaHasta() != null) {
+            FiltroFechaHasta fHasta = new FiltroFechaHasta(fRequest.getFechaHasta());
+            filtroGeneral = (filtroGeneral != null) ? new FiltroAND(filtroGeneral, fHasta) : fHasta;
+        }
+        if (fRequest.getFechaDesde() != null && fRequest.getFechaHasta() == null) {
+            FiltroFechaDesde fDesde = new FiltroFechaDesde(fRequest.getFechaDesde());
+            filtroGeneral = (filtroGeneral != null) ? new FiltroAND(filtroGeneral, fDesde) : fDesde;
+        }
+        if (fRequest.getFiltraEmergencia()!= null) {
+            FiltroEmergencia fEmergencia = new FiltroEmergencia(fRequest.getFiltraEmergencia());
+            filtroGeneral = (filtroGeneral != null) ? new FiltroAND(filtroGeneral, fEmergencia) : fEmergencia;
+        }
+        if (fRequest.getFiltraGrave()!= null) {
+            FiltroGrave fGrave = new FiltroGrave(fRequest.getFiltraGrave());
+            filtroGeneral = (filtroGeneral != null) ? new FiltroAND(filtroGeneral, fGrave) : fGrave;
+        }
+        if (fRequest.getMedico() != null) {
+            FiltroMedico fMedico = new FiltroMedico(fRequest.getMedico());
+            filtroGeneral = (filtroGeneral != null) ? new FiltroAND(filtroGeneral, fMedico) : fMedico;
+        }
+        if (fRequest.getPaciente() != null) {
+            FiltroPaciente fPaciente = new FiltroPaciente(fRequest.getPaciente());
+            filtroGeneral = (filtroGeneral != null) ? new FiltroAND(filtroGeneral, fPaciente) : fPaciente;
+        }
+        //Filtrado
+        if (filtroGeneral != null) {
+            for (FichaMedica ficha : fichas) {
+                if (filtroGeneral.cumple(ficha)) {
+                    filteredFichas.add(ficha); 
+                }
+            }
+        } else return fichas;
+        return filteredFichas;
     }
 }
