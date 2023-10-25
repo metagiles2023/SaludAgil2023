@@ -2,6 +2,7 @@ import React from 'react';
 import './especialidades.css'; 
 
 const ListaEspecialidades = ({ especialidades }) => {
+    console.log('me llegaron las especialidades: ' + especialidades)
     return (
     <div className="especialidadTable">
         <table>
@@ -24,4 +25,4 @@ const ListaEspecialidades = ({ especialidades }) => {
     );
     };
 
-export default ListaMedicos;
+export default ListaEspecialidades;

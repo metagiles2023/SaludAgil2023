@@ -33,6 +33,17 @@ const FormularioMultiple = ({ formulario }) => {
                 tema={tema}
                 />
             )
+            case "especialidad":
+                fields = ['nombre', 'descripcion']
+                url = "/api/medico/especialidad/create"
+                tema = "especialidad"
+                return (
+                    <Formulario
+                    fields={fields}
+                    url={url}
+                    tema={tema}
+                    />
+                )
     }
 };
 

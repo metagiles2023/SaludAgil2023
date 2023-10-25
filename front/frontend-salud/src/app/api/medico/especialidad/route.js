@@ -1,5 +1,5 @@
 export async function GET() {
-    const res = await fetch(process.env.URL_BACKEND + '/medico/especialidades', {
+    const res = await fetch(process.env.URL_BACKEND + '/medico/especialidad', {
         method: 'GET',
         cache: "no-store"
     });

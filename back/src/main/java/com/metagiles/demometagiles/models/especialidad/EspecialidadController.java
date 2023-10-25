@@ -17,7 +17,7 @@ public class EspecialidadController {
         this.repository = repository;
     }
 
-    @PostMapping("/especialidad")
+    @GetMapping("/medico/especialidad")
     public List<Especialidad> getAll() {
         System.out.println("getting especialidades");
         List<Especialidad> fichas = null;
@@ -39,7 +39,7 @@ public class EspecialidadController {
      * 
      * Retorna un JSON con el id de la especialidad agregada, o un json { "error": "..."}
      */
-    @PostMapping("/especialidad/create")
+    @PostMapping("/medico/especialidad/create")
     public ResponseEntity<?> crearEspecialidad(@RequestBody Especialidad request) {
         try {
             if (repository.existsBynombre(request.getNombre())) {
