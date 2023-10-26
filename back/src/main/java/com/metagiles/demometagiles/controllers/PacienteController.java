@@ -93,7 +93,7 @@ public class PacienteController {
     }
 
     @PostMapping(value = "/misturnos/cancelar")
-    public void cancelarTurnoByIdPaciente (@RequestBody Map<String,String> request){
+    public ResponseEntity<?> cancelarTurnoByIdPaciente (@RequestBody Map<String,String> request){
         System.out.println(request.toString());
 
 
@@ -104,8 +104,12 @@ public class PacienteController {
             turno.setOcupado(false);
             turno.setPaciente(null);
             this.turnoRepository.save(turno);
+            return ResponseEntity.ok(null);
         } catch (NumberFormatException e) {
-            System.err.println("ID erroneo");
+            HashMap<String, String> json = new HashMap<>();
+            json.put("error", "Error al cancelar turno");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(json);
+
         }
 
 

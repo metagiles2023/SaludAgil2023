@@ -2,7 +2,7 @@ export async function POST(req) {
     const pid = new URL(req.url).searchParams.get("pid");
     const tid = new URL(req.url).searchParams.get("tid");
     console.log("pid: " + pid + " tid: " + tid);
-    const resultBody = await req.json()
+    const resultBody = await req.json();
     
     const response = await fetch(`http://localhost:8080/misturnos/cancelar`, {
         method: 'POST',
@@ -17,5 +17,10 @@ export async function POST(req) {
         throw new Error(message);
     }
 
-    return true; // or return true if the endpoint doesn't return JSON
+    // Return a valid response, for example a JSON response
+    return new Response(JSON.stringify({ success: true }), {
+        headers: {
+            "Content-Type": "application/json"
+        },
+    });
 }
