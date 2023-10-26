@@ -14,9 +14,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+@DisplayName(">>> PacienteController <<<")
 public class PacienteControllerTest {
 
     @InjectMocks
@@ -42,6 +44,31 @@ public class PacienteControllerTest {
         // Llama al método getAll del controlador y verifica la respuesta
         List<Paciente> result = pacienteController.getAll();
         assertEquals(pacientes, result);
+    }
+
+    @Test
+    @DisplayName("Verifica que se pueda crear un paciente con éxito")
+    public void testCreatePacienteSuccess() {
+        // Simula el comportamiento de pacienteRepository.existsBydni()
+        when(pacienteRepository.existsBydni(Mockito.anyString())).thenReturn(false);
+
+        // Crea una instancia de Paciente para la solicitud
+        Paciente request = new Paciente();
+        request.setNombre("John");
+        request.setApellido("Doe");
+        request.setDni("12345678");
+        request.setObraSocial("ObraSocial1");
+
+        // Simula el comportamiento de pacienteRepository.save() y retorna un Paciente guardado
+        Paciente savedPaciente = new Paciente();
+        when(pacienteRepository.save(any())).thenReturn(savedPaciente);
+
+        // Llama al método createPaciente del controlador y verifica la respuesta
+        ResponseEntity<?> responseEntity = pacienteController.createPaciente(request);
+
+        // Verifica que la respuesta no sea nula y que el estado sea HttpStatus.OK
+        assertNotNull(responseEntity);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
     @Test
