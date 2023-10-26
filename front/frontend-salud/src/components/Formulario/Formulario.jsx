@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+//Pido disculpas por lo que van a leer a continuacion
 const Formulario = ({ fields, url, tema }) => {
     const initialFormData = {};
     fields.forEach((element) => {
@@ -11,7 +12,10 @@ const Formulario = ({ fields, url, tema }) => {
 
     // Tema medico y especialidades
     const [especialidades, setEspecialidades] = useState([]);
-    useEffect(() => {
+    const [medicos, setMedicos] = useState([]);
+    const [pacientes, setPacientes] = useState([])
+
+    useEffect(() => { 
         if (tema === "medico" && fields.includes("especialidad")) {
             fetch("/api/medico/especialidad", {
                 method: 'GET'
@@ -24,6 +28,40 @@ const Formulario = ({ fields, url, tema }) => {
                     }
                     const data = await response.json();
                     setEspecialidades(data)
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+        if (tema === "ficha medica" && fields.includes("medico")) {
+            fetch("/api/medico", {
+                method: 'GET'
+            })
+                .then(async (response) => {
+                    console.log('ha llegado la respuesta de la api del front');
+                    console.log(response);
+                    if (response.status >= 400) {
+                        console.log('')
+                    }
+                    const data = await response.json();
+                    setMedicos(data)
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+        if (tema === "ficha medica" && fields.includes("paciente")) {
+            fetch("/api/paciente", {
+                method: 'GET'
+            })
+                .then(async (response) => {
+                    console.log('ha llegado la respuesta de la api del front');
+                    console.log(response);
+                    if (response.status >= 400) {
+                        console.log('')
+                    }
+                    const data = await response.json();
+                    setPacientes(data)
                 })
                 .catch((error) => {
                     console.error('Error:', error);
@@ -48,6 +86,9 @@ const Formulario = ({ fields, url, tema }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log('llamando api ' + url);
+        console.log(formData)
+        if (formData.fecha)
+            console.log('fecha existe')
         fetch(url, {
             method: 'POST',
             headers: {
@@ -104,6 +145,81 @@ const Formulario = ({ fields, url, tema }) => {
                     </select>
                 </div>
             );
+        } else if (tema === "ficha medica" && element === "medico") {
+            return (
+                <div key={i} className="mb-2">
+                    <label htmlFor={element} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"> {capFirst(element)}: </label>
+                    <select
+                        id={element}
+                        name={element}
+                        value={formData[element]}
+                        onChange={handleChange}
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        required
+                    >
+                        <option value="" disabled>Choose a Medico</option>
+                        {medicos.map((option) => (
+                            <option key={option.nombre} value={option.idUsuario}>
+                                {option.apellido + ` (id: ${option.idUsuario})`}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+            );
+        } else if (tema === "ficha medica" && element === "paciente") {
+            return (
+                <div key={i} className="mb-2">
+                    <label htmlFor={element} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"> {capFirst(element)}: </label>
+                    <select
+                        id={element}
+                        name={element}
+                        value={formData[element]}
+                        onChange={handleChange}
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        required
+                    >
+                        <option value="" disabled>Choose a Paciente</option>
+                        {pacientes.map((option) => (
+                            <option key={option.nombre} value={option.idUsuario}>
+                                {option.apellido + `, ${option.nombre} (id: ${option.idUsuario})`}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+            );
+        } else if (tema === "ficha medica" && (element === "es grave" || element === "uso emergencia")) {
+            return (
+                <div key={i} className='mb-2'>
+                  <label htmlFor={element} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    {capFirst(element)}:
+                  </label>
+                  <input
+                    type="checkbox"
+                    id={element}
+                    name={element}
+                    onChange={handleChange}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  />
+                </div>
+              );
+        } else if (tema === "ficha medica" && element === "fecha") {
+            return (
+                <div key={i} className='mb-2'>
+                  <label htmlFor={element} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    {capFirst(element)}:
+                  </label>
+                  <input
+                    type="text"
+                    id={element}
+                    name={element}
+                    value={(formData[element].toISOString) ? formData[element].toISOString() : '2023-10-26T10:00:00'} // Format the date as ISO 8601
+                    onChange={handleChange}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder={`${capFirst(element)} del ${tema}`}
+                    required
+                  />
+                </div>
+              );
         }
 
         // Casos normales (string)

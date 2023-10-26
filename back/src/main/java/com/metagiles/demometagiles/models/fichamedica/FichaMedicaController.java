@@ -85,7 +85,7 @@ public class FichaMedicaController {
             
             // Save the FichaMedica to the repository
             FichaMedica savedFicha = repository.save(fichaMedica);
-            return ResponseEntity.ok(savedFicha.getIdFichaMedica());
+            return ResponseEntity.ok(Utils.jsonificar("id", savedFicha.getIdFichaMedica()));
         } catch(Exception e) {
             return genResponseError("Error creating FichaMedica: "  + e.getMessage());
         }

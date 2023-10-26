@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import FichasMedicasFiltradas from '@/components/FichasMedicasFiltradas/FichasMedicasFiltradas'
 import NavBar from '@/components/NavBar/NavBar';
 import { CartelDescripcion } from '@/components/carteles/CartelDescripcion';
-//import Filtro from '@/components/Filtro2.0/filtro2.0';
+import { Redireccionador } from '@/components/Redireccionador/Redireccionador'
 
 export default function Home() {
     return (
@@ -14,7 +14,7 @@ export default function Home() {
         <div> 
             <FichasMedicasFiltradas/>
         </div>
-   
+        <Redireccionador mensaje="Crear Ficha Medica" ruta="/ficha-medica/crear"/>
     </main>
     );
 }

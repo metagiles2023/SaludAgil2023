@@ -3,10 +3,11 @@ import './fichaMedica.css';
 
 
 
+
 const ListaFichasMedicas = ({ fichasMedicas }) => {
   return (
-    <div className="fichaMedicaTable">
-      <table>
+    <div>
+      <table className="fichaMedicaTable">
         <thead>
           <tr>
             <th>Id</th>
