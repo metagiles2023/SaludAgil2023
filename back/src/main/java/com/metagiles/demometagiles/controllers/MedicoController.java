@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
 
+/*
 @RestController
 public class MedicoController {
 
@@ -24,9 +25,7 @@ public class MedicoController {
         this.medicoRepository = medicoRepository;
     }
 
-    @GetMapping(value = "/reservarturnos/{especialidad}")
-    public Map<String,String> getMedicoByEspecialidad(@PathVariable String especialidad){
-        return null;
-    }
+
 
 }
+*/

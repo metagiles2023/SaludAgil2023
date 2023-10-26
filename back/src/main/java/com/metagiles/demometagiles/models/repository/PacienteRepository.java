@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PacienteRepository{
+public interface PacienteRepository extends JpaRepository<Paciente,Long>{
 
-    public int PedirDatos(Long idPaciente, String email, Long telefono);
+    //public int PedirDatos(Long idPaciente, String email, Long telefono);
 }

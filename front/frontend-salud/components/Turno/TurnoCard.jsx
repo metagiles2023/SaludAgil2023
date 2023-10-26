@@ -13,8 +13,15 @@ function TurnoCard({ turno }) {
     const formattedTime = `${hour}:${minute}`;
 
     const handleCancelar = async () => {
+        const bodySend = {
+            "tid": id,
+            "pid": 2
+        }
         try {
-            await cancelarTurno(2,id);
+            fetch(`/api/misturnos/cancelar?pid=${2}&tid=${id}`,{
+                method: 'POST',
+                body: JSON.stringify(bodySend)
+            });
         } catch (error) {
             console.error('No se pudo cancelar:', error);
         }

@@ -22,6 +22,14 @@ public class Turno {
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
+    public boolean isOcupado() {
+        return ocupado;
+    }
+
+    public void setOcupado(boolean ocupado) {
+        this.ocupado = ocupado;
+    }
+
     public Long getId() {
         return id;
     }

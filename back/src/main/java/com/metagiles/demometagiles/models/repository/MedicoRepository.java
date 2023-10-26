@@ -8,7 +8,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface MedicoRepository{
-    public List<Medico> getMedicoByEspecialidad(String especialidad);
+public interface MedicoRepository extends JpaRepository<Medico,Long> {
+
+
+
+
 
 }
