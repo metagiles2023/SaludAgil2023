@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import java.util.*;
 
 @RestController
@@ -59,8 +60,8 @@ public class PacienteController {
         //Devuelve un mapa con todos los turnos en el siguiente formato
         // idTurno-idPaciente-idMedico-Date
         @GetMapping(value = "/misturnos/{id}")
-        public Map<String, String> getTurnosByIdPaciente (@PathVariable String id){
-            Map<String, String> output = new HashMap<String, String>();
+        public List<String> getTurnosByIdPaciente (@PathVariable String id){
+            List<String> output = new ArrayList<String>();
             long aux_id;
             try {
                 aux_id = Long.parseLong(id);
@@ -69,19 +70,18 @@ public class PacienteController {
                 return output;
             }
             Optional<List<Turno>> turnos = Optional.ofNullable(turnoRepository.getTurnosById(Long.valueOf(id)));
+
             for (int i = 0; i < turnos.get().size(); i++) {
-                output.put(String.valueOf(i), turnos.get().get(i).toString());
+                Turno aux = turnos.get().get(i);
+                output.add(aux.getId() + ":" + aux.getMedico().getNombre() + " " + aux.getMedico().getApellido() + ":" + aux.getMedico().getEspecialidad() + ":" + aux.getDate());
             }
-
-
 
             return output;
 
         }
 
-        @GetMapping(value = "/misturnos/{pid}/{tid}/delete")
-        public Map<String, String> deleteTurnoByIdPaciente (@PathVariable String pid, @PathVariable String tid){
-            Map<String, String> output = new HashMap<String, String>();
+        @GetMapping(value = "/misturnos/{pid}/{tid}/cancelar")
+        public void cancelarTurnoByIdPaciente (@PathVariable String pid, @PathVariable String tid){
             long aux_pid, aux_tid;
             try {
                 aux_pid = Long.parseLong(pid);
@@ -90,15 +90,8 @@ public class PacienteController {
                 System.err.println("ID erroneo");
             }
 
-            turnoRepository.deleteTurnosById(Long.valueOf(pid), Long.valueOf(tid));
-            Optional<List<Turno>> turnos = Optional.ofNullable(turnoRepository.getTurnosById(Long.valueOf(pid)));
-
-            for (int i = 0; i < turnos.get().size(); i++) {
-                output.put(String.valueOf(i), turnos.get().get(i).toString());
-            }
-            ;
-
-            return output;
+            turnoRepository.cancelarTurnoById(Long.valueOf(pid), Long.valueOf(tid));
+            Optional.ofNullable(turnoRepository.getTurnosById(Long.valueOf(pid)));
         }
 
         @GetMapping(value = "/reservarturnos/{pid}/{mail}/{nrotelefono}")

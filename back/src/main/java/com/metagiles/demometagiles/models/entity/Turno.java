@@ -61,7 +61,7 @@ public class Turno {
             pacienteString = this.paciente.toString();
         }
 
-        return this.id + "-" + pacienteString + "-" + this.date;
+        return this.id + "-" + pacienteString  + "-" + this.medico + "-" + this.date;
     }
 
 }

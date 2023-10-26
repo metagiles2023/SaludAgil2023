@@ -24,16 +24,14 @@ public class TurnoRepositoryImpl implements TurnoRepository {
         String query = "SELECT t FROM Turno t WHERE t.paciente.id = :idPaciente AND t.ocupado = true";
         TypedQuery<Turno> result = em.createQuery(query,Turno.class);
         result.setParameter("idPaciente",idPaciente);
-
         List<Turno> turnos = result.getResultList();
-        System.out.println("getTurnosById: " + turnos);
         return turnos;
     };
 
     @Temporal(TemporalType.TIMESTAMP)
     @Transactional
     @Override
-    public void deleteTurnosById(Long idPaciente,Long idTurno) {
+    public void cancelarTurnoById(Long idPaciente,Long idTurno) {
         String query = "SELECT t.id FROM Turno t WHERE t.paciente.id = :idPaciente AND t.ocupado = true";
         TypedQuery<Long> result = em.createQuery(query,Long.class);
         result.setParameter("idPaciente",idPaciente);
@@ -41,12 +39,12 @@ public class TurnoRepositoryImpl implements TurnoRepository {
  
         for (Long id : idturnos) {
             if(id == idTurno){
-                String query2 = "DELETE FROM turnos t WHERE t.paciente_u_id = :idPaciente AND t.id = :idTurno AND t.fecha > now() + interval '1 day'";
+                String query2 = "UPDATE turnos SET ocupado=false,paciente_u_id=null WHERE paciente_u_id = :idPaciente AND id = :idTurno AND fecha > now() + interval '1 day'";
                 Query result2 = em.createNativeQuery(query2);
                 result2.setParameter("idPaciente",idPaciente);
                 result2.setParameter("idTurno",idTurno);
-                int deletedCount = result2.executeUpdate();
-                if (deletedCount == 0){
+                int updatedCount = result2.executeUpdate();
+                if (updatedCount == 0){
                     System.out.println("No se puede borrar un turno que ocurrira en las proximas 24 horas");
                 }
                 break;

@@ -10,7 +10,6 @@ import java.util.List;
 
 public interface TurnoRepository {
     public List<Turno> getTurnosById(Long idPaciente);
-    public void deleteTurnosById(Long idPaciente,Long idTurno);
-
+    public void cancelarTurnoById(Long idPaciente,Long idTurno);
     public List<Turno>getTurnosDisponiblesMedicoByDia(Long idMedico, int dia);
 }
