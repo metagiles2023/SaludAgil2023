@@ -2,7 +2,7 @@
 import NavBar from '../../../../../components/NavBar'
 import Calendar from 'react-calendar'
 import "./Calendar.css"
-import TurnoCard from '../../../../../components/turno/TurnoCardReservar';
+import TurnoCard from '../../../../../components/Turno/TurnoCardReservar';
 import { useState,useEffect } from 'react';
 export default function turnosdisponibles() {
     const now = new Date();
