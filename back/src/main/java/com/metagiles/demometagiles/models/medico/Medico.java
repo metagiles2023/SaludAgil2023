@@ -29,5 +29,8 @@ public class Medico extends Usuario{
         this.especialidad = especialidad;
     }
 
-    
+    @Override
+    public String toString(){
+        return super.toString();
+    }
 }

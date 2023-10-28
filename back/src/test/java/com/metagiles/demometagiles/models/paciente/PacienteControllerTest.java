@@ -13,6 +13,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.metagiles.demometagiles.models.repository.TurnoRepository;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -27,10 +29,14 @@ public class PacienteControllerTest {
     @Mock
     private PacienteRepository pacienteRepository;
 
+    @Mock
+    private TurnoRepository turnoRepository; //Agregado sin saber lo que estoy haciendo: chequear. @Mauro.
+
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        pacienteController = new PacienteController(pacienteRepository);
+        //modificado para que se vaya el error del ctor de Paciente que tuvimos que modificar en la integracion con Turnos: chequear. @Mauro
+        pacienteController = new PacienteController(turnoRepository, pacienteRepository); 
     }
 
     @Test

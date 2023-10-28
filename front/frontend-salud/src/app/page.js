@@ -1,6 +1,10 @@
 import Image from 'next/image'
+<<<<<<< HEAD
 import NavBar from '@/components/NavBar/NavBar';
 import { CartelDescripcion } from '@/components/carteles/CartelDescripcion';
+=======
+import NavBar from '../../components/NavBar';
+>>>>>>> turnos-merge-a-main
 
 export default function Home() {
     return (
