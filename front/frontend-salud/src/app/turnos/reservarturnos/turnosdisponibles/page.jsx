@@ -1,5 +1,5 @@
 "use client"
-import NavBar from '../../../../../components/NavBar'
+import NavBar from '@/components/NavBar/NavBar'
 import Calendar from 'react-calendar'
 import "./Calendar.css"
 import TurnoCard from '../../../../../components/Turno/TurnoCardReservar';
