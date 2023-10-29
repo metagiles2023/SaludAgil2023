@@ -1,9 +1,12 @@
 "use client"
 import NavBar from '@/components/NavBar/NavBar'
+import Header from '@/components/Estructura/Header'
+import Footer from '@/components/Estructura/Footer'
+import TurnoCard from '@/components/Turno/TurnoCardReservar';
 import Calendar from 'react-calendar'
 import "./Calendar.css"
-import TurnoCard from '../../../../../components/Turno/TurnoCardReservar';
 import { useState,useEffect } from 'react';
+
 export default function turnosdisponibles() {
     const now = new Date();
     const maxima_fecha = new Date();
@@ -27,31 +30,30 @@ export default function turnosdisponibles() {
 
 
   return (
-    <main className="min-h-screen">
-      <div className='flex  flex-col items-center justify-between p-24'>
-        <NavBar/>
-      </div>
-      <div className='m-10 flex'>
-        <Calendar
-          minDate={now}
-          maxDate={maxima_fecha}
-          onClickDay={(day) =>{
-            setSelectedDate(day)
-            const selectedDay = day.getDate();
-            const selectedMonth = day.getMonth();
-            handle(selectedDay,selectedMonth,1)}}
-        />
-        <div>
-        { data &&
-          data.map((turno) => {
-            return <TurnoCard key={turno.id} id={turno.id} horario={turno.date}/>
-          })
-          
-         }
+    <div className='flex flex-col min-h-screen'>
+      <Header />
+      <main className='flex-1'>
+        <div className='flex m-10'>
+          <Calendar
+            minDate={now}
+            maxDate={maxima_fecha}
+            onClickDay={(day) =>{
+              setSelectedDate(day)
+              const selectedDay = day.getDate();
+              const selectedMonth = day.getMonth();
+              handle(selectedDay,selectedMonth,1)}}
+          />
+          <div>
+          { data &&
+            data.map((turno) => {
+              return <TurnoCard key={turno.id} id={turno.id} horario={turno.date}/>
+            })
+            
+          }
+          </div>
         </div>
-
-      </div>
-
-    </main>
+      </main>
+      <Footer />
+    </div>
   )
 }

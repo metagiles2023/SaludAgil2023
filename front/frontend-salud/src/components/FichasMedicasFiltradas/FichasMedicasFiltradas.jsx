@@ -168,8 +168,8 @@ const FichasMedicasFiltradas = () => {
     }
     return(
         <div>
-            <div className = 'checkbox-container'> 
-                <h2> Gravedad </h2>
+            <div className = 'checkbox-container mt-5 ml-10 text-xl'> 
+                <h2 className='font-bold text-2xl'> Gravedad </h2>
                 <div className='input-checkbox'>
                     <input onChange={handleOnCheckbox} type='checkbox' name='Gravedad' value= 'true' id='Gravedad' />
                     <label htmlFor='si'> Grave </label>
@@ -179,7 +179,7 @@ const FichasMedicasFiltradas = () => {
                     <label htmlFor='no'> Leve </label>
                 </div> 
 
-                <h2> Servicio de Emergencia</h2>
+                <h2 className='font-bold text-2xl'> Servicio de Emergencia</h2>
                 <div className='input-checkbox'>
                     <input onChange={handleOnCheckbox} type='checkbox' name='Emergencia' value= 'true' id='Servicio de emergencia' />
                     <label htmlFor='si'> Si </label>

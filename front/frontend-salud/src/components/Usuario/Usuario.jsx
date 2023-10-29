@@ -3,7 +3,7 @@ import './usuario.css';
 
 const ListaUsuarios = ({ usuarios }) => {
     return (
-    <div className="usuarioTable">
+    <div className="usuarioTable text-black">
         <table>
         <thead>
             <tr>

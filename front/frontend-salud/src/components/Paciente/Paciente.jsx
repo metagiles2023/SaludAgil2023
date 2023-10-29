@@ -3,7 +3,7 @@ import './paciente.css';
 
 const ListaPacientes = ({ pacientes }) => {
     return (
-    <div className="pacienteTable">
+    <div className="pacienteTable text-black">
         <table>
         <thead>
             <tr>

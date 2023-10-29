@@ -55,6 +55,8 @@
   .react-calendar__navigation button {
     min-width: 44px;
     background: none;
+    color: #000000;
+    font-size: x-large;
   }
   .react-calendar__navigation button:disabled {
     visibility: hidden;
@@ -76,6 +78,7 @@
     padding: 5px;
     background-clip: content-box !important;
     border-radius: 15px !important;
+    color: #000000;
   }
   
   .react-calendar__navigation__label__labelText {

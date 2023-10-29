@@ -1,7 +1,8 @@
 "use client" //para que ejecute cosas en el cliente
 import React, { useState, useEffect } from 'react';
+import Header from '@/components/Estructura/Header'
+import Footer from '@/components/Estructura/Footer'
 import ListaMultiple from '@/components/SeleccionMultiples/ListaMultiple';
-import NavBar from '@/components/NavBar/NavBar';
 import { CartelDescripcion } from '@/components/carteles/CartelDescripcion';
 import { CartelDescripcionChildren } from '@/components/carteles/CartelDescripcionChildren'
 import { Redireccionador } from '@/components/Redireccionador/Redireccionador';
@@ -30,22 +31,24 @@ export default function Home() {
       };
 
     return (
-    <main className="flex flex-col">
-        <div>
-            <NavBar/>
-        </div>
-        
-        <CartelDescripcion mensaje="Pagina para ver usuarios"/>
-        <CartelDescripcionChildren>
-            <div className="flex space-x-4 my-4">
-            <button onClick={() => handleUserTypeChange('usuario')}>Todos los usuarios</button>
-            <button onClick={() => handleUserTypeChange('paciente')}>Pacientes</button>
-            <button onClick={() => handleUserTypeChange('medico')}>Médicos</button>
-            <button onClick={() => handleUserTypeChange('administrador')}>Administradores</button>
+        <div className="flex flex-col min-h-screen">
+        <Header /> 
+        <main className="flex-1 flex flex-col">
+            <div className='flex justify-center'>
+                <CartelDescripcion mensaje="Pagina para ver usuarios"/>
             </div>
-        </CartelDescripcionChildren>
-        <ListaMultiple lista={selectedUserType} datos={datos} />
-        <Redireccionador mensaje="Crear Usuario" ruta="/usuario/crear"/>
-    </main>
+            <CartelDescripcionChildren>
+                <div className="flex gap-20 my-4">
+                <button onClick={() => handleUserTypeChange('usuario')}>Todos los usuarios</button>
+                <button onClick={() => handleUserTypeChange('paciente')}>Pacientes</button>
+                <button onClick={() => handleUserTypeChange('medico')}>Médicos</button>
+                <button onClick={() => handleUserTypeChange('administrador')}>Administradores</button>
+                </div>
+            </CartelDescripcionChildren>
+            <ListaMultiple lista={selectedUserType} datos={datos} />
+            <Redireccionador mensaje="Crear Usuario" ruta="/usuario/crear"/>
+        </main>
+        <Footer />
+    </div>
     );
     }
