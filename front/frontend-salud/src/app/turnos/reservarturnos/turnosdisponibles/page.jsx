@@ -1,8 +1,8 @@
 "use client"
-import NavBar from '@/components/NavBar/NavBar'
 import Header from '@/components/Estructura/Header'
 import Footer from '@/components/Estructura/Footer'
 import TurnoCard from '@/components/Turno/TurnoCardReservar';
+import ConfirmarTurno from "@/components/Confirmaciones/ConfirmarTurno";
 import Calendar from 'react-calendar'
 import "./Calendar.css"
 import { useState,useEffect } from 'react';
@@ -32,24 +32,55 @@ export default function turnosdisponibles() {
   return (
     <div className='flex flex-col min-h-screen'>
       <Header />
-      <main className='flex-1'>
-        <div className='flex m-10'>
-          <Calendar
-            minDate={now}
-            maxDate={maxima_fecha}
-            onClickDay={(day) =>{
-              setSelectedDate(day)
-              const selectedDay = day.getDate();
-              const selectedMonth = day.getMonth();
-              handle(selectedDay,selectedMonth,1)}}
-          />
-          <div>
-          { data &&
-            data.map((turno) => {
-              return <TurnoCard key={turno.id} id={turno.id} horario={turno.date}/>
-            })
-            
-          }
+      <main className='flex-1 flex'>
+        <div className='flex-1 flex justify-center items-center'>
+          <div className='flex w-2/3 h-2/3 justify-center items-center'>
+            <Calendar
+              minDate={now}
+              maxDate={maxima_fecha}
+              onClickDay={(day) =>{
+                setSelectedDate(day)
+                const selectedDay = day.getDate();
+                const selectedMonth = day.getMonth();
+                handle(selectedDay,selectedMonth,1)}}
+            />
+            <div>
+            { data &&
+              data.map((turno) => {
+                return <TurnoCard key={turno.id} id={turno.id} horario={turno.date}/>
+              })
+            }
+            </div>
+          </div>
+        </div>
+        <div className='flex-1 flex items-center m-5'>
+          <div className='flex h-2/3'>
+            <div className='flex flex-col'>
+              <div>
+                <h1 className='text-2xl font-bold text-black'>Horarios:</h1>
+                <div className='flex gap-16'>
+                  <div className="flex items-center py-5 gap-4">
+                    <div className="text-black text-xl font-bold">Desde:</div>
+                    <div className="flex w-full h-12 bg-[#ebffff] shadow-[0px_20px_4px_#00000040] rounded-[30px] justify-between items-center px-5">
+                      <span className="font-medium text-gray-500 px-5">Seleccione un horario</span>
+                      <img className="w-6" alt="Seleccionar" src="/down_arrow.svg" />
+                    </div>
+                    <img className="w-6" alt="Lupa" src="/search_icon.svg" />
+                  </div>
+                  <div className="flex items-center py-5 gap-4">
+                    <div className="text-black text-xl font-bold">Hasta:</div>
+                    <div className="flex w-full h-12 bg-[#ebffff] shadow-[0px_20px_4px_#00000040] rounded-[30px] justify-between items-center px-5">
+                      <span className="font-medium text-gray-500 px-5">Seleccione un horario</span>
+                      <img className="w-6" alt="Seleccionar" src="/down_arrow.svg" />
+                    </div>
+                    <img className="w-6" alt="Lupa" src="/search_icon.svg" />
+                  </div>
+                </div>
+              </div>
+              <div className='flex-1 flex w-full h-full justify-center items-center rounded-3xl bg-cyan-400 text-2xl'>
+                Aca van los horarios disponibles de cada dia
+              </div>
+            </div>
           </div>
         </div>
       </main>
