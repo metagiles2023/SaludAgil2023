@@ -32,11 +32,14 @@ public class PacienteControllerTest {
     @Mock
     private TurnoRepository turnoRepository; //Agregado sin saber lo que estoy haciendo: chequear. @Mauro.
 
+    @Mock
+    private PacienteService pacienteService;
+
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         //modificado para que se vaya el error del ctor de Paciente que tuvimos que modificar en la integracion con Turnos: chequear. @Mauro
-        pacienteController = new PacienteController(turnoRepository, pacienteRepository); 
+        pacienteController = new PacienteController(pacienteService); 
     }
 
     @Test
@@ -48,7 +51,7 @@ public class PacienteControllerTest {
         when(pacienteRepository.findAll()).thenReturn(pacientes);
 
         // Llama al método getAll del controlador y verifica la respuesta
-        List<Paciente> result = pacienteController.getAll();
+        List<Paciente> result = pacienteController.findAllPacientes();
         assertEquals(pacientes, result);
     }
 
