@@ -39,7 +39,7 @@ public class EspecialidadController {
      * 
      * Retorna un JSON con el id de la especialidad agregada, o un json { "error": "..."}
      */
-    @PostMapping("/medico/especialidad/create")
+    @PostMapping("/medico/especialidad")
     public ResponseEntity<?> crearEspecialidad(@RequestBody Especialidad request) {
         try {
             if (repository.existsBynombre(request.getNombre())) {
