@@ -1,5 +1,5 @@
 export async function GET() {
-    const res = await fetch(process.env.URL_BACKEND + '/usuario/getAll', {
+    const res = await fetch(process.env.URL_BACKEND + '/usuario', {
         method: 'GET',
         cache: "no-store"
     });

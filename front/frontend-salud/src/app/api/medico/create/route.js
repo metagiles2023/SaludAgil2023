@@ -1,7 +1,7 @@
 export async function POST(request) {
     const body = await request.json();
     console.log(`internal: medico/create/post.js body is ${JSON.stringify(body)}`)
-    const res = await fetch(process.env.URL_BACKEND + '/medico/create', {
+    const res = await fetch(process.env.URL_BACKEND + '/medico', {
         method: 'POST',
         headers: {
             "Content-Type": "application/json"
