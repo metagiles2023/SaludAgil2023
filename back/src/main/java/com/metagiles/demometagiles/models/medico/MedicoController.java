@@ -19,7 +19,7 @@ public class MedicoController {
         this.repository = repository;
     }
 
-    @GetMapping("/medico/getAll")
+    @GetMapping("/medico")
     List<Medico> getAll() {
         return repository.findAll();
     }
@@ -36,7 +36,7 @@ public class MedicoController {
      * 
      * Retorna un JSON con el id del usuario agregado.
      */
-    @PostMapping("/medico/create")
+    @PostMapping("/medico")
     public ResponseEntity<?> createMedico(@RequestBody Medico request) {
         System.out.println("Creando medico");
         try {
