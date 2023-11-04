@@ -2,19 +2,24 @@
 import React, { useState, useEffect } from 'react';
 import ListaFichasMedicas from '../FichaMedica/FichaMedica';
 import './FichasMedicasFiltradas.css'; 
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import Selector from '../Selector/Selector';
 const controller = new AbortController(); // Create an AbortController
 const signal = controller.signal; // Get the signal from the controller
 
+
 const FichasMedicasFiltradas = () => {
+
+    //se inicializa el filtro vacio para traer todas las fichas
     const [filtroSeleccionado, setFiltroSeleccionado] = useState({
-        //"filtraEmergencia": true
-        
     })
-    console.log(filtroSeleccionado)
-    const [fichasMedicas, setFichasMedicas] = useState([]);
+
+    const [fichasMedicas, setFichasMedicas] = useState([]); 
+    const [startDate, setStartDate] = useState(new Date()); 
+    const [toDate, setToDate] = useState(new Date());
 
     useEffect(() => {
-        console.log('xd')
         // Make an HTTP GET request to your backend API
         fetch("/api/ficha-medica", {
                 method: 'POST',
@@ -26,14 +31,31 @@ const FichasMedicasFiltradas = () => {
             })
             .then(async (response) => {
                 const respuesta = await response.json()
-                console.log(filtroSeleccionado)
-                console.log(respuesta)
                 setFichasMedicas(respuesta);
             })
             .catch((error) => {
             console.error('Error fetching data:', error);
             });
     }, [filtroSeleccionado]); //cuando cambia el body, 
+
+
+    const dateForHandle = (fecha) => {
+        setStartDate(fecha);
+        const nuevoFiltro = {"fechaDesde": fecha};
+        setFiltroSeleccionado(
+            {...filtroSeleccionado, ...nuevoFiltro}
+        )
+    }
+
+
+    const dateToHandle = (fecha) => {
+        setStartDate(fecha);
+        const nuevoFiltro = {"fechaHasta": fecha};
+        setFiltroSeleccionado(
+            {...filtroSeleccionado, ...nuevoFiltro}
+        )
+    }
+
     const handleOnCheckbox = e => {
         if(e.target.checked){
             if(e.target.name == "Emergencia"){
@@ -44,7 +66,6 @@ const FichasMedicasFiltradas = () => {
                         {...filtroSeleccionado, ...nuevoFiltro}
                         )
                     } else{
-                        console.log(e.target.value)
                         if(e.target.value == 'true'){
                             const nuevoFiltro = {"filtraEmergencia": true}
                              setFiltroSeleccionado(
@@ -80,7 +101,7 @@ const FichasMedicasFiltradas = () => {
                     } 
                 }
             }            
-            console.log("filtro sleccionado"+ filtroSeleccionado)
+            console.log(filtroSeleccionado);
         }else{
             if(e.target.name == "Emergencia"){
                 if (!("filtraEmergencia" in filtroSeleccionado)){
@@ -130,41 +151,7 @@ const FichasMedicasFiltradas = () => {
                 
             }
             
-        }
-        
-        
-
-        /*
-        if (e.target.checked){
-            if(e.target.name == "Gravedad"){
-                const resultadoFiltro = fichasMedicas.filter(item => item.esGrave.toString() === e.target.value)
-            setDatoFiltrado ([
-                ... datoFiltrado,
-                ...resultadoFiltro
-            ])
-            }
-            else if(e.target.name == "Emergencia"){
-                const resultadoFiltro = fichasMedicas.filter(item => item.usoEmergencia.toString() === e.target.value)
-                setDatoFiltrado ([
-                    ... datoFiltrado,
-                    ...resultadoFiltro
-                ])
-            }
-            
-        }
-        else{
-            if(e.target.name == "Gravedad"){
-                const resultadoFiltro = datoFiltrado.filter(item => item.esGrave.toString() !== e.target.value)
-            setDatoFiltrado ([...resultadoFiltro])
-            }
-            else if(e.target.name == "Emergencia"){
-                const resultadoFiltro = datoFiltrado.filter(item => item.usoEmergencia.toString() !== e.target.value)
-                setDatoFiltrado ([...resultadoFiltro])
-            }
-
-            
-        } */
-        
+        }  
     }
     return(
         <div>
@@ -178,7 +165,6 @@ const FichasMedicasFiltradas = () => {
                     <input onChange={handleOnCheckbox} type='checkbox' name='Gravedad' value='false' id='Leve' />
                     <label htmlFor='no'> Leve </label>
                 </div> 
-
                 <h2 className='font-bold text-2xl'> Servicio de Emergencia</h2>
                 <div className='input-checkbox'>
                     <input onChange={handleOnCheckbox} type='checkbox' name='Emergencia' value= 'true' id='Servicio de emergencia' />
@@ -187,11 +173,14 @@ const FichasMedicasFiltradas = () => {
                 <div className='input-checkbox'>
                     <input onChange={handleOnCheckbox} type='checkbox' name='Emergencia' value='false' id='Servicio de emergencia' />
                     <label htmlFor='no'> No </label>
-                </div> 
+                </div>
+                <h2 className='font-bold text-2xl'> Fecha Desde</h2>
+                <DatePicker dateFormat='yyyy/MM/dd' selected={startDate} onChange={(date) => dateForHandle(date)} />
+                <h2 className='font-bold text-2xl'> Fecha Hasta</h2>
+                <DatePicker dateFormat='yyyy/MM/dd' selected={startDate} onChange={(date) => dateToHandle(date)} />
             </div>
-        
             <div >
-            <ListaFichasMedicas fichasMedicas={Array.from(fichasMedicas)} />
+            <ListaFichasMedicas fichasMedicas= {fichasMedicas} />
             </div>
         </div>
     );
