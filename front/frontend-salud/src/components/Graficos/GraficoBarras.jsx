@@ -80,13 +80,13 @@ const GraficoBarras = () => {
             labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
             datasets: [
                 {
-                    label: 'Graves',
+                    label: 'GRAVES',
                     data: countsGraves,
                     borderColor: 'rgb(255, 0, 0)',
                     backgroundColor: 'rgb(255, 0, 0, 0.4)'
                 },
                 {
-                    label: 'Leves',
+                    label: 'LEVES',
                     data: countsLeves,
                     borderColor: 'rgb(0, 0, 255)',
                     backgroundColor: 'rgb(0, 0, 255, 0.4)'
@@ -109,7 +109,7 @@ const GraficoBarras = () => {
         })
 
     }, [fichasMedicas]);
-
+    
     return(
         <Bar data={chartData} options={chartOptions} /> 
     )
