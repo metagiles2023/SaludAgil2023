@@ -5,7 +5,7 @@ import './fichaMedica.css';
 
 const ListaFichasMedicas = ({ fichasMedicas }) => {
   return (
-    <div className="fichaMedicaTable">
+    <div className='fichaMedicaTable' style={{"background-color": "white"}}>
       <table>
         <thead>
           <tr>

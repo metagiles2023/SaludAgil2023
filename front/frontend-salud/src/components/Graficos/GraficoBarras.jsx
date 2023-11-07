@@ -82,14 +82,14 @@ const GraficoBarras = () => {
                 {
                     label: 'GRAVES',
                     data: countsGraves,
-                    borderColor: 'rgb(255, 0, 0)',
-                    backgroundColor: 'rgb(255, 0, 0, 0.4)'
+                    borderColor: 'rgba(255, 117, 20, 1)',
+                    backgroundColor: 'rgba(255, 117, 20, 1)'
                 },
                 {
                     label: 'LEVES',
                     data: countsLeves,
-                    borderColor: 'rgb(0, 0, 255)',
-                    backgroundColor: 'rgb(0, 0, 255, 0.4)'
+                    borderColor: 'rgba(173, 216, 230, 1)',
+                    backgroundColor: 'rgba(173, 216, 230, 1)',
                 }
             ]
         })
