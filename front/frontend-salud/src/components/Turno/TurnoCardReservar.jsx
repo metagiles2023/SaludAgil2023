@@ -3,8 +3,11 @@ import "./TurnoCardReservar.css"
 import Popup from '@/components/Turno/Popup';
 
 const TurnoCard = (props) => {
-    const aux = props.horario.split("T")[1].split(":");
-    const hora = aux[0] +  ":"  +aux[1];
+    const aux = props.horario;
+    //const aux = props.horario.split("T")[1].split(":");
+    const minutosFormateados = (aux.getMinutes() === 0) ? "00" : aux.getMinutes();
+
+    const hora = aux.getHours() +  ":"  + minutosFormateados;
     
     
     const handleClick = () => {

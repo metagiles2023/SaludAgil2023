@@ -1,10 +1,6 @@
 package com.metagiles.demometagiles.models.paciente;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import com.metagiles.demometagiles.utils.SendEmail;
 import org.springframework.http.HttpStatus;
@@ -92,7 +88,9 @@ public class PacienteController {
             Paciente paciente = this.repository.getReferenceById(Long.valueOf(request.get("idUsuario")));
             turno.setPaciente(paciente);
             Turno turnoReservado = this.tRepository.save(turno);
-            SendEmail email = new SendEmail("isasmendi.martin@gmail.com","test","test2");
+            String emailReceiver = request.get("email");
+            String body = "Se ha confirmado el turno para la siguiente fecha: " + turno.getDate().toString() + " con el medico: " + turno.getMedico().getApellido() + " " + turno.getMedico().getNombre();
+            SendEmail email = new SendEmail(emailReceiver,"Confirmacion de turno",body);
             return ResponseEntity.ok(Utils.jsonificar("id", turnoReservado.getId()));
         } catch (Exception e) {
             return genResponseError("Error al reservar turno: " + e.getMessage());
@@ -115,8 +113,8 @@ public class PacienteController {
             System.err.println("ID erroneo: no se pudo parsear");
             return null;
         }
-
         List<Turno> turnos = this.tRepository.getTurnosDisponiblesMedicoByDiaByMes(aux_id,aux_dia,aux_mes);
+
         System.out.println(turnos);
         return turnos;
 

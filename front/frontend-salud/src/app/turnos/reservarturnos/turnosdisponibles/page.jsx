@@ -20,18 +20,24 @@ export default function turnosdisponibles() {
     const [typeSnack, setTypeSnack] = useState("success");
     const [textSnack, setTextSnack] = useState("Turno reservado con exito!");
     const [loadingSnack, setLoadingSnack] = useState(true);
+    const [idTurno,setIdTurno] = useState(0);
 
     const horizontal = 'center';
     const vertical = 'bottom';
 
    const handle = ((dia,mes,user) =>{
         mes += 1;
-        
+
         fetch(`/api/turnosdisponibles?dia=${dia}&mes=${mes}`,{
           method: 'GET',
         })
         .then(async (res) => {
           const data = await res.json();
+          console.log(data);
+          data.forEach(element => {
+            element.date = new Date(element.date);
+          });
+          data.sort((a,b) => { return a.date - b.date})
           console.log(data);
           setData(data);
         })
@@ -67,6 +73,7 @@ export default function turnosdisponibles() {
 
 
   const handleTurnoCardClick = (data) => {
+    setIdTurno(data.idTurno);
     setOpenPopup(true);
   };
 
@@ -131,7 +138,7 @@ export default function turnosdisponibles() {
         <Popup
           openPopup = {openPopup}
           setOpenPopup = {setOpenPopup}
-          idTurno = {1}
+          idTurno = {idTurno}
           idUsuario = {2}
           onSubmit={handlePopUpSubmit}>
         </Popup>
