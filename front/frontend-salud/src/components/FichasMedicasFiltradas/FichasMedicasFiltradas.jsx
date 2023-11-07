@@ -12,8 +12,7 @@ const signal = controller.signal; // Get the signal from the controller
 const FichasMedicasFiltradas = () => {
 
     //se inicializa el filtro vacio para traer todas las fichas
-    const [filtroSeleccionado, setFiltroSeleccionado] = useState({
-    })
+    const [filtroSeleccionado, setFiltroSeleccionado] = useState({})
 
     const [fichasMedicas, setFichasMedicas] = useState([]); 
     const [startDate, setStartDate] = useState(new Date()); 
@@ -36,7 +35,7 @@ const FichasMedicasFiltradas = () => {
             .catch((error) => {
             console.error('Error fetching data:', error);
             });
-    }, [filtroSeleccionado]); //cuando cambia el body, 
+    }, [filtroSeleccionado]); //cuando cambia el body,
 
 
     const dateForHandle = (fecha) => {
@@ -49,7 +48,7 @@ const FichasMedicasFiltradas = () => {
 
 
     const dateToHandle = (fecha) => {
-        setStartDate(fecha);
+        setToDate(fecha);
         const nuevoFiltro = {"fechaHasta": fecha};
         setFiltroSeleccionado(
             {...filtroSeleccionado, ...nuevoFiltro}
@@ -101,7 +100,6 @@ const FichasMedicasFiltradas = () => {
                     } 
                 }
             }            
-            console.log(filtroSeleccionado);
         }else{
             if(e.target.name == "Emergencia"){
                 if (!("filtraEmergencia" in filtroSeleccionado)){
@@ -148,7 +146,6 @@ const FichasMedicasFiltradas = () => {
                     {...filtroSeleccionado, ...nuevoFiltro}
                 )
                 }
-                
             }
             
         }  
@@ -177,7 +174,7 @@ const FichasMedicasFiltradas = () => {
                 <h2 className='font-bold text-2xl'> Fecha Desde</h2>
                 <DatePicker dateFormat='yyyy/MM/dd' selected={startDate} onChange={(date) => dateForHandle(date)} />
                 <h2 className='font-bold text-2xl'> Fecha Hasta</h2>
-                <DatePicker dateFormat='yyyy/MM/dd' selected={startDate} onChange={(date) => dateToHandle(date)} />
+                <DatePicker dateFormat='yyyy/MM/dd' selected={toDate} onChange={(date) => dateToHandle(date)} />
             </div>
             <div >
             <ListaFichasMedicas fichasMedicas= {fichasMedicas} />
