@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.metagiles.demometagiles.utils.SendEmail;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -85,14 +86,16 @@ public class PacienteController {
     @PostMapping(value = "/reservar/turno")
     public ResponseEntity<?> postReservarTurno(@RequestBody Map<String,String> request){
         try{
+            System.out.println(request.toString());
             Turno turno = this.tRepository.getReferenceById(Long.valueOf(request.get("id")));
             turno.setOcupado(true);
             Paciente paciente = this.repository.getReferenceById(Long.valueOf(request.get("idUsuario")));
             turno.setPaciente(paciente);
-            this.tRepository.save(turno);
-            return ResponseEntity.ok("succesful:");
+            Turno turnoReservado = this.tRepository.save(turno);
+            SendEmail email = new SendEmail("isasmendi.martin@gmail.com","test","test2");
+            return ResponseEntity.ok(Utils.jsonificar("id", turnoReservado.getId()));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("err");
+            return genResponseError("Error al reservar turno: " + e.getMessage());
         }
 
     };

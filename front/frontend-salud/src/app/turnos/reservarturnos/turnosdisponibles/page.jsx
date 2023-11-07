@@ -2,18 +2,27 @@
 import Header from '@/components/Estructura/Header'
 import Footer from '@/components/Estructura/Footer'
 import TurnoCard from '@/components/Turno/TurnoCardReservar';
-import ConfirmarTurno from "@/components/Confirmaciones/ConfirmarTurno";
 import Calendar from 'react-calendar'
 import "./Calendar.css"
 import { useState,useEffect } from 'react';
+import Popup from '@/components/Turno/Popup';
+import { Alert, Snackbar,CircularProgress, LinearProgress } from '@mui/material';
+
 
 export default function turnosdisponibles() {
     const now = new Date();
     const maxima_fecha = new Date();
     maxima_fecha.setMonth(now.getMonth() + 2)
-
+    const [openPopup,setOpenPopup] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
     const [data, setData] = useState(null);
+    const [openSnack, setOpenSnack] = useState(false);
+    const [typeSnack, setTypeSnack] = useState("success");
+    const [textSnack, setTextSnack] = useState("Turno reservado con exito!");
+    const [loadingSnack, setLoadingSnack] = useState(true);
+
+    const horizontal = 'center';
+    const vertical = 'bottom';
 
    const handle = ((dia,mes,user) =>{
         mes += 1;
@@ -27,6 +36,39 @@ export default function turnosdisponibles() {
           setData(data);
         })
     })
+
+  const handlePopUpSubmit = (data) => {
+    console.log("click en confirmar");
+    console.log(data);
+    setOpenPopup(false);
+    handlePOST(data.idTurno,data.idUsuario,data.email,data.telefono);
+    setOpenSnack(true);
+  };
+
+  const handlePOST = (idTurno,idUsuario,email,telefono) =>{
+    const body = {"id": idTurno,"idUsuario": idUsuario,"email": email,"telefono":telefono};
+
+    fetch("/api/turnosdisponibles/reservar",{
+        method: "POST",
+        body: JSON.stringify(body)
+    })
+    .then(async (res) => {
+        const data = await res.json();
+        if(data == null){
+          setTypeSnack("error");
+          setTextSnack("No se pudo reservar el turno!");
+          setTypeSnack("error");
+          console.log("ERROR al reservar turno");
+        }
+        setLoadingSnack(false);
+        
+    })
+};
+
+
+  const handleTurnoCardClick = (data) => {
+    setOpenPopup(true);
+  };
 
 
   return (
@@ -44,13 +86,6 @@ export default function turnosdisponibles() {
                 const selectedMonth = day.getMonth();
                 handle(selectedDay,selectedMonth,1)}}
             />
-            <div>
-            { data &&
-              data.map((turno) => {
-                return <TurnoCard key={turno.id} id={turno.id} horario={turno.date}/>
-              })
-            }
-            </div>
           </div>
         </div>
         <div className='flex-1 flex items-center m-5'>
@@ -78,11 +113,46 @@ export default function turnosdisponibles() {
                 </div>
               </div>
               <div className='flex-1 flex w-full h-full justify-center items-center rounded-3xl bg-cyan-400 text-2xl'>
-                Aca van los horarios disponibles de cada dia
+                <div className='flex flex-wrap'>
+                    { data &&
+                      data.map((turno) => {
+                        return <div className='w-1/8'>
+                          <TurnoCard key={turno.id} id={turno.id} horario={turno.date}
+                            onClick={handleTurnoCardClick}
+                          />  
+                        </div>
+                      })
+                    }
+                </div>
               </div>
             </div>
           </div>
         </div>
+        <Popup
+          openPopup = {openPopup}
+          setOpenPopup = {setOpenPopup}
+          idTurno = {1}
+          idUsuario = {2}
+          onSubmit={handlePopUpSubmit}>
+        </Popup>
+        <Snackbar
+          open={openSnack}
+          autoHideDuration={4000}
+          anchorOrigin={{vertical, horizontal}}
+          key={vertical + horizontal}
+          >
+          {loadingSnack ? (
+            <Alert severity="info">
+              <LinearProgress />
+              Reservando turno...
+            </Alert>
+          ) :
+          (
+          <Alert severity={typeSnack}>
+            {textSnack}
+          </Alert>)}
+          
+        </Snackbar>
       </main>
       <Footer />
     </div>
