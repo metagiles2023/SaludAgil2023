@@ -21,11 +21,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@DisplayName(">>> FichaMedicaController <<<")
-public class FichaMedicaControllerTest {
-
-    @InjectMocks
-    private FichaMedicaController fichaMedicaController;
+@DisplayName(">>> FichaMedicaService <<<")
+public class FichaMedicaServiceTest {
 
     @Mock
     private FichaMedicaRepository fichaMedicaRepository;
@@ -44,20 +41,20 @@ public class FichaMedicaControllerTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        fichaMedicaController = new FichaMedicaController(fichaMedicaService);
+        fichaMedicaService = new FichaMedicaService(fichaMedicaRepository,medicoRepository,pacienteRepository);
     }
 
     @Test
     @DisplayName("Se simula el caso en el que se solicitan todas las fichas médicas")
-    public void testGetAll() {
+    public void testFindAllFichaMedicas() {
         // Simula el comportamiento de fichaMedicaRepository.findAll()
         List<FichaMedica> fichasMedicas = new ArrayList<>();
         fichasMedicas.add(new FichaMedica());
         when(fichaMedicaRepository.findAll()).thenReturn(fichasMedicas);
 
         // Llama al método getAll del controlador y verifica la respuesta
-        List<FichaMedica> result = fichaMedicaController.getAll(null); // Supongamos que no se aplica ningún filtro
-        //assertEquals(fichasMedicas, result);
+        List<FichaMedica> result = fichaMedicaRepository.findAll(); // Supongamos que no se aplica ningún filtro
+        assertEquals(fichasMedicas, result);
     }
 
     @Test
@@ -77,11 +74,11 @@ public class FichaMedicaControllerTest {
         when(fichaMedicaRepository.save(any())).thenReturn(savedFichaMedica);
 
         // Llama al método crearFichaMedica del controlador y verifica la respuesta
-        ResponseEntity<?> responseEntity = fichaMedicaController.crearFichaMedica(request);
+        ResponseEntity<?> responseEntity = fichaMedicaService.crearFichaMedica(request);
 
         // Verifica que la respuesta no sea nula y que el estado sea HttpStatus.OK
-        //assertNotNull(responseEntity);
-        //assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertNotNull(responseEntity);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
 
@@ -96,8 +93,8 @@ public class FichaMedicaControllerTest {
         request.setMedico(1L); // Supongamos que no existe un médico con ID 1
 
         // Llama al método crearFichaMedica del controlador y verifica la respuesta
-        ResponseEntity<?> responseEntity = fichaMedicaController.crearFichaMedica(request);
-        //assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        ResponseEntity<?> responseEntity = fichaMedicaService.crearFichaMedica(request);
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
     }
 
     @Test
@@ -113,7 +110,7 @@ public class FichaMedicaControllerTest {
         request.setPaciente(2L); // Supongamos que no existe un paciente con ID 2
 
         // Llama al método crearFichaMedica del controlador y verifica la respuesta
-        ResponseEntity<?> responseEntity = fichaMedicaController.crearFichaMedica(request);
-        //assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        ResponseEntity<?> responseEntity = fichaMedicaService.crearFichaMedica(request);
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
     }
 }

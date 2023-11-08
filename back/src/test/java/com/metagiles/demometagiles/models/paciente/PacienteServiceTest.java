@@ -48,10 +48,12 @@ public class PacienteServiceTest {
         MockitoAnnotations.openMocks(this);
         //aca habria que sacar despues el de turnoRepository
         pacienteService = new PacienteService(pacienteRepository,pacienteMapper,turnoRepository); 
-        Paciente pacientePrueba = new Paciente("nombre", "apellido", "1234567", "paciente");
-        pacientePrueba.setObraSocial("ObraSocial123");
+        pacientePrueba = new Paciente("nombre","apellido","1234567","paciente");
+        pacientePrueba.setObraSocial("ObraSocial1");
         listaPacientes =  new ArrayList<>();
         listaPacientes.add(pacientePrueba);
+                System.out.println(pacientePrueba == null);
+
     }
 
     @Test
@@ -69,15 +71,11 @@ public class PacienteServiceTest {
     @DisplayName("Verifica que se pueda crear un paciente con éxito")
     public void testCreatePacienteSuccess() 
     {
-        Paciente pacientePrueba2 = new Paciente("nombre", "apellido", "1234567", "paciente");
-        pacientePrueba2.setObraSocial("ObraSocial123");
-
         // Simula el comportamiento de pacienteRepository.existsBydni()
-        when(pacienteRepository.existsBydni(pacientePrueba2.getDni())).thenReturn(false);
-        when(utils.esDniValido(Mockito.anyString())).thenReturn(true);
+        when(pacienteRepository.existsBydni(pacientePrueba.getDni())).thenReturn(false);
 
         // Llama al método createPaciente del controlador y verifica la respuesta
-        ResponseEntity<?> responseEntity = pacienteService.createPaciente(pacientePrueba2);
+        ResponseEntity<?> responseEntity = pacienteService.createPaciente(pacientePrueba);
 
         // Verifica que la respuesta no sea nula y que el estado sea HttpStatus.OK
         assertNotNull(responseEntity);
@@ -99,6 +97,7 @@ public class PacienteServiceTest {
     @DisplayName("Verifica que no se pueda crear un paciente si el dni no es correcto")
     public void testCreatePacienteWithInvalidDni() {
         // Simula el comportamiento de pacienteRepository.existsBydni()
+        pacientePrueba.setDni("12345");
         when(pacienteRepository.existsBydni(Mockito.anyString())).thenReturn(false);
 
         // Llama al método createPaciente del controlador y verifica la respuesta
