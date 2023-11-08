@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-
+import DatePicker from 'react-datepicker';
 //Pido disculpas por lo que van a leer a continuacion
 const Formulario = ({ fields, url, tema }) => {
     const initialFormData = {};
@@ -82,6 +82,17 @@ const Formulario = ({ fields, url, tema }) => {
             [name]: value
         });
     };
+
+    const handleChangeFecha = (fecha) => {
+        console.log('handleChangeFecha')
+        console.log(fecha)
+        const obj = { name: "fecha", value: fecha}
+        console.log(obj)
+        setFormData({
+            ...formData,
+            [name]: value
+        });
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -208,7 +219,7 @@ const Formulario = ({ fields, url, tema }) => {
                   <label htmlFor={element} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     {capFirst(element)}:
                   </label>
-                  <input
+                  {/* <input
                     type="text"
                     id={element}
                     name={element}
@@ -217,7 +228,8 @@ const Formulario = ({ fields, url, tema }) => {
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder={`${capFirst(element)} del ${tema}`}
                     required
-                  />
+                  /> */}
+                  <DatePicker dateFormat='yyyy/MM/dd' selected={formData[element] ? new Date(formData[element]) : null} onChange={handleChangeFecha} placeholder={`${capFirst(element)} del ${tema}`}/>
                 </div>
               );
         }

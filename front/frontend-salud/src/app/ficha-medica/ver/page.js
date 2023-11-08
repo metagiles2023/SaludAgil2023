@@ -8,15 +8,13 @@ import { Redireccionador } from '@/components/Redireccionador/Redireccionador'
 
 export default function Home() {
     return (
-    <main className="flex flex-col">
-        <div>
-        <NavBar />
-        </div>
-        <div> 
-            <FichasMedicasFiltradas/>
-        </main>
-        <Footer />
-      </div>
-     <Redireccionador mensaje="Crear Ficha Medica" ruta="/ficha-medica/crear"/>
+        <div className="flex flex-col min-h-screen">
+            <Header />
+            <main className="flex1 flex flex-col text-black">
+                <FichasMedicasFiltradas/>
+            </main>
+            <Redireccionador mensaje="Crear Ficha Medica" ruta="/ficha-medica/crear"/>
+            <Footer />
+        </div> 
     );
 }
