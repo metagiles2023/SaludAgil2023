@@ -21,7 +21,10 @@ public class MedicoController {
 
     @GetMapping("/medico")
     List<Medico> getAll() {
-        return repository.findAll();
+        System.out.println("Recuperando medicos");
+        List<Medico> medicos = repository.findAll();
+        System.out.println("Recupero " + medicos.size() + " medicos");
+        return medicos;
     }
 
     /*

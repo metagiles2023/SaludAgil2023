@@ -2,6 +2,8 @@ import React from 'react';
 import './fichaMedica.css'; 
 
 
+
+
 const ListaFichasMedicas = ({ fichasMedicas }) => {
   return (
     <div className='fichaMedicaTable' style={{"backgroundColor": "white"}}>

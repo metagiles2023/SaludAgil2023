@@ -1,6 +1,5 @@
 import React from 'react';
 import Formulario from '../Formulario/Formulario';
-//import FormularioAdministrador from '../Administrador/FormularioAdministrador';
 
 const FormularioMultiple = ({ formulario }) => {
     let fields = []
@@ -37,6 +36,17 @@ const FormularioMultiple = ({ formulario }) => {
                 fields = ['nombre', 'descripcion']
                 url = "/api/medico/especialidad/create"
                 tema = "especialidad"
+                return (
+                    <Formulario
+                    fields={fields}
+                    url={url}
+                    tema={tema}
+                    />
+                )
+            case "ficha-medica":
+                fields = ['medico', 'paciente', 'fecha', 'diagnostico', 'es grave', 'uso emergencia'],
+                url = "/api/ficha-medica/create"
+                tema = "ficha medica"
                 return (
                     <Formulario
                     fields={fields}
