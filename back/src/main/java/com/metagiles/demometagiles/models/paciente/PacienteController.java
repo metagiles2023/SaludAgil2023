@@ -197,7 +197,7 @@ public class PacienteController {
 
     }
 
-    @Scheduled(cron = "0 2 18 * * ?") //Chequea una vez al dia a las 7 horas y manda todos los recordatorios de los turnos ocupados de ese dia
+    @Scheduled(cron = "0 0 7 * * ?") //Chequea una vez al dia a las 7 horas y manda todos los recordatorios de los turnos ocupados de ese dia
     public void recordatorioDiario(){
 
         List<Turno> turnos = this.tRepository.getTurnosOcupadosHoy();
