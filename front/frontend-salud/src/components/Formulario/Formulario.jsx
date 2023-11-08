@@ -1,3 +1,5 @@
+"use client"
+import { skeleton } from '@nextui-org/react';
 import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 //Pido disculpas por lo que van a leer a continuacion
@@ -9,7 +11,7 @@ const Formulario = ({ fields, url, tema }) => {
 
     const [formData, setFormData] = useState(initialFormData);
     const [textoBackend, setTextoBackend] = useState('');
-
+    const [selectedDate, setSelectedDate] = useState(null);
     // Tema medico y especialidades
     const [especialidades, setEspecialidades] = useState([]);
     const [medicos, setMedicos] = useState([]);
@@ -82,17 +84,18 @@ const Formulario = ({ fields, url, tema }) => {
             [name]: value
         });
     };
-
-    const handleChangeFecha = (fecha) => {
-        console.log('handleChangeFecha')
-        console.log(fecha)
-        const obj = { name: "fecha", value: fecha}
-        console.log(obj)
+    const handleChangeDate = (date) => {
+        setSelectedDate(date);
+    };
+    useEffect(()=>{
+        const obj = { name: "fecha", value: (selectedDate !== null) ? selectedDate : "x"}
+        
         setFormData({
             ...formData,
-            [name]: value
+            [obj.name]: obj.value
         });
-    }
+    }, [selectedDate])
+    
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -229,7 +232,7 @@ const Formulario = ({ fields, url, tema }) => {
                     placeholder={`${capFirst(element)} del ${tema}`}
                     required
                   /> */}
-                  <DatePicker dateFormat='yyyy/MM/dd' selected={formData[element] ? new Date(formData[element]) : null} onChange={handleChangeFecha} placeholder={`${capFirst(element)} del ${tema}`}/>
+                  <DatePicker dateFormat='yyyy/MM/dd' selected={selectedDate} onChange={handleChangeDate}/>
                 </div>
               );
         }
