@@ -3,7 +3,7 @@
 export async function POST(request) { 
     console.log('Post al backend /ficha-medica/getAl')
     const resultBody = await request.json()
-    const res = await fetch(process.env.URL_BACKEND + '/ficha-medica/getAll', {
+    const res = await fetch(process.env.URL_BACKEND + '/ficha-medica', {
         method: 'POST',
         cache: "no-store",
         body: JSON.stringify(resultBody),
