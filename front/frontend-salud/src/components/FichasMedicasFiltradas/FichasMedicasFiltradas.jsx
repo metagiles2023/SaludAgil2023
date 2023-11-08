@@ -198,53 +198,68 @@ const FichasMedicasFiltradas = () => {
     }
     return(
         <div>
-            <div className = 'checkbox-container mt-5 ml-10 text-xl'> 
-                <h2 className='font-bold text-2xl'> Gravedad </h2>
-                <div className='input-checkbox'>
-                    <input onChange={handleOnCheckbox} type='checkbox' name='Gravedad' value= 'true' id='Gravedad' />
-                    <label htmlFor='si'> Grave </label>
+            <div className="flex flex-row space-x-4">
+                <div className="w-1/2">
+                    <h2 className='font-bold text-2xl'> Gravedad </h2>
+                    <div className='input-checkbox'>
+                        <input onChange={handleOnCheckbox} type='checkbox' name='Gravedad' value='true' id='Gravedad' />
+                        <label htmlFor='si'> Grave </label>
+                    </div>
+                    <div className='input-checkbox'>
+                        <input onChange={handleOnCheckbox} type='checkbox' name='Gravedad' value='false' id='Leve' />
+                        <label htmlFor='no'> Leve </label>
+                    </div>
                 </div>
-                <div className='input-checkbox'>
-                    <input onChange={handleOnCheckbox} type='checkbox' name='Gravedad' value='false' id='Leve' />
-                    <label htmlFor='no'> Leve </label>
-                </div> 
-                <h2 className='font-bold text-2xl'> Servicio de Emergencia</h2>
-                <div className='input-checkbox'>
-                    <input onChange={handleOnCheckbox} type='checkbox' name='Emergencia' value= 'true' id='Servicio de emergencia' />
-                    <label htmlFor='si'> Si </label>
-                </div>
-                <div className='input-checkbox'>
-                    <input onChange={handleOnCheckbox} type='checkbox' name='Emergencia' value='false' id='Servicio de emergencia' />
-                    <label htmlFor='no'> No </label>
-                </div>
-                <h2 className='font-bold text-2xl'> Fecha Desde</h2>
-                <DatePicker dateFormat='yyyy/MM/dd' selected={startDate} onChange={(date) => dateForHandle(date)} />
-                <h2 className='font-bold text-2xl'> Fecha Hasta</h2>
-                <DatePicker dateFormat='yyyy/MM/dd' selected={toDate} onChange={(date) => dateToHandle(date)} />
-                <div>
-                    <button  style={{
-                        backgroundColor: '#008080', // Color de fondo
-                        color: 'white',             // Color del texto
-                        padding: '10px 20px',       // Relleno (padding)
-                        border: 'none',            // Borde
-                        borderRadius: '5px',        // Radio de borde
-                        cursor: 'pointer',         // Cursor de puntero
-                        fontSize: '16px',           // Tamaño de fuente
-                        transition: 'backgroundColor 0.3s' }} id="miBoton" className="boton-personalizado" onClick={reiniciar}>Reiniciar Fecha</button>
-                </div>
-                <div>
-                    <Selector onSelectOption={handleFiltrarMedico} usuarios={"medico"} />
-                </div>
-                <div>
-                    <Selector onSelectOption={handleFiltrarPaciente} usuarios={"paciente"} />
+                <div className="w-1/2">
+                    <h2 className='font-bold text-2xl'> Servicio de Emergencia</h2>
+                    <div className='input-checkbox'>
+                        <input onChange={handleOnCheckbox} type='checkbox' name='Emergencia' value='true' id='Servicio de emergencia' />
+                        <label htmlFor='si'> Si </label>
+                    </div>
+                    <div className='input-checkbox'>
+                        <input onChange={handleOnCheckbox} type='checkbox' name='Emergencia' value='false' id='Servicio de emergencia' />
+                        <label htmlFor='no'> No </label>
+                    </div>
                 </div>
             </div>
-            <div >
-                <ListaFichasMedicas fichasMedicas= {fichasMedicas} />
-            </div>
+                <div className="flex flex-row space-x-4">
+                    <div className="w-1/2">
+                        <h2 className='font-bold text-2xl'> Fecha Desde</h2>
+                        <DatePicker dateFormat='yyyy/MM/dd' selected={startDate} onChange={(date) => dateForHandle(date)} />
+                    </div>
+                    <div className="w-1/2">
+                        <h2 className='font-bold text-2xl'> Fecha Hasta</h2>
+                        <DatePicker dateFormat='yyyy/MM/dd' selected={toDate} onChange={(date) => dateToHandle(date)} />
+                    </div>
+                </div>
+                    <div className="flex flex-row space-x-4">
+                        <div className="w-1/2">
+                            <button style={{
+                                backgroundColor: '#008080',
+                                color: 'white',
+                                padding: '10px 20px',
+                                border: 'none',
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                                fontSize: '16px',
+                                transition: 'backgroundColor 0.3s'
+                            }} id="miBoton" className="boton-personalizado" onClick={reiniciar}>Reiniciar Fecha</button>
+                        </div>
+                        <div className="w-1/2">
+                            <Selector onSelectOption={handleFiltrarMedico} usuarios={"medico"} />
+                        </div>
+                    </div>
+                    <div className="flex flex-row space-x-4">
+                        <div className="w-1/2">
+                            <Selector onSelectOption={handleFiltrarPaciente} usuarios={"paciente"} />
+                        </div>
+                    </div>
+                    <div >
+                        <ListaFichasMedicas fichasMedicas= {fichasMedicas} />
+                    </div>
         </div>
-    );
-
-}
+    );}
 
 export default FichasMedicasFiltradas;
+
+
