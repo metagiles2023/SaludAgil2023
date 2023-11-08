@@ -10,6 +10,7 @@ import { Redireccionador } from '@/components/Redireccionador/Redireccionador';
 export default function Home() {
     const [datos, setDatos] = useState([]);
     const [selectedUserType, setSelectedUserType] = useState('usuario');
+    
     useEffect(() => {
     // Make an HTTP GET request to your backend API
     fetch(`/api/${selectedUserType}`, {

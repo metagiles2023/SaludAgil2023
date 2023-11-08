@@ -17,6 +17,9 @@ const FichasMedicasFiltradas = () => {
     const [fichasMedicas, setFichasMedicas] = useState([]); 
     const [startDate, setStartDate] = useState(new Date()); 
     const [toDate, setToDate] = useState(new Date());
+    const [ultiPaciente, setUltiPaciente] = useState(null);
+    const [ultiMedico, setUltiMedico] = useState(null);
+
 
     useEffect(() => {
         // Make an HTTP GET request to your backend API
@@ -37,6 +40,18 @@ const FichasMedicasFiltradas = () => {
             });
     }, [filtroSeleccionado]); //cuando cambia el body,
 
+    const reiniciar = () => {
+        if ("fechaDesde" in filtroSeleccionado){
+            delete filtroSeleccionado.fechaDesde;
+        }
+        if ("fechaHasta" in filtroSeleccionado){
+            delete filtroSeleccionado.fechaHasta;
+        }
+        const nuevoFiltro = {};
+        setFiltroSeleccionado(
+            {...filtroSeleccionado, ...nuevoFiltro}
+        )
+    }
 
     const dateForHandle = (fecha) => {
         setStartDate(fecha);
@@ -46,13 +61,44 @@ const FichasMedicasFiltradas = () => {
         )
     }
 
-
     const dateToHandle = (fecha) => {
         setToDate(fecha);
         const nuevoFiltro = {"fechaHasta": fecha};
         setFiltroSeleccionado(
             {...filtroSeleccionado, ...nuevoFiltro}
         )
+    }
+
+    const handleFiltrarMedico = (optionSelected) => {
+        if (ultiMedico && ultiMedico.idUsuario === optionSelected.idUsuario){
+            if ("medico" in filtroSeleccionado){
+                delete filtroSeleccionado.medico;
+                const nuevoFiltro = {}
+                setFiltroSeleccionado(
+                    {...filtroSeleccionado, ...nuevoFiltro}
+                )}
+        }else {
+            const nuevoFiltro = {"medico": optionSelected.idUsuario};
+            setFiltroSeleccionado(
+                {...filtroSeleccionado, ...nuevoFiltro}
+            )}
+        setUltiMedico(optionSelected);
+    }
+    
+    const handleFiltrarPaciente = (optionSelected) => {
+        if (ultiPaciente && ultiPaciente.idUsuario === optionSelected.idUsuario){
+            if ("paciente" in filtroSeleccionado){
+                delete filtroSeleccionado.paciente;
+                const nuevoFiltro = {}
+                setFiltroSeleccionado(
+                    {...filtroSeleccionado, ...nuevoFiltro}
+                )}
+        }else {
+            const nuevoFiltro = {"paciente": optionSelected.idUsuario};
+            setFiltroSeleccionado(
+                {...filtroSeleccionado, ...nuevoFiltro}
+            )}
+        setUltiPaciente(optionSelected);
     }
 
     const handleOnCheckbox = e => {
@@ -175,9 +221,26 @@ const FichasMedicasFiltradas = () => {
                 <DatePicker dateFormat='yyyy/MM/dd' selected={startDate} onChange={(date) => dateForHandle(date)} />
                 <h2 className='font-bold text-2xl'> Fecha Hasta</h2>
                 <DatePicker dateFormat='yyyy/MM/dd' selected={toDate} onChange={(date) => dateToHandle(date)} />
+                <div>
+                    <button  style={{
+                        backgroundColor: '#008080', // Color de fondo
+                        color: 'white',             // Color del texto
+                        padding: '10px 20px',       // Relleno (padding)
+                        border: 'none',            // Borde
+                        borderRadius: '5px',        // Radio de borde
+                        cursor: 'pointer',         // Cursor de puntero
+                        fontSize: '16px',           // Tamaño de fuente
+                        transition: 'backgroundColor 0.3s' }} id="miBoton" className="boton-personalizado" onClick={reiniciar}>Reiniciar Fecha</button>
+                </div>
+                <div>
+                    <Selector onSelectOption={handleFiltrarMedico} usuarios={"medico"} />
+                </div>
+                <div>
+                    <Selector onSelectOption={handleFiltrarPaciente} usuarios={"paciente"} />
+                </div>
             </div>
             <div >
-            <ListaFichasMedicas fichasMedicas= {fichasMedicas} />
+                <ListaFichasMedicas fichasMedicas= {fichasMedicas} />
             </div>
         </div>
     );

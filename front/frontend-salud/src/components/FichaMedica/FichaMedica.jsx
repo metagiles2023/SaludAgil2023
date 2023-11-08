@@ -2,10 +2,9 @@ import React from 'react';
 import './fichaMedica.css'; 
 
 
-
 const ListaFichasMedicas = ({ fichasMedicas }) => {
   return (
-    <div className='fichaMedicaTable' style={{"background-color": "white"}}>
+    <div className='fichaMedicaTable' style={{"backgroundColor": "white"}}>
       <table>
         <thead>
           <tr>

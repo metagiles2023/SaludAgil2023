@@ -11,13 +11,13 @@ export default function Home() {
       <main className='flex-1 flex justify-center items-center'>
         <div>
           <p className='m-2'>Grafico de lineas</p>
-          <div className='bg-light mx-auto px-2 border border-2 border-primary' style={{width:"450px", height:"230px", "background-color": "white"}}>
+          <div className='bg-light mx-auto px-2 border border-2 border-primary' style={{width:"450px", height:"230px", "backgroundColor": "white"}}>
             <GraficoBarras />
           </div>
-          <div className='bg-light mx-auto px-2 border border-2 border-primary' style={{width:"450px", height:"230px", "background-color": "white"}}>
+          <div className='bg-light mx-auto px-2 border border-2 border-primary' style={{width:"450px", height:"230px", "backgroundColor": "white"}}>
             <GraficoLineas />
           </div>
-          <div className='bg-light mx-auto px-2 border border-2 border-primary' style={{width:"450px", height:"230px", "background-color": "white"}}>
+          <div className='bg-light mx-auto px-2 border border-2 border-primary' style={{width:"450px", height:"230px", "backgroundColor": "white"}}>
             <GraficoTorta />
           </div>
         </div>
