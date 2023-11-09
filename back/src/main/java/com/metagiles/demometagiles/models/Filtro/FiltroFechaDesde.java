@@ -1,5 +1,5 @@
 package com.metagiles.demometagiles.models.Filtro;
-import java.util.Date;
+import java.sql.Date;
 
 import com.metagiles.demometagiles.models.fichamedica.FichaMedica;
 

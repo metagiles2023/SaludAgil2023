@@ -12,8 +12,6 @@ public class FiltroPaciente implements Filtro {
     public boolean cumple(FichaMedica fichaMedica){
         Long pacienteDeFicha = fichaMedica.getPaciente();
         return pacienteDeFicha.equals(this.paciente);
-    }
-
-    
+    }   
 
 }
