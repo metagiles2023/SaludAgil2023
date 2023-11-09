@@ -6,6 +6,8 @@
 - Instalar next
 ```
 npm install next
+npm install react-chartjs-2
+npm install react-datepicker
 ```
 
 - usa Tailwind, ESLint

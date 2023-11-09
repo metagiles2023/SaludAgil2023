@@ -7,7 +7,7 @@ const FormularioMultiple = ({ formulario }) => {
     let tema = ''
     switch(formulario) {
         case "medico":
-            fields = ['nombre', 'apellido', 'dni', 'especialidad']
+            fields = ['nombre', 'apellido', 'dni', 'email', 'especialidad']
             url = "/api/medico/create"
             tema = "medico"
             return (

@@ -55,21 +55,41 @@ export default function turnosdisponibles() {
   const handlePOST = (idTurno,idUsuario,email,telefono) =>{
     const body = {"id": idTurno,"idUsuario": idUsuario,"email": email,"telefono":telefono};
 
-    fetch("/api/turnosdisponibles/reservar",{
+    // fetch("/api/turnosdisponibles/reservar",{
+    //     method: "POST",
+    //     body: JSON.stringify(body)
+    // })
+    // .then(async (res) => {
+    //     const data = await res.json();
+    //     if(data == null){
+    //       setTypeSnack("error");
+    //       setTextSnack("No se pudo reservar el turno!");
+    //       setTypeSnack("error");
+    //       console.log("ERROR al reservar turno");
+    //     }
+    //     setLoadingSnack(false);
+        
+    // })
+    fetch("/api/turnosdisponibles/reservar", {
         method: "POST",
         body: JSON.stringify(body)
     })
-    .then(async (res) => {
-        const data = await res.json();
-        if(data == null){
-          setTypeSnack("error");
-          setTextSnack("No se pudo reservar el turno!");
-          setTypeSnack("error");
-          console.log("ERROR al reservar turno");
-        }
-        setLoadingSnack(false);
-        
-    })
+        .then(async (response) => {
+            console.log('ha llegado la respuesta de la api del front');
+            console.log(response);
+            const data = await response.json();
+            if (response.status >= 400) {
+                setTypeSnack("error");
+                setTextSnack("No se pudo reservar el turno!");
+                setTypeSnack("error");
+                console.log("ERROR al reservar turno: " + data.error);
+            } else {
+                setLoadingSnack(false);
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
 };
 
 

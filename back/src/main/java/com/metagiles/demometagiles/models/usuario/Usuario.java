@@ -40,7 +40,7 @@ public abstract class Usuario {
     @Column(name = "rol", nullable = false)
     private String rol;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = true)
     private String email;
 
     //Necesario

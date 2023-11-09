@@ -51,6 +51,8 @@ public class PacienteService {
             paciente.setDni(request.getDni());
             paciente.setRol("paciente");
             paciente.setObraSocial(request.getObraSocial()); //Falta que obra social sea una lista en vez de un String
+            paciente.setEmail(request.getEmail());
+            System.out.println(paciente.getEmail());
             System.out.println("creando un paciente, veo que su obra social es " + request.getObraSocial());
             // Save Paciente to the repository
             Paciente savedPaciente = pacienteRepository.save(paciente);
@@ -87,9 +89,13 @@ public class PacienteService {
             Paciente paciente = this.pacienteRepository.getReferenceById(Long.valueOf(request.get("idUsuario")));
             turno.setPaciente(paciente);
             this.turnoRepository.save(turno);
-            return ResponseEntity.ok("succesful:");
+            System.out.println("EXITO al crear turno");
+            String emailReceiver = request.get("email");
+            String body = "Se ha confirmado el turno para la siguiente fecha: " + turno.getDate().toString() + " con el medico: " + turno.getMedico().getApellido() + " " + turno.getMedico().getNombre();
+            SendEmail email = new SendEmail(emailReceiver,"Confirmacion de turno",body);
+            return ResponseEntity.ok(Utils.jsonificar("successful", "no message"));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("err");
+            return Utils.genResponseError("Error al reservar turno: " + e.getMessage());
         }
 
     }

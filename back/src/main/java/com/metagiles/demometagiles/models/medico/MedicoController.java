@@ -71,8 +71,8 @@ public class MedicoController {
 
             medico.setDni(request.getDni());
             medico.setRol("medico");
-            medico.setEspecialidad(request.getEspecialidad());
-
+            medico.setEspecialidad(request.getEspecialidad().toLowerCase());
+            medico.setEmail(request.getEmail());
             // Save Medico to the repository
             Medico savedMedico = medicoRepository.save(medico);
             return ResponseEntity.ok(Utils.jsonificar("id", savedMedico.getIdUsuario()));
