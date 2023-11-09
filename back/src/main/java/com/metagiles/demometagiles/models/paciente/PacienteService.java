@@ -95,6 +95,8 @@ public class PacienteService {
             SendEmail email = new SendEmail(emailReceiver,"Confirmacion de turno",body);
             return ResponseEntity.ok(Utils.jsonificar("successful", "no message"));
         } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error al reservar turno: " + e.getMessage());
             return Utils.genResponseError("Error al reservar turno: " + e.getMessage());
         }
 
