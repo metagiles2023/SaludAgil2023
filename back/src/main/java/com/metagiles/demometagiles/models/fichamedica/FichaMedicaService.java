@@ -90,7 +90,6 @@ public class FichaMedicaService {
     }
 
     public ResponseEntity<?> crearFichaMedica(FichaMedica fichaMedicaRequest) {
-        System.out.println(fichaMedicaRequest);
         try {
             if (!medicoRepository.existsById(fichaMedicaRequest.getMedico())) {
                 return Utils.genResponseError("Medico no existe.");
