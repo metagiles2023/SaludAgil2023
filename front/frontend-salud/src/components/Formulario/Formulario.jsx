@@ -78,7 +78,13 @@ const Formulario = ({ fields, url, tema }) => {
     }, [fields, tema, url]);
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        console.log(e.target)
+        let { name, value } = e.target;
+        if (e.target.type == "checkbox") {
+            console.log('es checkbox')
+            value = e.target.checked
+            console.log(value)
+        }
         setFormData({
             ...formData,
             [name]: value
