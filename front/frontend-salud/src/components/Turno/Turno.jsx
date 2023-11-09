@@ -1,6 +1,13 @@
 import TurnoCard from "./TurnoCard";
 
 const ListaTurno = ({ turnos }) => {
+
+    if (!Array.isArray(turnos) || turnos.length === 0) {
+        return (
+            <p className="text-2xl font-bold text-black">No hay turnos reservados</p>
+        );
+    }
+
     return (
         <div className="flex overflow-x-auto gap-10">
             {turnos.map((raw, index) => {

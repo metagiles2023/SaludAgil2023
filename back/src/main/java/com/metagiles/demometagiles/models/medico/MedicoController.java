@@ -6,13 +6,7 @@ import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.metagiles.demometagiles.models.paciente.Paciente;
+import org.springframework.web.bind.annotation.*;
 import com.metagiles.demometagiles.utils.Utils;
 
 
@@ -85,6 +79,21 @@ public class MedicoController {
         } catch(Exception e) {
             return Utils.genResponseError("Error creating Medico: " + e.getMessage());
         }
+    }
+
+    @GetMapping("/medico/getByEspecialidad")
+    public List<Medico> getMedicosByEspecialidad(@RequestParam(name = "especialidad") String especialidad){
+        System.out.println("Especialidad: " + especialidad);
+        List<Medico> medicos = repository.getByEspecialidad(especialidad);
+        System.out.println("medicos: " + medicos.toString());
+        return medicos;
+    };
+
+
+    private ResponseEntity<HashMap<String, String>> genResponseError(String texto) {
+        System.out.println(HttpStatus.BAD_REQUEST + texto);
+        HashMap<String, String> json = Utils.jsonificar("error", texto);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(json);
     }
 }
 //

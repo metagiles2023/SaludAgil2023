@@ -40,6 +40,9 @@ public abstract class Usuario {
     @Column(name = "rol", nullable = false)
     private String rol;
 
+    @Column(name = "email", nullable = false)
+    private String email;
+
     //Necesario
     public Usuario() {
 
@@ -87,6 +90,14 @@ public abstract class Usuario {
 
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override

@@ -1,9 +1,13 @@
 package com.metagiles.demometagiles.models.paciente;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import com.metagiles.demometagiles.utils.SendEmail;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.metagiles.demometagiles.models.entity.Turno;
 
+@Component
+@EnableScheduling
 @RestController
 public class PacienteController {
     private final PacienteService pacienteService;
@@ -78,5 +84,7 @@ public class PacienteController {
     public void darInfoTurno (@PathVariable String pid, @PathVariable String mail, @PathVariable String nrotelefono) throws Exception {
         pacienteService.darInfoTurno(pid, mail, nrotelefono);
     }
+
+    
 }
 //

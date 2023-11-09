@@ -1,24 +1,26 @@
-const TurnoCard = (props) => {
-    const aux = props.horario.split("T")[1].split(":");
-    const hora = aux[0] +  ":"  +aux[1];
+import { useState } from "react";
+import "./TurnoCardReservar.css"
+import Popup from '@/components/Turno/Popup';
 
-    const handle = (idTurno,idUsuario) =>{
-        const body = {"id": idTurno,"idUsuario": idUsuario}
-        console.log("reservando turno..." + "idTurno: " + idTurno);
-        fetch("/api/turnosdisponibles/reservar",{
-            method: "POST",
-            body: JSON.stringify(body)
-        })
-    };
+const TurnoCard = (props) => {
+    const aux = props.horario;
+    //const aux = props.horario.split("T")[1].split(":");
+    const minutosFormateados = (aux.getMinutes() === 0) ? "00" : aux.getMinutes();
+
+    const hora = aux.getHours() +  ":"  + minutosFormateados;
+    
+    
+    const handleClick = () => {
+        
+        props.onClick({ idTurno: props.id, idUsuario: 2 });
+      };
 
     return (
-        <div className="m-10 ">
-            <div className="bg-blue-500 p-5">
-                <p>Hora: {hora}</p>
-                <p>Id Turno: {props.id}</p>
-            </div>
-            
-            <button onClick={() => {handle(props.id,2)}}>Reservar</button>
+        <div className="m-3 my-button my-button:hover my-button:active" > 
+            <button onClick={handleClick}>
+                {hora}
+            </button>
+
         </div>
     );
 };
