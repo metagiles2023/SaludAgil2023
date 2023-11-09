@@ -1,4 +1,5 @@
 "use client"
+import React from 'react'
 import Header from '@/components/Estructura/Header'
 import Footer from '@/components/Estructura/Footer'
 import TurnoCard from '@/components/Turno/TurnoCardReservar';
