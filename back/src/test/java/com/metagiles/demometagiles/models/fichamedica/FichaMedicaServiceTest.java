@@ -33,8 +33,6 @@ public class FichaMedicaServiceTest {
     @Mock
     private PacienteRepository pacienteRepository;
 
-    /* Esta linea y los comentarios de todos los asserts fueron puestos para que no fallen los tests
-    / luego de modificar algunas cosas del backend. Ver domingo. @Mauro. */
     @Mock
     private FichaMedicaService fichaMedicaService;
 
