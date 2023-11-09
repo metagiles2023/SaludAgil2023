@@ -42,6 +42,10 @@ public class PacienteController {
         return pacienteService.createPaciente(request);
     }
 
+    @GetMapping("/paciente/getById")
+    public ResponseEntity<?> getById(@RequestParam("id") Long idUsuario) {
+        return pacienteService.getById(idUsuario);
+    }
     
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
     //Cosas de Turnos que quizas puedan ir en un TurnoController pero que por ahora dejamos aca

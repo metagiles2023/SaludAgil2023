@@ -44,7 +44,7 @@ const FormularioMultiple = ({ formulario }) => {
                     />
                 )
             case "ficha-medica":
-                fields = ['medico', 'paciente', 'fecha', 'diagnostico', 'es grave', 'uso emergencia'],
+                fields = ['medico', 'paciente', 'fecha', 'diagnostico', 'esGrave', 'usoEmergencia'],
                 url = "/api/ficha-medica/create"
                 tema = "ficha medica"
                 return (

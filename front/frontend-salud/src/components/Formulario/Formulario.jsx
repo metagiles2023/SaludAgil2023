@@ -101,8 +101,6 @@ const Formulario = ({ fields, url, tema }) => {
         e.preventDefault();
         console.log('llamando api ' + url);
         console.log(formData)
-        if (formData.fecha)
-            console.log('fecha existe')
         fetch(url, {
             method: 'POST',
             headers: {
@@ -201,7 +199,7 @@ const Formulario = ({ fields, url, tema }) => {
                     </select>
                 </div>
             );
-        } else if (tema === "ficha medica" && (element === "es grave" || element === "uso emergencia")) {
+        } else if (tema === "ficha medica" && (element === "esGrave" || element === "usoEmergencia")) {
             return (
                 <div key={i} className='mb-2'>
                   <label htmlFor={element} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">

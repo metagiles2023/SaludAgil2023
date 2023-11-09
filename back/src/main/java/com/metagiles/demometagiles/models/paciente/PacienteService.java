@@ -58,6 +58,21 @@ public class PacienteService {
         }
     }
 
+    public ResponseEntity<?> getById(Long idUsuario) {
+        Paciente paciente = null;
+        try {
+            Optional<Paciente> pacienteOpt = pacienteRepository.findById(idUsuario);
+            if (pacienteOpt.isPresent()) {
+                paciente = pacienteOpt.get();
+                return ResponseEntity.ok(paciente);
+            } else {
+                return Utils.genResponseError("No se encontro dicho paciente.");
+            }
+        } catch (Exception e) {
+            return Utils.genResponseError("Error buscando paciente: " + e.getMessage());
+        }
+    }
+
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
     //Cosas de Turnos que quizas puedan ir en un TurnoService pero que por ahora dejamos aca
 

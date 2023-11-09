@@ -15,11 +15,43 @@ const FichasMedicasFiltradas = () => {
     const [filtroSeleccionado, setFiltroSeleccionado] = useState({})
 
     const [fichasMedicas, setFichasMedicas] = useState([]); 
+    const [pacientes, setPacientes] = useState([])
+    const [medicos, setMedicos] = useState([])
+
     const [startDate, setStartDate] = useState(new Date()); 
     const [toDate, setToDate] = useState(new Date());
     const [ultiPaciente, setUltiPaciente] = useState(null);
     const [ultiMedico, setUltiMedico] = useState(null);
 
+    useEffect(() => {
+        // Make an HTTP GET request to your backend API
+        fetch("/api/medico", {
+                method: 'GET',
+                signal: signal, // Provide the signal option
+            })
+            .then(async (response) => {
+                const respuesta = await response.json()
+                setMedicos(respuesta);
+            })
+            .catch((error) => {
+            console.error('Error fetching data:', error);
+            });
+    }, []); // Al inicio
+
+    useEffect(() => {
+        // Make an HTTP GET request to your backend API
+        fetch("/api/paciente", {
+                method: 'GET',
+                signal: signal, // Provide the signal option
+            })
+            .then(async (response) => {
+                const respuesta = await response.json()
+                setPacientes(respuesta);
+            })
+            .catch((error) => {
+            console.error('Error fetching data:', error);
+            });
+    }, []); // Al inicio
 
     useEffect(() => {
         // Make an HTTP GET request to your backend API
@@ -255,7 +287,7 @@ const FichasMedicasFiltradas = () => {
                         </div>
                     </div>
                     <div >
-                        <ListaFichasMedicas fichasMedicas= {fichasMedicas} />
+                        <ListaFichasMedicas fichasMedicas={fichasMedicas} pacientes={pacientes} medicos={medicos}/>
                     </div>
         </div>
     );}
