@@ -8,12 +8,14 @@ import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.metagiles.demometagiles.models.entity.Turno;
 import com.metagiles.demometagiles.models.repository.TurnoRepository;
+import com.metagiles.demometagiles.utils.SendEmail;
 import com.metagiles.demometagiles.utils.Utils;
 import lombok.RequiredArgsConstructor;
 
@@ -166,6 +168,22 @@ public class PacienteService {
                 throw new Exception("El número debe tener 10 dígitos");
         } catch (NumberFormatException e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    @Scheduled(cron = "0 0 7 * * ?") //Chequea una vez al dia a las 7 horas y manda todos los recordatorios de los turnos ocupados de ese dia
+    public void recordatorioDiario(){
+
+        List<Turno> turnos = this.turnoRepository.getTurnosOcupadosHoy();
+        for(Turno t : turnos)
+        {
+            String emailPaciente = t.getPaciente().getEmail();
+            String nombreMedico = t.getMedico().getNombre();
+            String apellidoMedico = t.getMedico().getApellido();
+            String horaTurno = t.getDate().toString();
+            String body = "Buenos dias! \n \n Te recordamos que hoy tenes el siguiente turno: "+horaTurno+" con el medico: "+apellidoMedico+", "+nombreMedico;
+            SendEmail email = new SendEmail(emailPaciente,"Recordatorio de turno",body);
+
         }
     }
 }

@@ -84,16 +84,9 @@ public class MedicoController {
     @GetMapping("/medico/getByEspecialidad")
     public List<Medico> getMedicosByEspecialidad(@RequestParam(name = "especialidad") String especialidad){
         System.out.println("Especialidad: " + especialidad);
-        List<Medico> medicos = repository.getByEspecialidad(especialidad);
+        List<Medico> medicos = medicoRepository.getByEspecialidad(especialidad);
         System.out.println("medicos: " + medicos.toString());
         return medicos;
     };
-
-
-    private ResponseEntity<HashMap<String, String>> genResponseError(String texto) {
-        System.out.println(HttpStatus.BAD_REQUEST + texto);
-        HashMap<String, String> json = Utils.jsonificar("error", texto);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(json);
-    }
 }
 //
