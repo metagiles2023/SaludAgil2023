@@ -10,11 +10,13 @@ public class FiltroEmergencia implements Filtro {
     }
 
     public boolean cumple(FichaMedica fichaMedica) {
-        if (filtraTrue) {
+        /*if (filtraTrue) {
             return fichaMedica.isUsoEmergencia();
         }
         else {
             return !fichaMedica.isUsoEmergencia();
-        }
+        }*/
+
+        return fichaMedica.isUsoEmergencia() == this.filtraTrue;
     }
 }

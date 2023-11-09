@@ -1,6 +1,6 @@
 package com.metagiles.demometagiles.models.Filtro;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class FiltroRequest {
     private Date fechaDesde = null;
