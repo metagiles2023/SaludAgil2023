@@ -2,6 +2,8 @@ package com.metagiles.demometagiles.models.paciente;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.metagiles.demometagiles.models.turno.TurnoRepository;
 import com.metagiles.demometagiles.utils.Utils;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -13,8 +15,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import com.metagiles.demometagiles.models.repository.TurnoRepository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -47,7 +47,7 @@ public class PacienteServiceTest {
     public void setUp() {
         MockitoAnnotations.openMocks(this);
         //aca habria que sacar despues el de turnoRepository
-        pacienteService = new PacienteService(pacienteRepository,pacienteMapper,turnoRepository); 
+        pacienteService = new PacienteService(pacienteRepository,pacienteMapper); 
         pacientePrueba = new Paciente("nombre","apellido","1234567","paciente");
         pacientePrueba.setObraSocial("ObraSocial1");
         listaPacientes =  new ArrayList<>();

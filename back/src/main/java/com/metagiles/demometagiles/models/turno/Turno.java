@@ -1,4 +1,4 @@
-package com.metagiles.demometagiles.models.entity;
+package com.metagiles.demometagiles.models.turno;
 
 import jakarta.persistence.*;
 import com.metagiles.demometagiles.models.medico.Medico;
@@ -22,6 +22,10 @@ public class Turno {
     @Column(name = "fecha", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
+
+    public Turno() {
+        
+    }
 
     public Turno(Long id, Paciente paciente, Medico medico, Date date){
         this.id = id;

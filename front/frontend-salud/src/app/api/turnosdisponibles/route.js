@@ -4,7 +4,7 @@ export async function GET(req) {
     const mes = new URL(req.url).searchParams.get("mes")
     console.log(dia + "/" + mes)
     console.log();
-    const res = await fetch(`http://localhost:8080/turnosByMedico?dia=${dia}&mes=${mes}&id=1`, {
+    const res = await fetch(`http://localhost:8080/turnosByMedicoDisponibles?dia=${dia}&mes=${mes}&id=1`, {
         method: 'GET',
         cache: "no-store",
     });

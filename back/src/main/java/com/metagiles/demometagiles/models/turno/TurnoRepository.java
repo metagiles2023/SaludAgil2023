@@ -1,6 +1,5 @@
-package com.metagiles.demometagiles.models.repository;
+package com.metagiles.demometagiles.models.turno;
 
-import com.metagiles.demometagiles.models.entity.Turno;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -21,7 +20,13 @@ public interface TurnoRepository extends JpaRepository<Turno,Long> {
     @Query("SELECT t FROM Turno t WHERE t.medico.idUsuario = :idMedico AND t.ocupado = false AND DAY(t.date) = :dia AND MONTH(t.date) = :mes")
     public List<Turno>getTurnosDisponiblesMedicoByDiaByMes(Long idMedico, int dia,int mes);
 
+    @Query("SELECT t FROM Turno t WHERE t.medico.idUsuario = :idMedico AND DAY(t.date) = :dia AND MONTH(t.date) = :mes")
+    public List<Turno>getTurnosMedicoByDiaByMes(Long idMedico, int dia,int mes);
+
     @Query("SELECT t FROM Turno t WHERE t.ocupado = true AND DAY(t.date) = DAY(CURRENT_DATE) AND MONTH(t.date) = MONTH(CURRENT_DATE) AND YEAR(t.date) = YEAR(CURRENT_DATE)")
     public List<Turno>getTurnosOcupadosHoy();
+
+    @Query("SELECT t FROM Turno t WHERE t.medico.idUsuario = :idMedico AND DAY(t.date) = :dia AND MONTH(t.date) = :mes")
+    public List<Turno>getTurnosByIdMedico();
     
 }
