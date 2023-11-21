@@ -10,7 +10,8 @@ import Popup from '@/components/Turno/Popup';
 import { Alert, Snackbar,CircularProgress, LinearProgress } from '@mui/material';
 
 
-export default function turnosdisponibles() {
+
+export default function turnosdisponibles({params}) {
     const now = new Date();
     const maxima_fecha = new Date();
     maxima_fecha.setMonth(now.getMonth() + 2)
@@ -22,14 +23,12 @@ export default function turnosdisponibles() {
     const [textSnack, setTextSnack] = useState("Turno reservado con exito!");
     const [loadingSnack, setLoadingSnack] = useState(true);
     const [idTurno,setIdTurno] = useState(0);
-
     const horizontal = 'center';
     const vertical = 'bottom';
-
    const handle = ((dia,mes,user) =>{
         mes += 1;
-
-        fetch(`/api/turnosdisponibles?dia=${dia}&mes=${mes}`,{
+        let idMedico = params.id;
+        fetch(`/api/turnosdisponibles?dia=${dia}&mes=${mes}&idMedico=${params.id}`,{
           method: 'GET',
         })
         .then(async (res) => {
