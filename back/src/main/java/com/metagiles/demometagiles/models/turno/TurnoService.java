@@ -10,9 +10,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import com.metagiles.demometagiles.models.medico.Medico;
 import com.metagiles.demometagiles.models.paciente.Paciente;
 import com.metagiles.demometagiles.models.paciente.PacienteRepository;
+import com.metagiles.demometagiles.models.usuario.UsuarioController;
 import com.metagiles.demometagiles.utils.SendEmail;
 import com.metagiles.demometagiles.utils.Utils;
 import lombok.RequiredArgsConstructor;
@@ -136,6 +140,28 @@ public class TurnoService {
                 throw new Exception("El número debe tener 10 dígitos");
         } catch (NumberFormatException e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    @PostMapping("/agregarTurno")
+    public ResponseEntity<?> agregarTurno(@RequestBody Turno request) {
+        System.out.println("Creando turno");
+        try {
+            Turno turno = new Turno();
+            if (turnoRepository.existsById(request.getId()))
+                return Utils.genResponseError("Error al crear el turno: ya existe en la tabla.");
+        
+            // Setea las propiedades de la request
+            turno.setDate(request.getDate());
+            turno.setMedico(request.getMedico());
+            turno.setOcupado(false);
+            turno.setPaciente(null);
+            
+            // Agregar Turno al repositorio
+            Turno savedTurno = turnoRepository.save(turno);
+            return ResponseEntity.ok(Utils.jsonificar("id", savedTurno.getId()));
+        } catch(Exception e) {
+            return Utils.genResponseError("Error al crear turno: " + e.getMessage());
         }
     }
 
