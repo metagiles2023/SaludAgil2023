@@ -37,7 +37,7 @@ const FichasMedicasFiltradas = () => {
             console.error('Error fetching data:', error);
             });
     }, []); // Al inicio
-
+    
     useEffect(() => {
         // Make an HTTP GET request to your backend API
         fetch("/api/paciente", {
