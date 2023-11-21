@@ -45,7 +45,12 @@ public class PacienteController {
      */
     @PostMapping("/paciente")
     public ResponseEntity<?> createPaciente(@RequestBody Paciente request) {
-        return pacienteService.createPaciente(request);
+        if (pacienteService.estaInscriptoEnFacultad(request)){
+            return pacienteService.createPaciente(request);
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El DNI no está inscripto en la facultad");
+        }
     }
 
     @GetMapping("/paciente/getById")

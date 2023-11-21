@@ -77,6 +77,31 @@ public class PacienteService {
         }
     }
 
+    // Método para simular el chequeo con la API de la facultad
+    public boolean estaInscriptoEnFacultad(Paciente paciente) {
+        List<String> listaInscritos = obtenerListaInscritosFacultad(); //Acá va el pedido a la API de la facultad
+
+        // Verifica si el DNI está en la lista de inscritos
+        return listaInscritos.contains(paciente.getDni());
+    }
+
+    //Este método simula el pedido a la API de la facultad
+    private List<String> obtenerListaInscritosFacultad() {
+        // Aquí simulamos que la API devuelve una lista de DNIs inscritos en la facultad
+        List<String> listaInscritos = new ArrayList<>();
+        listaInscritos.add("41684254");
+        listaInscritos.add("41666998");
+        listaInscritos.add("41698231");
+        listaInscritos.add("35447213");
+        listaInscritos.add("20529666");
+        listaInscritos.add("17018019");
+        listaInscritos.add("12036630");
+        listaInscritos.add("29112154");
+        listaInscritos.add("31123456");
+        listaInscritos.add("41666777");
+        return listaInscritos;
+    }
+
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
     //Cosas de Turnos que quizas puedan ir en un TurnoService pero que por ahora dejamos aca
 
