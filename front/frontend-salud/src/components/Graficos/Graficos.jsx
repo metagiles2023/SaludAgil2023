@@ -101,7 +101,6 @@ const Graficos = () => {
     )
 
 
-
     return (
         <div>
             <div style={{ display: 'flex', justifyContent: 'space-around' }}>

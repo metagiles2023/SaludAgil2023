@@ -109,12 +109,14 @@ const FichasMedicasFiltradas = () => {
                 setFiltroSeleccionado(
                     {...filtroSeleccionado, ...nuevoFiltro}
                 )}
+            setUltiMedico(null);
         }else {
             const nuevoFiltro = {"medico": optionSelected.idUsuario};
             setFiltroSeleccionado(
                 {...filtroSeleccionado, ...nuevoFiltro}
-            )}
-        setUltiMedico(optionSelected);
+            )
+            setUltiMedico(optionSelected);
+            }
     }
     
     const handleFiltrarPaciente = (optionSelected) => {
@@ -125,12 +127,14 @@ const FichasMedicasFiltradas = () => {
                 setFiltroSeleccionado(
                     {...filtroSeleccionado, ...nuevoFiltro}
                 )}
+            setUltiPaciente(null);
         }else {
             const nuevoFiltro = {"paciente": optionSelected.idUsuario};
             setFiltroSeleccionado(
                 {...filtroSeleccionado, ...nuevoFiltro}
-            )}
-        setUltiPaciente(optionSelected);
+            )
+            setUltiPaciente(optionSelected);
+        }
     }
 
     const handleOnCheckbox = e => {
