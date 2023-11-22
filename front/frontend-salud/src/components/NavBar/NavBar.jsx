@@ -24,6 +24,9 @@ const NavBar = () => {
                     <li>
                     <a href="/turnos" className="text-white hover:text-blue-500 hover:bg-transparent">Portal Pacientes</a>
                     </li>
+                    <li>
+                    <a href="/portalMedico" className="text-white hover:text-blue-500 hover:bg-transparent">Portal Medicos</a>
+                    </li>
                 </ul>
             </div>
         </nav>
