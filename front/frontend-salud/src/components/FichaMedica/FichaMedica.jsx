@@ -27,7 +27,7 @@ const ListaFichasMedicas = ({ fichasMedicas, pacientes, medicos}) => {
 
         setNombresPacientes(nombresPacientesMap);
     }, [pacientes]);
-
+    
     return (
         <div className='fichaMedicaTable' style={{ "backgroundColor": "white" }}>
             <table>
