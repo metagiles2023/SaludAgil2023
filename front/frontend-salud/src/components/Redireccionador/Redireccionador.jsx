@@ -7,9 +7,9 @@ export function Redireccionador({ mensaje, ruta }) {
         router.push(ruta);
       };
     return (
-        <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-2xl lg:flex">
-            <div className="text-black font-medium justify-center border-gray-500 from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-                <button onClick={handleRoute}>{mensaje}</button>
+        <div className='my-4'>
+            <div className='my-4'>
+                <button className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base sm:w-auto px-6 py-4 text-center dark:bg-blue-600 dark:hover-bg-blue-700 dark:focus:ring-blue-800' onClick={handleRoute}>{mensaje}</button>
             </div>
       </div>
   )

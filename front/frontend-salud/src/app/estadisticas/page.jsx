@@ -12,7 +12,7 @@ export default function Home() {
       <main className='flex-1 flex justify-center items-center'>
         <div>
           <p className='m-2'>Grafico de lineas</p>
-          <div>
+          <div className='my-12'>
             <Graficos></Graficos>
           </div>
         </div>

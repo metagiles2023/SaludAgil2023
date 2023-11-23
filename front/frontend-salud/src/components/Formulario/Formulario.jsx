@@ -146,7 +146,7 @@ const Formulario = ({ fields, url, tema }) => {
         if (element === "especialidad") {
             return (
                 <div key={i} className="mb-2">
-                    <label htmlFor={element} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"> {capFirst(element)}: </label>
+                    <label htmlFor={element} className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"> {capFirst(element)}: </label>
                     <select
                         id={element}
                         name={element}
@@ -167,7 +167,7 @@ const Formulario = ({ fields, url, tema }) => {
         } else if (tema === "ficha medica" && element === "medico") {
             return (
                 <div key={i} className="mb-2">
-                    <label htmlFor={element} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"> {capFirst(element)}: </label>
+                    <label htmlFor={element} className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"> {capFirst(element)}: </label>
                     <select
                         id={element}
                         name={element}
@@ -188,7 +188,7 @@ const Formulario = ({ fields, url, tema }) => {
         } else if (tema === "ficha medica" && element === "paciente") {
             return (
                 <div key={i} className="mb-2">
-                    <label htmlFor={element} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"> {capFirst(element)}: </label>
+                    <label htmlFor={element} className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"> {capFirst(element)}: </label>
                     <select
                         id={element}
                         name={element}
@@ -209,7 +209,7 @@ const Formulario = ({ fields, url, tema }) => {
         } else if (tema === "ficha medica" && (element === "esGrave" || element === "usoEmergencia")) {
             return (
                 <div key={i} className='mb-2'>
-                  <label htmlFor={element} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  <label htmlFor={element} className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">
                     {capFirst(element)}:
                   </label>
                   <input
@@ -224,7 +224,7 @@ const Formulario = ({ fields, url, tema }) => {
         } else if (tema === "ficha medica" && element === "fecha") {
             return (
                 <div key={i} className='mb-2'>
-                  <label htmlFor={element} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  <label htmlFor={element} className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">
                     {capFirst(element)}:
                   </label>
                   {/* <input
@@ -237,7 +237,7 @@ const Formulario = ({ fields, url, tema }) => {
                     placeholder={`${capFirst(element)} del ${tema}`}
                     required
                   /> */}
-                  <DatePicker dateFormat='yyyy/MM/dd' selected={selectedDate} onChange={handleChangeDate}/>
+                  <DatePicker className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' dateFormat='yyyy/MM/dd' selected={selectedDate} onChange={handleChangeDate}/>
                 </div>
               );
         }
@@ -245,7 +245,7 @@ const Formulario = ({ fields, url, tema }) => {
         // Casos normales (string)
         return (
             <div key={i} className='mb-2'>
-                <label htmlFor={element} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{capFirst(element)}:</label>
+                <label htmlFor={element} className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">{capFirst(element)}:</label>
                 <textarea
                     type="text"
                     id={element}

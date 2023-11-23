@@ -35,19 +35,16 @@ export default function Home() {
         <div className="flex flex-col min-h-screen">
         <Header /> 
         <main className="flex-1 flex flex-col">
-            <div className='flex justify-center'>
-                <CartelDescripcion mensaje="Pagina para ver usuarios"/>
-            </div>
-            <CartelDescripcionChildren>
-                <div className="flex gap-20 my-4">
-                <button onClick={() => handleUserTypeChange('usuario')}>Todos los usuarios</button>
-                <button onClick={() => handleUserTypeChange('paciente')}>Pacientes</button>
-                <button onClick={() => handleUserTypeChange('medico')}>Médicos</button>
-                <button onClick={() => handleUserTypeChange('administrador')}>Administradores</button>
+                <div className='my-4'/>
+                <div className="flex gap-20 my-0">
+                <button className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base sm:w-auto px-6 py-4 text-center dark:bg-blue-600 dark:hover-bg-blue-700 dark:focus:ring-blue-800' onClick={() => handleUserTypeChange('usuario')}>Todos los usuarios</button>
+                <button className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base sm:w-auto px-6 py-4 text-center dark:bg-blue-600 dark:hover-bg-blue-700 dark:focus:ring-blue-800' onClick={() => handleUserTypeChange('paciente')}>Pacientes</button>
+                <button className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base sm:w-auto px-6 py-4 text-center dark:bg-blue-600 dark:hover-bg-blue-700 dark:focus:ring-blue-800' onClick={() => handleUserTypeChange('medico')}>Médicos</button>
+                <button className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base sm:w-auto px-6 py-4 text-center dark:bg-blue-600 dark:hover-bg-blue-700 dark:focus:ring-blue-800' onClick={() => handleUserTypeChange('administrador')}>Administradores</button>
                 </div>
-            </CartelDescripcionChildren>
-            <ListaMultiple lista={selectedUserType} datos={datos} />
-            <Redireccionador mensaje="Crear Usuario" ruta="/usuario/crear"/>
+            
+            <ListaMultiple lista={selectedUserType} datos={datos}  />
+            <Redireccionador mensaje="Crear Usuario" ruta="/usuario/crear" />
         </main>
         <Footer />
     </div>

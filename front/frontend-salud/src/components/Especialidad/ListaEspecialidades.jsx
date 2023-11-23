@@ -4,7 +4,7 @@ import './especialidades.css';
 const ListaEspecialidades = ({ especialidades }) => {
     console.log('me llegaron las especialidades: ' + especialidades)
     return (
-    <div className="especialidadTable text-black text-xl">
+    <div className="especialidadTable text-black text-xl" style={{ "backgroundColor": "white" }}>
         <table>
         <thead>
             <tr>

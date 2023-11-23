@@ -261,11 +261,11 @@ const FichasMedicasFiltradas = () => {
                 <div className="flex flex-row space-x-4">
                     <div className="w-1/2">
                         <h2 className='font-bold text-2xl'> Fecha Desde</h2>
-                        <DatePicker dateFormat='yyyy/MM/dd' selected={startDate} onChange={(date) => dateForHandle(date)} />
+                        <DatePicker className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' dateFormat='yyyy/MM/dd' selected={startDate} onChange={(date) => dateForHandle(date)} />
                     </div>
                     <div className="w-1/2">
                         <h2 className='font-bold text-2xl'> Fecha Hasta</h2>
-                        <DatePicker dateFormat='yyyy/MM/dd' selected={toDate} onChange={(date) => dateToHandle(date)} />
+                        <DatePicker className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' dateFormat='yyyy/MM/dd' selected={toDate} onChange={(date) => dateToHandle(date)} />
                     </div>
                 </div>
                     <div className="flex flex-row space-x-4">
