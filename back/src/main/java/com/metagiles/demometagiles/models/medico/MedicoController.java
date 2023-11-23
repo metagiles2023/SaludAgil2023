@@ -1,10 +1,8 @@
 package com.metagiles.demometagiles.models.medico;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.metagiles.demometagiles.utils.Utils;
@@ -13,9 +11,19 @@ import com.metagiles.demometagiles.utils.Utils;
 @RestController
 public class MedicoController {
     private final MedicoRepository medicoRepository;
-    public MedicoController(MedicoRepository medicoRepository) {
+    private final MedicoService medicoService;
+    public MedicoController(MedicoRepository medicoRepository, MedicoService medicoService) {
         this.medicoRepository = medicoRepository;
+        this.medicoService = medicoService;
     }
+
+
+
+    @GetMapping("/medico/turnosAll")
+    public void avisoTurnosExplicito() {
+        medicoService.avisoDiarioPrueba();
+    }
+
 
     @GetMapping("/medico")
     List<Medico> getAll() {

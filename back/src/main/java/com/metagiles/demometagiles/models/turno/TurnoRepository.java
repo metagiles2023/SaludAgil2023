@@ -25,6 +25,8 @@ public interface TurnoRepository extends JpaRepository<Turno,Long> {
 
     @Query("SELECT t FROM Turno t WHERE t.ocupado = true AND DAY(t.date) = DAY(CURRENT_DATE) AND MONTH(t.date) = MONTH(CURRENT_DATE) AND YEAR(t.date) = YEAR(CURRENT_DATE)")
     public List<Turno>getTurnosOcupadosHoy();
+    @Query("SELECT t FROM Turno t WHERE t.medico.idUsuario = :idMedico AND t.ocupado = true AND DAY(t.date) = DAY(CURRENT_DATE) AND MONTH(t.date) = MONTH(CURRENT_DATE) AND YEAR(t.date) = YEAR(CURRENT_DATE)")
+    public List<Turno>getTurnosOcupadosHoyDadoMedico(long idMedico);
 
     @Query("SELECT t FROM Turno t WHERE t.medico.idUsuario = :idMedico AND DAY(t.date) = :dia AND MONTH(t.date) = :mes")
     public List<Turno>getTurnosByIdMedico();

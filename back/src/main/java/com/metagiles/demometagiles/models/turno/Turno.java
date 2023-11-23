@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "turnos")
-public class Turno {
+public class Turno implements Comparable<Turno> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -84,4 +84,8 @@ public class Turno {
         return this.id + "-" + pacienteString  + "-" + this.medico + "-" + this.date;
     }
 
+    @Override
+    public int compareTo(Turno o) {
+        return this.date.compareTo(o.getDate());
+    }
 }
