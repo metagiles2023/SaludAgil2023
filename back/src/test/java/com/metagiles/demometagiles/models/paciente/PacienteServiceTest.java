@@ -19,6 +19,7 @@ import com.metagiles.demometagiles.models.repository.TurnoRepository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.booleanThat;
 import static org.mockito.Mockito.when;
 
 @DisplayName(">>> PacienteService <<<")
@@ -48,7 +49,7 @@ public class PacienteServiceTest {
         MockitoAnnotations.openMocks(this);
         //aca habria que sacar despues el de turnoRepository
         pacienteService = new PacienteService(pacienteRepository,pacienteMapper,turnoRepository); 
-        pacientePrueba = new Paciente("nombre","apellido","1234567","paciente");
+        pacientePrueba = new Paciente("nombre","apellido","20529666","paciente");
         pacientePrueba.setObraSocial("ObraSocial1");
         listaPacientes =  new ArrayList<>();
         listaPacientes.add(pacientePrueba);
@@ -114,5 +115,21 @@ public class PacienteServiceTest {
         // Llama al método createPaciente del controlador y verifica la respuesta
         ResponseEntity<?> responseEntity = pacienteService.createPaciente(pacientePrueba);
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+    }
+
+    @Test
+    @DisplayName("Verifica que se chequee correctamente que un usuario pertenece a la facultad")
+    public void testEstaInscriptoEnFacultad(){
+        boolean resultado = pacienteService.estaInscriptoEnFacultad(pacientePrueba);
+        assertEquals(true, resultado);
+    }
+
+    @Test
+    @DisplayName("Verifica que se chequee correctamente que un usuario no pertenece a la facultad")
+    public void textNoEstaInscriptoEnFacultad(){
+        Paciente pacienteN = new Paciente("Fran","Azqueta","41259122","paciente");
+        pacienteN.setObraSocial("ObraSocial1");
+        boolean resultado = pacienteService.estaInscriptoEnFacultad(pacienteN);
+        assertEquals(false, resultado);
     }
 }
