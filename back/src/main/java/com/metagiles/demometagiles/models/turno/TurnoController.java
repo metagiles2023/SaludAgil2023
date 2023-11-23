@@ -36,9 +36,8 @@ public class TurnoController {
         return turnoService.getTurnosMedicoDisponiblesByDiaByMes(dia, mes, IdMedico);
     };
 
-    @GetMapping(value = "/misturnosmedico/{dia}/{mes}/{IdMedico}")
-    public List<Turno> getTurnosMedicoByDiaByMes(@PathVariable String dia,@PathVariable String mes,@PathVariable String IdMedico){
-        System.out.println(dia + " | " + mes + " | " + IdMedico);
+    @GetMapping(value = "/misturnosmedico")
+    public List<Turno> getTurnosMedicoByDiaByMes(@RequestParam(name = "dia") String dia,@RequestParam(name = "mes") String mes ,@RequestParam(name = "id") String IdMedico){
         return turnoService.getTurnosMedicoByDiaByMes(dia, mes, IdMedico);
     }
 

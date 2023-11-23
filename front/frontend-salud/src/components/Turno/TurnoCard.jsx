@@ -49,15 +49,23 @@ function TurnoCard({ turno }) {
     };
 
     return (
-        <div className="relative w-[326px] h-[392px] bg-[#ebffff] shadow-[10px_20px_4px_#00000040] rounded-[30px] overflow-hidden">
-            <div className="absolute w-[326px] h-[23px] font-bold text-black text-xl text-center tracking-[0] leading-[normal] left-0 top-[214px]">{formattedTime}</div>
-            <div className="absolute w-[326px] h-[23px] font-bold text-black text-xl text-center tracking-[0] leading-[normal] left-0 top-[191px]">{formattedDate}</div>
-            <div className="absolute w-[326px] h-8 font-bold text-black text-xl text-center tracking-[0] leading-[normal] left-0 top-[34px]">{medico_especialidad}</div>
-            <div className="absolute w-[326px] h-[38px] font-bold text-black text-[32px] text-center tracking-[0] leading-[normal] left-0 top-[153px]">Fecha:</div>
-            <div className="absolute w-[326px] font-bold text-black text-2xl text-center tracking-[0] leading-[normal] left-0 top-[66px]">{medico_nombre} {medico_apellido}</div>
-            <div className="absolute bottom-0 w-[326px] h-[89px] bg-[#3ca9b2] border-t-[5px] border-black">
-                <img className="w-[46px] absolute h-[46px] left-[241px] top-[17px] hover:opacity-70" src="/btn_cancelar.svg" alt="Cancelar" onClick={handleCancelar} />
-                <img className="w-10 absolute h-[46px] left-8 top-[17px] hover:opacity-70" src="/btn_recordatorio.svg" alt="recordatorio"/>
+        <div className="flex flex-col w-[326px] h-[392px] bg-[#ebffff] shadow-[10px_20px_4px_#00000040] rounded-[30px] overflow-hidden">
+            <div className="flex flex-grow py-3 flex-col">
+                <div className='flex flex-col'>
+                    <div className="flex pt-5 justify-center font-bold text-black text-xl text-center">{medico_especialidad}</div>
+                    <div className="flex justify-center font-bold text-black text-2xl text-center">{medico_nombre} {medico_apellido}</div>
+                </div>
+                <div className='flex flex-col m-auto'>
+                    <div className="flex justify-center font-bold text-black text-[32px] text-center">Fecha:</div>
+                    <div className="flex justify-center font-bold text-black text-xl text-center">{formattedDate}</div>
+                    <div className="flex justify-center font-bold text-black text-xl text-center">{formattedTime}</div>
+                </div>
+            </div>
+            <div className="flex justify-center item-center bg-[#d0321d] border-t-[5px] border-black">
+                <div className="flex justify-center w-1/6  m-auto hover:opacity-70 hover:cursor-pointer">
+                    <img className="flex my-3" src="/btn_cancelar.svg" alt="Cancelar" onClick={handleCancelar} />
+                    <h1 className="flex m-auto text-black font-bold text-2xl pl-5">Cancelar</h1>
+                </div>
             </div>
 
             <ConfirmCancelar

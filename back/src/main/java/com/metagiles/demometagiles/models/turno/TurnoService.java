@@ -67,6 +67,7 @@ public class TurnoService {
     }
 
     public List<Turno> getTurnosMedicoByDiaByMes(String dia, String mes, String IdMedico){
+        System.out.println("b");
         System.out.println("GET: /turnos/{dia}/{IdMedico}" + " dia: " + dia + " medico: " + IdMedico + "mes " + mes );
         int aux_mes;
         long aux_id;
@@ -79,7 +80,7 @@ public class TurnoService {
             System.err.println("ID erroneo: no se pudo parsear");
             return null;
         }
-
+        System.out.println("a");
         List<Turno> turnos = this.turnoRepository.getTurnosMedicoByDiaByMes(aux_id,aux_dia,aux_mes);
         System.out.println(turnos);
         return turnos;
@@ -150,7 +151,14 @@ public class TurnoService {
             Turno turno = new Turno();
             if (turnoRepository.existsById(request.getId()))
                 return Utils.genResponseError("Error al crear el turno: ya existe en la tabla.");
-        
+            
+            List<Turno> turnos = turnoRepository.getTurnosDisponiblesMedicoByDiaByMes(request.getMedico().getIdUsuario(), request.getDate().getDate(), request.getDate().getMonth());
+
+            for(Turno t: turnos){
+                if(t.getDate().getHours() == request.getDate().getHours() && t.getDate().getMinutes() == request.getDate().getMinutes())
+                    return Utils.genResponseError("Error al crear el turno: ya existe un turno de ese medico en esa fecha");
+            }
+
             // Setea las propiedades de la request
             turno.setDate(request.getDate());
             turno.setMedico(request.getMedico());

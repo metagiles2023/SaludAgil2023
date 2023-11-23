@@ -16,7 +16,7 @@ const TurnoCard = (props) => {
       };
 
     return (
-        <div className="m-3 my-button my-button:hover my-button:active" > 
+        <div className="m-2 my-button my-button:hover my-button:active" > 
             <button onClick={handleClick}>
                 {hora}
             </button>
