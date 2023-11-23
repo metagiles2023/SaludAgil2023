@@ -6,11 +6,6 @@ import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Button from '@mui/material/Button';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import AutoComplete from "@/components/Turno/AutoComplete";
 
 function dias(index) {
     return {
@@ -22,7 +17,7 @@ function dias(index) {
 export default function Turnos() {
     const [value, setValue] = useState(0);
     
-    const handleChange = (event, setValue) => {
+    const handleChange = (event, newValue) => {
         setValue(newValue);
     };
     
@@ -30,7 +25,7 @@ export default function Turnos() {
         <div className="flex flex-col min-h-screen">
             <Header />
             <main className="flex-1 flex justify-center items-center">
-                <div className="flex bg-white border-blue-500 border-[2px]">
+                <div className="flex bg-white border-blue-500 border-[2px] rounded-[30px] overflow-hidden">
                     <div className="flex flex-col "> 
                         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                             <Tabs value={value} onChange={handleChange} aria-label="Tabla dias">
@@ -45,11 +40,25 @@ export default function Turnos() {
                         </Box>
                         {value === 0 && (
                             <div className="flex flex-col bg-green-100 m-5 h-[40vh]">
-                                    <div className="flex">
-
-        
+                                    <div className="flex w-full h-full my-5 justify-center">
+                                        <div className="flex flex-col w-full h-full">
+                                            <div className="flex w-full h-12 justify-between px-20">
+                                                <div className="flex w-2/3 justify-center text-black bg-white rounded-[30px]">
+                                                    Desde
+                                                </div>
+                                                <div className="flex w-2/3 justify-center text-black bg-white rounded-[30px]">
+                                                    Desde
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="flex w-8/12 content-between justify-between px-20">
+                                            <div className="flex w-2/3 h-12 justify-center text-black bg-white rounded-[30px]">
+                                                Desde
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div>
+                                    <div className="flex justify-end mb-5 mr-5"> 
                                         <Button className="flex bg-green-500" variant="contained" color="success">
                                             Guardar
                                         </Button>
