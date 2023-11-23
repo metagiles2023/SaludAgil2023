@@ -40,12 +40,13 @@ const Selector = ({onSelectOption, usuarios}) => {
 
     const closeDropdown = (option, index) => {
         setMedicoSeleccionado({ nombre: option.nombre, apellido: option.apellido, index: index});
-        if(ultiOption && ultiOption.idUsuario === option.idUsuario)
+        if(ultiOption && ultiOption.idUsuario === option.idUsuario){
             setTitulo(tituloOriginal);
-        else
+            setUltiOption(null);
+        }else{
             setTitulo(`${option.nombre} ${option.apellido}`);
-        
-        setUltiOption(option);
+            setUltiOption(option);
+        }
         onSelectOption(option);
         setIsDropdownOpen(false);
     }

@@ -23,6 +23,13 @@ public class Turno {
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
+    public Turno(Long id, Paciente paciente, Medico medico, Date date){
+        this.id = id;
+        this.ocupado = false;
+        this.paciente = paciente;
+        this.date = date;
+    }
+    
     public boolean isOcupado() {
         return ocupado;
     }
