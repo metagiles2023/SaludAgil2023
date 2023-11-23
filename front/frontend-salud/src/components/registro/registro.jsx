@@ -18,17 +18,17 @@ export const Register = (props) => {
             <h2 style={{fontSize: '40px' , fontWeight: 'bold'}}>REGISTER</h2>
         <form className="register-form" onSubmit={handleSubmit}>
             <label htmlFor="name" style={{ fontSize: '23px' }}>Nombre</label>
-            <input value={name} name="name" onChange={(e) => setName(e.target.value)} id="name" placeholder="Nombre" />
+            <input value={name} name="name" onChange={(e) => setName(e.target.value)} id="name" placeholder="Nombre" style={{color: 'black'}} />
             <label htmlFor="Apellido" style={{ fontSize: '23px' }}>Apellido</label>
-            <input value={Apellido} name="Apellido" onChange={(e) => setApellido(e.target.value)} id="Apellido" placeholder="Apellido" />
+            <input value={Apellido} name="Apellido" onChange={(e) => setApellido(e.target.value)} id="Apellido" placeholder="Apellido" style={{color: 'black'}} />
             <label htmlFor="DNI" style={{ fontSize: '23px' }}>Dni</label>
-            <input value={DNI} name="DNI" onChange={(e) => setDNI(e.target.value)} id="DNI" placeholder="43030405" />
+            <input value={DNI} name="DNI" onChange={(e) => setDNI(e.target.value)} id="DNI" placeholder="43030405" style={{color: 'black'}}/>
             <label htmlFor="DNI" style={{ fontSize: '23px' }}>Obra Social</label>
-            <input value={ObraSocial} name="ObraSocial" onChange={(e) => setObraSocial(e.target.value)} id="ObraSocial" placeholder="OSDE,OMINT,... " />
+            <input value={ObraSocial} name="ObraSocial" onChange={(e) => setObraSocial(e.target.value)} id="ObraSocial" placeholder="OSDE,OMINT,... " style={{color: 'black'}} />
             <label htmlFor="email" style={{ fontSize: '23px' }}>Email</label>
-            <input value={email} onChange={(e) => setEmail(e.target.value)}type="email" placeholder="youremail@gmail.com" id="email" name="email" />
+            <input value={email} onChange={(e) => setEmail(e.target.value)}type="email" placeholder="youremail@gmail.com" id="email" name="email" style={{color: 'black'}} />
             <label htmlFor="password" style={{ fontSize: '23px' }}>Contraseña</label>
-            <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="********" id="password" name="password" />
+            <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="********" id="password" name="password" style={{color: 'black'}}/>
             <button type="submit" className="white-background">Login</button>
         </form>
         <button className="link-btn" onClick={() => props.onFormSwitch('login')}>Ya tienes una cuenta? Inicia sesion aqui.</button>
