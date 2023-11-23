@@ -17,9 +17,9 @@ export const Login = (props) => {
                 <input value={DNI} onChange={(e) => setDNI(e.target.value)}type="DNI" placeholder="43040506" id="DNI" name="DNI" />
                 <label htmlFor="password" style={{ fontSize: '23px' }}>Contraseña</label>
                 <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="********" id="password" name="password" />
-                <button type="submit" className="white-background">Log In</button>
+                <button type="submit" className="white-background">Login</button>
             </form>
-            <button className="link-btn" onClick={() => props.onFormSwitch('register')}>Don't have an account? Register here.</button>
+            <button className="link-btn" onClick={() => props.onFormSwitch('register')}>No tienes una cuenta? Registrate aqui.</button>
         </div>
     )
 }
