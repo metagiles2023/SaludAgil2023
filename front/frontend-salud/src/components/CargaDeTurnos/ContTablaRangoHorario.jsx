@@ -118,6 +118,7 @@ export default function Turnos() {
                     onChange={handleChangeSelectDesde}
                     input={<OutlinedInput label="Hora" />}
                     MenuProps={MenuProps}
+                    style={{ width: '100%' }}
                     >
                     {horas.map((hora) => (
                         <MenuItem

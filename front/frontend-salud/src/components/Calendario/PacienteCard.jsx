@@ -7,7 +7,7 @@ const PacienteCard = (props) => {
     const hora = aux.getHours() +  ":"  + minutosFormateados;
     
     return (
-        <div className="m-2 bg-[#699BE8] text-[white] cursor-pointer px-5 py-2.5 rounded-[5px] border-[none] hover:bg-[#699BC9] active:bg-[#699BC9]" > 
+        <div className="m-2 bg-[#699BE8] text-black font-bold cursor-pointer px-5 py-2.5 rounded-[5px] border-[3px] border-black hover:bg-[#446380] active:bg-[#699BC9]" > 
             <button >
                 {hora} - {paciente}
             </button>

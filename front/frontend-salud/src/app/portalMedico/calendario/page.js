@@ -50,48 +50,23 @@ export default function mostrarTurnosMedico() {
           </div>
         </div>
         <div className='flex-1 flex items-center'>
-          <div className='flex h-5/6'>
-            <div className='flex flex-col'>
-              <div>
-                <h1 className='text-2xl font-bold text-black'>Horarios:</h1>
-                <div className='flex gap-16'>
-                  <div className="flex items-center py-5 gap-4">
-                    <div className="text-black text-xl font-bold">Desde:</div>
-                    <div className="flex w-full h-12 bg-[#ebffff] shadow-[0px_20px_4px_#00000040] rounded-[30px] justify-between items-center px-5">
-                      <span className="font-medium text-gray-500 px-5">Seleccione un horario</span>
-                      <img className="w-6" alt="Seleccionar" src="/down_arrow.svg" />
-                    </div>
-                    <img className="w-6" alt="Lupa" src="/search_icon.svg" />
-                  </div>
-                  <div className="flex items-center py-5 gap-4">
-                    <div className="text-black text-xl font-bold">Hasta:</div>
-                    <div className="flex w-full h-12 bg-[#ebffff] shadow-[0px_20px_4px_#00000040] rounded-[30px] justify-between items-center px-5">
-                      <span className="font-medium text-gray-500 px-5">Seleccione un horario</span>
-                      <img className="w-6" alt="Seleccionar" src="/down_arrow.svg" />
-                    </div>
-                    <img className="w-6" alt="Lupa" src="/search_icon.svg" />
-                  </div>
-                </div>
-              </div>
-              <div className='flex h-2/3 justify-center items-center rounded-3xl bg-cyan-400 text-2xl '>
-                <div className="flex h-5/6 w-11/12 overflow-y-auto">
-                  <div className='flex flex-col w-full text-center'>
-                      {data &&
-                        data.map((turno) => {
-                          return (
-                            <div className='w-1/8'>
-                              <PacienteCard
-                                key={turno.id}
-                                id={turno.id}
-                                horario={turno.date}
-                                paciente={turno.paciente !== null ? turno.paciente.nombre + " " + turno.paciente.apellido : "Libre"}
-                              />
-                            </div>
-                          );
-                        })
-                      }
-                  </div>
-                </div>
+          <div className='flex h-2/3 w-full justify-center items-center rounded-3xl bg-cyan-400 text-2xl m-5'>
+            <div className="flex h-5/6 w-11/12 overflow-y-auto">
+              <div className='flex flex-col w-full text-center'>
+                  {data &&
+                    data.map((turno) => {
+                      return (
+                        <div className='w-1/8'>
+                          <PacienteCard
+                            key={turno.id}
+                            id={turno.id}
+                            horario={turno.date}
+                            paciente={turno.paciente !== null ? turno.paciente.nombre + " " + turno.paciente.apellido : "Libre"}
+                          />
+                        </div>
+                      );
+                    })
+                  }
               </div>
             </div>
           </div>

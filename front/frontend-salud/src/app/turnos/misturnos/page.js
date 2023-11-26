@@ -19,6 +19,7 @@ export default function MisTurnos() {
     const fetchTurnos  = async () => {
         const response = await fetch(`/api/misturnos/ver/`);
         const data = await response.json();
+        console.log(data);
         setDatos(data);
 
     };

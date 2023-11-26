@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.metagiles.demometagiles.models.medico.Medico;
+import com.metagiles.demometagiles.models.medico.MedicoRepository;
 import com.metagiles.demometagiles.models.paciente.Paciente;
 import com.metagiles.demometagiles.models.paciente.PacienteMapper;
 import com.metagiles.demometagiles.models.paciente.PacienteRepository;
@@ -43,6 +44,9 @@ public class TurnoServiceTest {
     private TurnoService turnoService;
 
     @Mock
+    private MedicoRepository medicoRepository;
+
+    @Mock
     private Utils utils;
 
     private Turno turno;
@@ -52,7 +56,7 @@ public class TurnoServiceTest {
     public void setUp() {
         MockitoAnnotations.openMocks(this);
         this.pacienteService = new PacienteService(pacienteRepository,pacienteMapper); 
-        this.turnoService = new TurnoService(pacienteRepository,turnoRepository); 
+        this.turnoService = new TurnoService(pacienteRepository,turnoRepository,medicoRepository); 
         this.paciente = new Paciente("nombre", "apellido", "40668809", "paciente");
         Medico medico = new Medico("nombre", "apellido", "12345678", "medico", "doctor");
         Date horaTurno = new Date();

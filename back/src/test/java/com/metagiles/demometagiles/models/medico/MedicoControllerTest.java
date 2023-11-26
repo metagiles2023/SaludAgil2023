@@ -25,11 +25,14 @@ public class MedicoControllerTest {
 
     @Mock
     private MedicoRepository medicoRepository;
+    
+    @Mock
+    private MedicoService medicoService;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        medicoController = new MedicoController(medicoRepository);
+        medicoController = new MedicoController(medicoRepository,medicoService);
     }
 
     @Test

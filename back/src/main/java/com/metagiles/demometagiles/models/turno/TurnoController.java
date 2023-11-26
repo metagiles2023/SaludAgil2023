@@ -59,9 +59,13 @@ public class TurnoController {
         turnoService.darInfoTurno(pid, mail, nrotelefono);
     }
 
-    @PostMapping(value ="/agregarturno/")
-    public ResponseEntity<?> agregarTurno(@RequestBody Turno turno){
-        return turnoService.agregarTurno(turno);
+    @PostMapping(value ="/agregarturno")
+    public ResponseEntity<?> agregarTurno(@RequestBody Map<String,String> request){
+        return turnoService.agregarTurno(request);
     }
 
+    @PostMapping(value ="/agregarturnos")
+    public ResponseEntity<?> agregarTurnos(@RequestBody Map<String,String> request){
+        return turnoService.agregarTurnos(request);
+    }
 }

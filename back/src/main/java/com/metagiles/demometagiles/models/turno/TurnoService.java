@@ -1,8 +1,14 @@
 package com.metagiles.demometagiles.models.turno;
 
+import java.text.DateFormat;
+import java.text.DateFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
@@ -14,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.metagiles.demometagiles.models.medico.Medico;
+import com.metagiles.demometagiles.models.medico.MedicoRepository;
 import com.metagiles.demometagiles.models.paciente.Paciente;
 import com.metagiles.demometagiles.models.paciente.PacienteRepository;
 import com.metagiles.demometagiles.models.usuario.UsuarioController;
@@ -26,6 +33,7 @@ import lombok.RequiredArgsConstructor;
 public class TurnoService {
     private final PacienteRepository pacienteRepository;
     private final TurnoRepository turnoRepository;
+    private final MedicoRepository medicoRepository;
 
     public ResponseEntity<?> postReservarTurno(Map<String,String> request){
         try{
@@ -34,21 +42,18 @@ public class TurnoService {
             Paciente paciente = this.pacienteRepository.getReferenceById(Long.valueOf(request.get("idUsuario")));
             turno.setPaciente(paciente);
             this.turnoRepository.save(turno);
-            System.out.println("EXITO al crear turno");
             String emailReceiver = request.get("email");
             String body = "Se ha confirmado el turno para la siguiente fecha: " + turno.getDate().toString() + " con el medico: " + turno.getMedico().getApellido() + " " + turno.getMedico().getNombre();
             SendEmail email = new SendEmail(emailReceiver,"Confirmacion de turno",body);
             return ResponseEntity.ok(Utils.jsonificar("successful", "no message"));
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println("Error al reservar turno: " + e.getMessage());
             return Utils.genResponseError("Error al reservar turno: " + e.getMessage());
         }
 
     }
     
     public List<Turno> getTurnosMedicoDisponiblesByDiaByMes(String dia, String mes, String IdMedico){
-        System.out.println("GET: /turnos/{dia}/{IdMedico}" + " dia: " + dia + " medico: " + IdMedico + "mes " + mes );
         int aux_mes;
         long aux_id;
         int aux_dia;
@@ -57,18 +62,14 @@ public class TurnoService {
             aux_dia = Integer.parseInt(dia);
             aux_mes = Integer.parseInt(mes);
         } catch (NumberFormatException e) {
-            System.err.println("ID erroneo: no se pudo parsear");
             return null;
         }
 
         List<Turno> turnos = this.turnoRepository.getTurnosDisponiblesMedicoByDiaByMes(aux_id,aux_dia,aux_mes);
-        System.out.println(turnos);
         return turnos;
     }
 
     public List<Turno> getTurnosMedicoByDiaByMes(String dia, String mes, String IdMedico){
-        System.out.println("b");
-        System.out.println("GET: /turnos/{dia}/{IdMedico}" + " dia: " + dia + " medico: " + IdMedico + "mes " + mes );
         int aux_mes;
         long aux_id;
         int aux_dia;
@@ -77,12 +78,9 @@ public class TurnoService {
             aux_dia = Integer.parseInt(dia);
             aux_mes = Integer.parseInt(mes);
         } catch (NumberFormatException e) {
-            System.err.println("ID erroneo: no se pudo parsear");
             return null;
         }
-        System.out.println("a");
         List<Turno> turnos = this.turnoRepository.getTurnosMedicoByDiaByMes(aux_id,aux_dia,aux_mes);
-        System.out.println(turnos);
         return turnos;
     }
 
@@ -92,7 +90,6 @@ public class TurnoService {
         try {
             aux_id = Long.parseLong(id);
         } catch (NumberFormatException e) {
-            System.err.println("ID erroneo: no se pudo parsear");
             return output;
         }
 
@@ -107,7 +104,6 @@ public class TurnoService {
     }
 
     public ResponseEntity<?> cancelarTurnoByIdPaciente (Map<String,String> request){
-        System.out.println(request.toString());
         try {
             Long aux_tid = Long.valueOf(request.get("tid"));
             Long aux_pid = Long.valueOf(request.get("pid"));
@@ -128,46 +124,133 @@ public class TurnoService {
         try {
             aux_pid = Long.parseLong(pid);
         } catch (NumberFormatException e) {
-            System.err.println("ID erroneo");
         }
         long aux_long;
         try {
             aux_long = Long.valueOf(nrotelefono);
         } catch (NumberFormatException e) {
-            System.err.println("Nro de telefono erroneo");
         }
         try {
             if (nrotelefono.length() != 10)
                 throw new Exception("El número debe tener 10 dígitos");
         } catch (NumberFormatException e) {
-            System.out.println(e.getMessage());
         }
     }
 
-    @PostMapping("/agregarTurno")
-    public ResponseEntity<?> agregarTurno(@RequestBody Turno request) {
-        System.out.println("Creando turno");
-        try {
-            Turno turno = new Turno();
-            if (turnoRepository.existsById(request.getId()))
-                return Utils.genResponseError("Error al crear el turno: ya existe en la tabla.");
-            
-            List<Turno> turnos = turnoRepository.getTurnosDisponiblesMedicoByDiaByMes(request.getMedico().getIdUsuario(), request.getDate().getDate(), request.getDate().getMonth());
 
-            for(Turno t: turnos){
-                if(t.getDate().getHours() == request.getDate().getHours() && t.getDate().getMinutes() == request.getDate().getMinutes())
-                    return Utils.genResponseError("Error al crear el turno: ya existe un turno de ese medico en esa fecha");
+    public ResponseEntity<?> agregarTurno(Map<String,String> request) {
+        try {
+            String anio = request.get("anio");
+            String mes = request.get("mes");
+            String dia = request.get("dia");
+            String hora = request.get("hora"); //18:30
+            String idMedico = request.get("idMedico");
+
+            if (!medicoRepository.existsById(Long.parseLong(idMedico))) {
+                return Utils.genResponseError("No se encontró el médico con ID: " + idMedico);
             }
 
-            // Setea las propiedades de la request
-            turno.setDate(request.getDate());
-            turno.setMedico(request.getMedico());
-            turno.setOcupado(false);
-            turno.setPaciente(null);
+            Medico medico = medicoRepository.findById(Long.parseLong(idMedico)).orElse(null);
+            if (medico == null) {
+                return Utils.genResponseError("No se encontró el médico con ID: " + idMedico);
+            }
+
+            String[] hora1 = hora.split(":");
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, Integer.parseInt(anio));
+            calendar.set(Calendar.MONTH, Integer.parseInt(mes)-1);
+            calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dia));
+            calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hora1[0]));
+            calendar.set(Calendar.MINUTE, Integer.parseInt(hora1[1]));
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND,0);
+
+            Turno turno = new Turno();
+            turno.setMedico(medico);
+            turno.setDate(calendar.getTime());
+
+            List<Turno> turnos = turnoRepository.getTurnosEnElHorario(Long.parseLong(idMedico), turno.getDate());
+            if(turnos != null && turnos.size() == 0){
+                this.turnoRepository.save(turno);
+            }
+
+            return ResponseEntity.ok("Turno creado correctamente");
+        } catch(Exception e) {
+            return Utils.genResponseError("Error al crear turno: " + e.getMessage());
+        }
+    }
+
+    public ResponseEntity<?> agregarTurnos(Map<String,String> request) {
+        try { 
+            String horaini = request.get("horaini");
+            String horafin = request.get("horafin");
+            String dia = request.get("dia");
+            String idMedico = request.get("idMedico");
+            String tiempoturno = request.get("tiempoturno");
+
+            String[] hora1 = horaini.split(":");
+            String[] hora2 = horafin.split(":");
+            if(Integer.parseInt(hora1[0]) > Integer.parseInt(hora2[0]) || (Integer.parseInt(hora1[0]) == Integer.parseInt(hora2[0]) && Integer.parseInt(hora1[1]) >= Integer.parseInt(hora2[1]))){
+                return Utils.genResponseError("El inicio de la jornada no puede ser despues del fin de la jornada");
+            }
+            if (!medicoRepository.existsById(Long.parseLong(idMedico))) {
+                return Utils.genResponseError("No se encontró el médico con ID: " + idMedico);
+            }
+
+            Medico medico = medicoRepository.findById(Long.parseLong(idMedico)).orElse(null);
+            if (medico == null) {
+                return Utils.genResponseError("No se encontró el médico con ID: " + idMedico);
+            }
+
+            int tiempoTurno = Integer.parseInt(tiempoturno);
+          
             
-            // Agregar Turno al repositorio
-            Turno savedTurno = turnoRepository.save(turno);
-            return ResponseEntity.ok(Utils.jsonificar("id", savedTurno.getId()));
+            Calendar horaFin= Calendar.getInstance();
+            horaFin.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hora2[0]));
+            horaFin.set(Calendar.MINUTE, Integer.parseInt(hora2[1]));
+            horaFin.set(Calendar.SECOND, 0);
+            horaFin.set(Calendar.MILLISECOND,0);
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hora1[0]));
+            calendar.set(Calendar.MINUTE, Integer.parseInt(hora1[1]));
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND,0);
+
+            Calendar calendarfin = Calendar.getInstance();
+            calendarfin.add(Calendar.DATE, 21); //genera a 2 semanas desde el dia que se pide generar
+            
+            while(calendar.getTime().getDay() != Integer.parseInt(dia)){//me paro en el siguiente dia que quiero generar
+                calendar.add(Calendar.DATE, 1);
+                horaFin.add(Calendar.DATE, 1);
+            }
+            
+            while (calendar.getTime().compareTo(calendarfin.getTime()) < 0) {
+                Calendar aux = (Calendar) calendar.clone();
+                aux.add(Calendar.MINUTE, tiempoTurno); //si el turno que quiero generar esta dentro del rango horario lo genero, ej //son las 13:00 el turno dura 45 y la jornada termina 13:30, no tendria que generarlo
+                if (aux.before(horaFin) || aux.equals(horaFin)) {
+                    Turno turno = new Turno();
+                    turno.setMedico(medico);
+                    turno.setDate(calendar.getTime());
+
+                    List<Turno> turnos = turnoRepository.getTurnosEnElHorario(Long.parseLong(idMedico), turno.getDate());
+                    if(turnos != null && turnos.size() == 0){
+                        this.turnoRepository.save(turno);
+                    }
+
+                    calendar.add(Calendar.MINUTE, tiempoTurno);
+                } else {
+                    calendar.add(Calendar.DATE, 7);
+                    horaFin.add(Calendar.DATE, 7);
+                    calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hora1[0]));
+                    calendar.set(Calendar.MINUTE, Integer.parseInt(hora1[1]));
+                    calendar.set(Calendar.SECOND, 0);
+                    calendar.set(Calendar.MILLISECOND,0);
+
+                }
+            }
+            
+            return ResponseEntity.ok("Turnos creados correctamente");
         } catch(Exception e) {
             return Utils.genResponseError("Error al crear turno: " + e.getMessage());
         }

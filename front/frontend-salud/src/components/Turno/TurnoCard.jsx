@@ -61,13 +61,14 @@ function TurnoCard({ turno }) {
                     <div className="flex justify-center font-bold text-black text-xl text-center">{formattedTime}</div>
                 </div>
             </div>
-            <div className="flex justify-center item-center bg-[#d0321d] border-t-[5px] border-black">
-                <div className="flex justify-center w-1/6  m-auto hover:opacity-70 hover:cursor-pointer">
-                    <img className="flex my-3" src="/btn_cancelar.svg" alt="Cancelar" onClick={handleCancelar} />
-                    <h1 className="flex m-auto text-black font-bold text-2xl pl-5">Cancelar</h1>
+            <div className='border-t-[5px]  border-black'>
+                <div className="flex justify-center item-center bg-[#d0321d]   hover:opacity-80 hover:cursor-pointer " onClick={handleCancelar}>
+                    <div className="flex justify-center w-1/6  m-auto hover:opacity-70 ">
+                        <img className="flex my-3" src="/btn_cancelar.svg" alt="Cancelar"/>
+                        <h1 className="flex m-auto text-black font-bold text-2xl pl-5">Cancelar</h1>
+                    </div>
                 </div>
             </div>
-
             <ConfirmCancelar
                 isOpen={showDialog}
                 onClose={() => setShowDialog(false)}

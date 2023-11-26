@@ -1,8 +1,8 @@
 'use client';
+import React, { useState, useEffect } from 'react';
 import Header from "@/components/Estructura/Header";
 import ContenidoTabla from "@/components/CargaDeTurnos/ContTablaRangoHorario";
 import Footer from "@/components/Estructura/Footer";
-import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -12,89 +12,65 @@ function dias(index) {
       id: `tab-${index}`,
       'aria-controls': `tabpanel-${index}`,
     };
-}
-
-export default function Turnos() {
+  }
+  
+  export default function Turnos() {
     const [value, setValue] = useState(0);
+    const [selectedDays, setSelectedDays] = useState([]);
+  
     const handleChangeTabs = (event, newValue) => {
-        setValue(newValue);
+      setValue(newValue);
     };
-    
+  
+    const handleDayClick = (event, index) => {
+        // Check if the right mouse button is clicked
+        const isRightClick = event.button === 2;
+        if (isRightClick) {
+            console.log("right click");
+            // Right-click: Add the day to the selection
+            const updatedSelectedDays = [...selectedDays, index];
+            setSelectedDays(updatedSelectedDays);
+        } else {
+            console.log("left click");
+            // Left-click: Select only the clicked day
+            setSelectedDays([index]);
+        }
+    };
+  
+    const handleContextMenu = (event) => {
+      event.preventDefault(); // Prevent the default context menu from showing
+    };
+
     return (
         <div className="flex flex-col min-h-screen">
             <Header />
             <main className="flex-1 flex justify-center items-center">
                 <div className="flex bg-white border-blue-500 border-[2px] rounded-[30px] overflow-hidden">
                     <div className="flex flex-col pb-5"> 
-                        <Box sx={{ borderColor: 'divider' }}>
-                            <Tabs value={value} onChange={handleChangeTabs} aria-label="Tabla dias">
-                                <Tab className="font-roboto text-xl" label="Lunes" {...dias(0)} />
-                                <Tab className="font-roboto text-xl" label="Martes" {...dias(1)} />
-                                <Tab className="font-roboto text-xl" label="Miercoles" {...dias(2)} />
-                                <Tab className="font-roboto text-xl" label="Jueves" {...dias(3)} />
-                                <Tab className="font-roboto text-xl" label="Viernes" {...dias(4)} />
-                                <Tab className="font-roboto text-xl" label="Sabado" {...dias(5)} />
-                                <Tab className="font-roboto text-xl" label="Domingo" {...dias(6)} />
-                            </Tabs>
-                        </Box>
-                        {value === 0 && (
-                            <div className="flex flex-col m-5">
-                                <ContenidoTabla />
-                            </div>
-                        )}
-
-                        {value === 1 && (
-                            <div className="flex flex-col m-5">
-                                <h1 className="font-roboto text-xl">
-                                    <ContenidoTabla />
-                                </h1>
-                            </div>
-                        )}
-
-                        {value === 2 && (
-                            <div className="flex flex-col m-5">
-                                <h1 className="font-roboto text-xl">
-                                    <ContenidoTabla />
-                                </h1>
-                            </div>
-                        )}
-
-                        {value === 3 && (
-                            <div className="flex flex-col m-5">
-                                <h1 className="font-roboto text-xl">
-                                    <ContenidoTabla />
-                                </h1>
-                            </div>
-                        )}
-
-                        {value === 4 && (
-                            <div className="flex flex-col m-5">
-                                <h1 className="font-roboto text-xl">
-                                    <ContenidoTabla />
-                                </h1>
-                            </div>
-                        )}
-
-                        {value === 5 && (
-                            <div className="flex flex-col m-5">
-                                <h1 className="font-roboto text-xl">
-                                    <ContenidoTabla />
-                                </h1>
-                            </div>
-                        )}
-
-                        {value === 6 && (
-                            <div className="flex flex-col m-5">
-                                <h1 className="font-roboto text-xl">
-                                    <ContenidoTabla />
-                                </h1>
-                            </div>
-                        )}
+                        <div className="flex pb-5">
+                            {["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"].map((day, index) => (
+                                <button
+                                    key={index}
+                                    className={`font-roboto text-xl p-4 ${
+                                        selectedDays.includes(index) ? 'bg-green-500  text-white border-b-[2px] border-blue-700 hover:bg-green-600' : 'bg-white text-gray-500 hover:bg-gray-200'
+                                    }`}
+                                    style={{
+                                        transition: 'background-color 400ms, color 400ms',
+                                        outline: 'none'
+                                      }}
+                                    onMouseDown={(event) => handleDayClick(event, index)}
+                                    onContextMenu={(event) => handleContextMenu(event, index)}
+                                >
+                                    {day}
+                                </button>
+                            ))}
+                        </div>
+                        <ContenidoTabla selectedDays={selectedDays} />
                     </div>
                 </div>
             </main>
             <Footer />
         </div>
-        
+
     );
 }
