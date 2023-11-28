@@ -221,9 +221,8 @@ public class TurnoService {
 
             Calendar calendarfin = Calendar.getInstance();
             calendarfin.add(Calendar.DATE, 21); //genera a 2 semanas desde el dia que se pide generar
-        
             
-            List<Integer> diasList = Arrays.stream(dias.split(",")).map(Integer::parseInt).collect(Collectors.toList());
+            List<Integer> diasList = Arrays.stream(dias.split(",")).map(Integer::parseInt).map(dia -> (dia + 1) % 7).collect(Collectors.toList());
 
             while (calendar.getTime().compareTo(calendarfin.getTime()) < 0) {
                 Calendar aux = (Calendar) calendar.clone();
@@ -235,9 +234,12 @@ public class TurnoService {
                     turno.setDate(calendar.getTime());
 
                     List<Turno> turnos = turnoRepository.getTurnosEnElHorario(Long.parseLong(idMedico), turno.getDate());
-                    if(turnos != null && turnos.size() == 0 ){
+                    if(turnos != null && turnos.size() == 0){
                         this.turnoRepository.save(turno);
-                    }//si existe un turno en esa hora no se guarda
+                    } else {
+                        return Utils.genResponseError("No se pueden crear turnos ya que existen otros turnos en esos horarios");
+                    }
+
                     calendar.add(Calendar.MINUTE, tiempoTurno);
                 } else {
                     calendar.add(Calendar.DATE, 1);
