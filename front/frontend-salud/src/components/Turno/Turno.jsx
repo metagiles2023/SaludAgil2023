@@ -14,7 +14,7 @@ const ListaTurno = ({ turnos }) => {
                 const parts = raw.split(':');
 
                 const id = parts[0];
-                const fullName = parts[1].split(' '); // assuming name and surname are separated by a space
+                const fullName = parts[1].split(' ');
                 const especialidad = parts[2];
                 const date = parts[3];
 

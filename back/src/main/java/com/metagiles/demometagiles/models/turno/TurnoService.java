@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -184,10 +186,10 @@ public class TurnoService {
         try { 
             String horaini = request.get("horaini");
             String horafin = request.get("horafin");
-            String dia = request.get("dia");
+            String dias = request.get("dia");
             String idMedico = request.get("idMedico");
             String tiempoturno = request.get("tiempoturno");
-
+            
             String[] hora1 = horaini.split(":");
             String[] hora2 = horafin.split(":");
             if(Integer.parseInt(hora1[0]) > Integer.parseInt(hora2[0]) || (Integer.parseInt(hora1[0]) == Integer.parseInt(hora2[0]) && Integer.parseInt(hora1[1]) >= Integer.parseInt(hora2[1]))){
@@ -219,29 +221,27 @@ public class TurnoService {
 
             Calendar calendarfin = Calendar.getInstance();
             calendarfin.add(Calendar.DATE, 21); //genera a 2 semanas desde el dia que se pide generar
+        
             
-            while(calendar.getTime().getDay() != Integer.parseInt(dia)){//me paro en el siguiente dia que quiero generar
-                calendar.add(Calendar.DATE, 1);
-                horaFin.add(Calendar.DATE, 1);
-            }
-            
+            List<Integer> diasList = Arrays.stream(dias.split(",")).map(Integer::parseInt).collect(Collectors.toList());
+
             while (calendar.getTime().compareTo(calendarfin.getTime()) < 0) {
                 Calendar aux = (Calendar) calendar.clone();
                 aux.add(Calendar.MINUTE, tiempoTurno); //si el turno que quiero generar esta dentro del rango horario lo genero, ej //son las 13:00 el turno dura 45 y la jornada termina 13:30, no tendria que generarlo
-                if (aux.before(horaFin) || aux.equals(horaFin)) {
+                if ((aux.before(horaFin) || aux.equals(horaFin)) && diasList.contains(calendar.getTime().getDay()) ) {
+                    
                     Turno turno = new Turno();
                     turno.setMedico(medico);
                     turno.setDate(calendar.getTime());
 
                     List<Turno> turnos = turnoRepository.getTurnosEnElHorario(Long.parseLong(idMedico), turno.getDate());
-                    if(turnos != null && turnos.size() == 0){
+                    if(turnos != null && turnos.size() == 0 ){
                         this.turnoRepository.save(turno);
-                    }
-
+                    }//si existe un turno en esa hora no se guarda
                     calendar.add(Calendar.MINUTE, tiempoTurno);
                 } else {
-                    calendar.add(Calendar.DATE, 7);
-                    horaFin.add(Calendar.DATE, 7);
+                    calendar.add(Calendar.DATE, 1);
+                    horaFin.add(Calendar.DATE, 1);
                     calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hora1[0]));
                     calendar.set(Calendar.MINUTE, Integer.parseInt(hora1[1]));
                     calendar.set(Calendar.SECOND, 0);
@@ -249,7 +249,6 @@ public class TurnoService {
 
                 }
             }
-            
             return ResponseEntity.ok("Turnos creados correctamente");
         } catch(Exception e) {
             return Utils.genResponseError("Error al crear turno: " + e.getMessage());

@@ -13,10 +13,10 @@ export default function mostrarTurnosMedico() {
     maxima_fecha.setMonth(now.getMonth() + 2)
     const [selectedDate, setSelectedDate] = useState(null);
     const [data, setData] = useState(null);
-
+  
     const handle = ((dia,mes,user) =>{
             mes += 1;
-            fetch(`/api/portalmedico?dia=${dia}&mes=${mes}&idMedico=${1}`,{
+            fetch(`/api/portalmedico/calendario?dia=${dia}&mes=${mes}&idMedico=${1}`,{
                 method: 'GET',
               })
             .then(async (res) => {
@@ -37,7 +37,7 @@ export default function mostrarTurnosMedico() {
       <Header />
       <main className='flex-1 flex'>
         <div className='flex-1 flex justify-center items-center'>
-          <div className='flex w-5/6 h-5/6 justify-center items-center'>
+          <div className='flex w-5/6 h-[50vh] justify-center items-center'>
             <Calendar
               minDate={now}
               maxDate={maxima_fecha}
@@ -50,24 +50,22 @@ export default function mostrarTurnosMedico() {
           </div>
         </div>
         <div className='flex-1 flex items-center'>
-          <div className='flex h-2/3 w-full justify-center items-center rounded-3xl bg-cyan-400 text-2xl m-5'>
-            <div className="flex h-5/6 w-11/12 overflow-y-auto">
-              <div className='flex flex-col w-full text-center'>
+          <div className='flex h-[50vh] w-full justify-center items-center rounded-3xl bg-cyan-400 text-2xl m-5'>
+            <div className="flex h-5/6 w-11/12  overflow-y-auto">
+              <ul className='flex flex-col w-full text-center'>
                   {data &&
                     data.map((turno) => {
                       return (
-                        <div className='w-1/8'>
                           <PacienteCard
                             key={turno.id}
                             id={turno.id}
                             horario={turno.date}
                             paciente={turno.paciente !== null ? turno.paciente.nombre + " " + turno.paciente.apellido : "Libre"}
                           />
-                        </div>
                       );
                     })
                   }
-              </div>
+              </ul>
             </div>
           </div>
         </div>

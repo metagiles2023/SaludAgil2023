@@ -79,7 +79,7 @@ const horas = [
     
   ];
 
-export default function Turnos() {
+export default function Turnos({ selectedDays }) {
     const MenuProps = {
         PaperProps: {
             style: {
@@ -105,6 +105,51 @@ export default function Turnos() {
         setDuracionTurno(event.target.value);
     };
 
+    let errormessage = (selectedDays == "") || (fechaDesde == "") || (fechaHasta == "") || (turno == "") ? "No se cargaron todos los campos" : "";
+    const handleGuardarClick = async () => {
+
+        if ((selectedDays == "") || (fechaDesde == "") || (fechaHasta == "") || (turno == "")) {
+            console.error('Incomplete data. Please fill in all fields.');
+            return;
+        }
+        const bodySend = {
+            "horaini": fechaDesde,
+            "horafin": fechaHasta,
+            "dia": selectedDays.toString(),
+            "tiempoturno": turno,
+            "idMedico": "1"
+        };
+        
+        
+        try {
+            const response = await fetch(`/api/portalmedico/cargarTurnos`, {
+                method: 'POST',
+                body: JSON.stringify(bodySend),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                mode: 'cors',
+            });
+        
+            if (response.ok) {
+                console.log(response.status);
+                errormessage = response.status;
+                // Request was successful, you can decide what to do here
+            } else {
+                // Handle errors or non-OK responses
+                errormessage = response.status;
+                console.error('Request failed with status:', response.status);
+                const errorMessage = await response.text(); // Get more detailed error message from the server
+                console.error('Error details:', errorMessage);
+            }
+        } catch (error) {
+            console.error('An error occurred:', error);
+        }
+        
+    };
+    
+    const buttonColor = (selectedDays == "") || (fechaDesde == "") || (fechaHasta == "") || (turno == "") ? "error" : "success";
+    const buttonClassName = (selectedDays == "") || (fechaDesde == "") || (fechaHasta == "") || (turno == "") ? "bg-red-500" : "bg-green-500";
     return (
         <div className="flex justify-around w-full h-full">
             <div className="flex items-center -translate-y-4 gap-10 p-5">
@@ -180,7 +225,10 @@ export default function Turnos() {
                     </FormControl>
                 </div>
                 <div className="flex justify-end pr-5"> 
-                    <Button className="flex bg-green-500" variant="contained" color="success">
+                    <p className="absolute left-[46%] justify-center text-left text-black align-middle">
+                        {errormessage}
+                    </p>
+                    <Button className={`flex ${buttonClassName}`} variant="contained" color={buttonColor} onClick={handleGuardarClick}>
                         Guardar
                     </Button>
                 </div>
