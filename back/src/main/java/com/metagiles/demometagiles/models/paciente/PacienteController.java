@@ -3,6 +3,8 @@ package com.metagiles.demometagiles.models.paciente;
 import java.util.*;
 
 import com.metagiles.demometagiles.utils.SendEmail;
+import com.metagiles.demometagiles.utils.Utils;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -45,11 +47,11 @@ public class PacienteController {
      */
     @PostMapping("/paciente")
     public ResponseEntity<?> createPaciente(@RequestBody Paciente request) {
-        if (pacienteService.estaInscriptoEnFacultad(request)){
+        if (pacienteService.estaInscriptoEnFacultad(request.getDni())){
             return pacienteService.createPaciente(request);
         }
         else{
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El DNI no está inscripto en la facultad");
+            return Utils.genResponseError("El DNI no está inscripto en la facultad");
         }
     }
 
@@ -90,6 +92,11 @@ public class PacienteController {
         pacienteService.darInfoTurno(pid, mail, nrotelefono);
     }
 
-    
+    // Método para simular el chequeo con la API de la facultad
+    @GetMapping(value = "/paciente/isInscripto")
+    public boolean estaInscriptoEnFacultad(@RequestBody Map<String, String> dniRequest) {
+        String dni = dniRequest.get("dni");
+        return pacienteService.estaInscriptoEnFacultad(dni);
+    }
 }
 //

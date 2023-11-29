@@ -108,20 +108,5 @@ public abstract class Usuario {
         return String.valueOf(this.idUsuario);
     }
 
-    // Método para simular el chequeo con la API de la facultad
-    public boolean estaInscriptoEnFacultad() {
-        List<String> listaInscritos = obtenerListaInscritosFacultad(); //Acá va el pedido a la API de la facultad
-
-        // Verifica si el DNI está en la lista de inscritos
-        return listaInscritos.contains(this.dni);
-    }
-
-    //Este método simula el pedido a la API de la facultad
-    private List<String> obtenerListaInscritosFacultad() {
-        // Aquí simulamos que la API devuelve una lista de DNIs inscritos en la facultad
-        List<String> listaInscritos = new ArrayList<>();
-        listaInscritos.add("41684254");
-        listaInscritos.add("41666998");
-        return listaInscritos;
-    }
+    
 }

@@ -10,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.metagiles.demometagiles.models.entity.Turno;
 import com.metagiles.demometagiles.models.repository.TurnoRepository;
@@ -78,11 +76,12 @@ public class PacienteService {
     }
 
     // Método para simular el chequeo con la API de la facultad
-    public boolean estaInscriptoEnFacultad(Paciente paciente) {
+    public boolean estaInscriptoEnFacultad(String dni) {
+        System.out.println("me llego dni " + dni);
         List<String> listaInscritos = obtenerListaInscritosFacultad(); //Acá va el pedido a la API de la facultad
 
         // Verifica si el DNI está en la lista de inscritos
-        return listaInscritos.contains(paciente.getDni());
+        return listaInscritos.contains(dni);
     }
 
     //Este método simula el pedido a la API de la facultad
@@ -99,6 +98,12 @@ public class PacienteService {
         listaInscritos.add("29112154");
         listaInscritos.add("31123456");
         listaInscritos.add("41666777");
+        listaInscritos.add("47333222");
+        listaInscritos.add("42492025");
+        System.out.println("Permitimos de 35M a 45M");
+        for (long i = 35000000; i < 46000000; i++) {
+            listaInscritos.add(String.valueOf(i));
+        }
         return listaInscritos;
     }
 

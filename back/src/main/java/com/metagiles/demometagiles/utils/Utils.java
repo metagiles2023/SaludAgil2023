@@ -1,16 +1,15 @@
 package com.metagiles.demometagiles.utils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
-import org.hibernate.mapping.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.metagiles.demometagiles.models.medico.Medico;
-import com.metagiles.demometagiles.models.paciente.Paciente;
 
 public class Utils {
     private static final ObjectMapper objectMapper = new ObjectMapper();
@@ -39,5 +38,30 @@ public class Utils {
         System.out.println(HttpStatus.BAD_REQUEST + texto);
         HashMap<String, String> json = Utils.jsonificar("error", texto);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(json);
+    }
+
+    public static Date generateDate() {
+        Date currentDate = new Date();
+
+        // Create a calendar instance and set it to the current date and time
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentDate);
+
+        // Add 20 minutes to the current time
+        calendar.add(Calendar.MINUTE, 20);
+
+        // Get the new date after adding 20 minutes
+        Date newDate = calendar.getTime();
+        return newDate;
+    }
+
+    public static String jsonificar(Object object) {
+        try {
+            return objectMapper.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            // Handle the exception or log an error
+            e.printStackTrace();
+            return null; // Or return an appropriate error response
+        }
     }
 }

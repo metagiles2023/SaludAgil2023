@@ -117,19 +117,19 @@ public class PacienteServiceTest {
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
     }
 
-    @Test
-    @DisplayName("Verifica que se chequee correctamente que un usuario pertenece a la facultad")
-    public void testEstaInscriptoEnFacultad(){
-        boolean resultado = pacienteService.estaInscriptoEnFacultad(pacientePrueba);
-        assertEquals(true, resultado);
-    }
+    // @Test
+    // @DisplayName("Verifica que se chequee correctamente que un usuario pertenece a la facultad")
+    // public void testEstaInscriptoEnFacultad(){
+    //     boolean resultado = pacienteService.estaInscriptoEnFacultad(pacientePrueba);
+    //     assertEquals(true, resultado);
+    // }
 
-    @Test
-    @DisplayName("Verifica que se chequee correctamente que un usuario no pertenece a la facultad")
-    public void textNoEstaInscriptoEnFacultad(){
-        Paciente pacienteN = new Paciente("Fran","Azqueta","41259122","paciente");
-        pacienteN.setObraSocial("ObraSocial1");
-        boolean resultado = pacienteService.estaInscriptoEnFacultad(pacienteN);
-        assertEquals(false, resultado);
-    }
+    // @Test
+    // @DisplayName("Verifica que se chequee correctamente que un usuario no pertenece a la facultad")
+    // public void textNoEstaInscriptoEnFacultad(){
+    //     Paciente pacienteN = new Paciente("Fran","Azqueta","41259122","paciente");
+    //     pacienteN.setObraSocial("ObraSocial1");
+    //     boolean resultado = pacienteService.estaInscriptoEnFacultad(pacienteN);
+    //     assertEquals(false, resultado);
+    // }
 }

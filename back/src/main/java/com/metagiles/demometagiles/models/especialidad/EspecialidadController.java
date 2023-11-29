@@ -43,7 +43,7 @@ public class EspecialidadController {
     public ResponseEntity<?> crearEspecialidad(@RequestBody Especialidad request) {
         try {
             if (repository.existsBynombre(request.getNombre())) {
-                return genResponseError("Ya existe una especialidad con este nombre.");
+                return Utils.genResponseError("Ya existe una especialidad con este nombre.");
             }
             
             Especialidad especialidad = new Especialidad();
@@ -53,13 +53,7 @@ public class EspecialidadController {
             Especialidad savedEspecialidad = repository.save(especialidad);
             return ResponseEntity.ok(Utils.jsonificar("id", savedEspecialidad.getIdEspecialidad()));
         } catch(Exception e) {
-            return genResponseError("Error creating Especialidad: "  + e.getMessage());
+            return Utils.genResponseError("Error creating Especialidad: "  + e.getMessage());
         }
-    }
-
-    private ResponseEntity<HashMap<String, String>> genResponseError(String texto) {
-        System.out.println(HttpStatus.BAD_REQUEST + texto);
-        HashMap<String, String> json = Utils.jsonificar("error", texto);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(json);
     }
 }
