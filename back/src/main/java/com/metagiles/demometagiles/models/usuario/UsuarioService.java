@@ -1,5 +1,7 @@
 package com.metagiles.demometagiles.models.usuario;
 
+import java.util.ArrayList;
+
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -9,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 public class UsuarioService{
     private final UsuarioRepository usuarioRepository;
 
-    public Usuario getUsuario(String dni) {
+    public ArrayList<Usuario> getUsuarios(String dni) {
         return usuarioRepository.getBydni(dni);
     }    
 }

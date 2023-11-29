@@ -1,5 +1,7 @@
 package com.metagiles.demometagiles.models.sesion;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.springframework.cache.Cache;
@@ -32,7 +34,8 @@ public class SessionCacheService {
      */
     public ResponseEntity<?> createSession(String dni, String password) throws Exception {
         // Se verifican los datos del usuario y el token de seguridad.
-        Usuario usuario = usuarioService.getUsuario(dni);
+        ArrayList<Usuario> usuarios = usuarioService.getUsuarios(dni);
+        Usuario usuario = usuarios.get(0); //TODO: obtener el de mas alto rol.
         Cache cache = cacheManager.getCache("infoSession");
         AuthUsuario authUsuario = authenticateUsuario(password, usuario); // Mock de autenticacion
         Session session = new Session(authUsuario.getToken(), usuario);
