@@ -1,4 +1,4 @@
-const NavBar = () => {
+const NavBar = ({user={}}) => {
     return (
         <nav className="flex items-center">
             <div className="w-full" id="NavBar">
@@ -23,6 +23,9 @@ const NavBar = () => {
                     </li>
                     <li>
                     <a href="/turnos" className="text-white hover:text-blue-500 hover:bg-transparent">Portal Pacientes</a>
+                    </li>
+                    <li>
+                        {(user.nombre)}
                     </li>
                 </ul>
             </div>

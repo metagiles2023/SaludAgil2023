@@ -1,3 +1,4 @@
+"use client"
 import Link from "next/link";
 import NavBar from "../NavBar/NavBar";
 
@@ -10,7 +11,7 @@ const Header = () => {
                         <img src="/logo.png" alt="Logo" className="h-16"></img>                    
                         <h1 className="font-semibold text-5xl xl:text-6xl px-4"> SaludAgil</h1>
                     </Link>
-                    <NavBar />
+                    <NavBar/>
                 </div>
                 <div className= "flex items-center">
                     <img className="px-8" src="/notificacion.svg" alt="Notificaciones"></img>

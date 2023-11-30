@@ -1,6 +1,13 @@
-import React, { useState } from "react";
+"use client"
+import React, { useState, useEffect } from "react";
+import { SessionProvider } from 'next-auth/react';
+import { useSession, signIn } from 'next-auth/react';
+import { useSearchParams } from 'next/navigation';
 
 export const Login = (props) => {
+    const { data: session } = useSession();
+    const searchParams = useSearchParams();
+
     const [dni, setDNI] = useState('');
     const [pass, setPass] = useState(''); //Ignorada
 
@@ -11,7 +18,7 @@ export const Login = (props) => {
         setPass('')
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = {
             dni: e.target.dni.value
@@ -20,29 +27,51 @@ export const Login = (props) => {
         fetch('/api/login', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify(formData)
-        })
-            .then(async (response) => {
-                console.log('ha llegado la respuesta de la api del front');
-                console.log(response);
-                const resp = response.json()
-                console.log(`resp es ${resp}`)
-                if (response.status >= 400) {
-                    if (response.statusText) {
-                        console.log('hay status text y es ' + response.statusText);
-                        setTextoBackend(response.statusText);
-                    }
-                } else {
-                    setTextoBackend(`Paciente creado con éxito!`);
-                    clearForm();
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+            body: JSON.stringify(formData),
+        }).then((res) => res.json())
+        .then(async (user) => {
+            if (!user) {
+                setTextoBackend("No existe dicho usuario o la password es incorrecta.")
+            } else {
+                const result = await signIn('credentials', {
+                    username: formData.dni,
+                    password: "password",
+                    redirect: true,
+                    callbackUrl: searchParams.get('callbackUrl') ?? '/',
+                });
+            }
+        });
+        // try {
+        //     const response = fetch('/api/login', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         },
+        //         body: JSON.stringify(formData)
+        //     })
+        //     const responseData = await response.json();
+            
+        //     console.log('ha llegado la respuesta de la api del front');
+        //     console.log(responseData);
+        //     if (response.status >= 400) {
+        //         if (response.statusText) {
+        //             console.log('hay status text y es ' + response.statusText);
+        //             setTextoBackend(response.statusText);
+        //         }
+        //     } else {
+        //         // Store user information in sessionStorage
+        //         sessionStorage.setItem('userData', JSON.stringify(responseData));
+        //         // Redirect or perform any other actions
+        //         //redirect to somewhere
+        //         clearForm();
+        //     }
+        // } catch (err) {
+        //     console.error('Error:', err);
+        // }
     }
+    
 
     return (
         <div className="auth-form-container">

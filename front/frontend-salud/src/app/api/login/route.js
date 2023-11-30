@@ -1,7 +1,15 @@
-export async function POST() {
+export async function POST(request) {
+    const body = await request.json();
+    const data = {
+        dni: body.dni,
+        password: body.password
+    }
     const res = await fetch(process.env.URL_BACKEND + '/login', {
-        method: 'GET',
-        cache: "no-store"
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json"
+        }
     });
     const resultado = await res.json();
     if (res.status >= 400) { //logica de control de errores
@@ -10,6 +18,13 @@ export async function POST() {
             statusText: resultado,
         });
     } else {
-        return new Response(JSON.stringify(resultado));
+        console.log('construir user con este objeto:')
+        console.log(resultado)
+        const user = {
+            dni: "lslslsl",
+            nombre: "skskskks",
+            rol: "sldslldslls"
+        }
+        return new Response(JSON.stringify(user));
     }
 }
