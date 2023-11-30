@@ -48,7 +48,14 @@ public class EspecialidadController {
      * Retorna un JSON con el id de la especialidad agregada, o un json { "error": "..."}
      */
     @PostMapping("/medico/especialidad")
-    public ResponseEntity<?> crearEspecialidad(@RequestBody Especialidad request) {
+    public ResponseEntity<?> crearEspecialidad(@RequestBody Especialidad request, @RequestBody String token) {
+        Session session = sessionCacheService.getSession(token);
+        if (session == null) { //significa que el login es invalido
+            return Utils.genResponseError("Token invalido");
+        }
+        if (session.getUsuario().getRol().equals("usuario")) {
+            return Utils.genResponseError("No tiene permisos para crear especialidades.");
+        }
         try {
             if (repository.existsBynombre(request.getNombre())) {
                 return Utils.genResponseError("Ya existe una especialidad con este nombre.");

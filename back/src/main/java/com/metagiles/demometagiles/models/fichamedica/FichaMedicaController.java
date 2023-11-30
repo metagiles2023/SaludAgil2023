@@ -26,8 +26,8 @@ public class FichaMedicaController {
         }
     */
     @PostMapping("/ficha-medica")
-    public List<FichaMedica> getAll(@RequestBody FiltroRequest fRequest) {
-        return fichaMedicaService.findAllFichaMedicas(fRequest);
+    public List<FichaMedica> getAll(@RequestBody FiltroRequest fRequest, @RequestBody String token) {
+        return fichaMedicaService.findAllFichaMedicas(fRequest, token);
     }
     
     /*
@@ -45,7 +45,7 @@ public class FichaMedicaController {
      * Retorna un JSON con el id del usuario agregado.
      */
     @PostMapping("/ficha-medica/create")
-    public ResponseEntity<?> crearFichaMedica(@RequestBody FichaMedica request) {
-        return fichaMedicaService.crearFichaMedica(request);
+    public ResponseEntity<?> crearFichaMedica(@RequestBody FichaMedica request, @RequestBody String token) {
+        return fichaMedicaService.crearFichaMedica(request, token);
     }
 }
