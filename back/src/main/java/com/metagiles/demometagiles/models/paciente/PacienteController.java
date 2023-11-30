@@ -29,8 +29,8 @@ public class PacienteController {
     }
 
     @GetMapping("/paciente")
-    public List<Paciente> findAllPacientes() {
-        return pacienteService.findAllPacientes();
+    public List<Paciente> findAllPacientes(@RequestBody String token) {
+        return pacienteService.findAllPacientes(token);
     }
     
     /*
@@ -56,22 +56,22 @@ public class PacienteController {
     }
 
     @GetMapping("/paciente/getById")
-    public ResponseEntity<?> getById(@RequestParam("id") Long idUsuario) {
-        return pacienteService.getById(idUsuario);
+    public ResponseEntity<?> getById(@RequestParam("id") Long idUsuario, @RequestBody String token) {
+        return pacienteService.getById(idUsuario,token);
     }
     
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
     //Cosas de Turnos que quizas puedan ir en un TurnoController pero que por ahora dejamos aca
 
     @PostMapping(value = "/reservar/turno")
-    public ResponseEntity<?> postReservarTurno(@RequestBody Map<String,String> request){
-        return pacienteService.postReservarTurno(request);
+    public ResponseEntity<?> postReservarTurno(@RequestBody Map<String,String> request, @RequestBody String token){
+        return pacienteService.postReservarTurno(request,token);
     };
 
     //devuelve un mapa donde la key es el id del turno y el value es la fecha
     @GetMapping(value = "/turnosByMedico")
-    public List<Turno> getTurnosMedicoByDiaByMes(@RequestParam(name = "dia") String dia,@RequestParam(name = "mes") String mes ,@RequestParam(name = "id") String IdMedico){
-        return pacienteService.getTurnosMedicoByDiaByMes(dia, mes, IdMedico);
+    public List<Turno> getTurnosMedicoByDiaByMes(@RequestParam(name = "dia") String dia,@RequestParam(name = "mes") String mes ,@RequestParam(name = "id") String IdMedico, @RequestBody String token){
+        return pacienteService.getTurnosMedicoByDiaByMes(dia, mes, IdMedico, token);
     };
 
     //devuelve los turnos de un paciente en base a su id
@@ -83,7 +83,7 @@ public class PacienteController {
     }
 
     @PostMapping(value = "/misturnos/cancelar")
-    public ResponseEntity<?> cancelarTurnoByIdPaciente (@RequestBody Map<String,String> request){
+    public ResponseEntity<?> cancelarTurnoByIdPaciente(@RequestBody Map<String,String> request, @RequestBody String token){
         return pacienteService.cancelarTurnoByIdPaciente(request);
     }
 

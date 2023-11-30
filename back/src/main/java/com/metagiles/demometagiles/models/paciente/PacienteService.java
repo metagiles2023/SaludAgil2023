@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import com.metagiles.demometagiles.models.entity.Turno;
 import com.metagiles.demometagiles.models.repository.TurnoRepository;
+import com.metagiles.demometagiles.models.sesion.Session;
+import com.metagiles.demometagiles.models.sesion.SessionCacheService;
 import com.metagiles.demometagiles.utils.SendEmail;
 import com.metagiles.demometagiles.utils.Utils;
 import lombok.RequiredArgsConstructor;
@@ -22,13 +24,21 @@ import lombok.RequiredArgsConstructor;
 public class PacienteService {
     private final PacienteRepository pacienteRepository;
     private final PacienteMapper pacienteMapper;
+    private final SessionCacheService sessionCacheService;
 
     // Cosas de Turnos que se tienen que ir de aca
     private final TurnoRepository turnoRepository;
 
 
-    public List<Paciente> findAllPacientes() {
-        return pacienteRepository.findAll();
+    public List<Paciente> findAllPacientes(String token) {
+        Session session = sessionCacheService.getSession(token);
+        if (session == null) { //significa que el login es invalido
+            return null;
+        }
+        if(session.getUsuario().getRol().equals("admin") || session.getUsuario().getRol().equals("medico")){
+            return pacienteRepository.findAll();
+        }
+        return null;
     }
 
     public ResponseEntity<?> createPaciente(Paciente request) {
@@ -60,7 +70,14 @@ public class PacienteService {
         }
     }
 
-    public ResponseEntity<?> getById(Long idUsuario) {
+    public ResponseEntity<?> getById(Long idUsuario, String token) {
+        Session session = sessionCacheService.getSession(token);
+        if (session == null) { //significa que el login es invalido
+            return Utils.genResponseError("Tu login es inválido.");
+        }
+        if(session.getUsuario().getRol().equals("usuario")){
+            return Utils.genResponseError("No tienes permiso para hacer eso.");
+        }
         Paciente paciente = null;
         try {
             Optional<Paciente> pacienteOpt = pacienteRepository.findById(idUsuario);
@@ -79,7 +96,7 @@ public class PacienteService {
     public boolean estaInscriptoEnFacultad(String dni) {
         System.out.println("me llego dni " + dni);
         List<String> listaInscritos = obtenerListaInscritosFacultad(); //Acá va el pedido a la API de la facultad
-
+        
         // Verifica si el DNI está en la lista de inscritos
         return listaInscritos.contains(dni);
     }
@@ -112,7 +129,11 @@ public class PacienteService {
 
 
 
-    public ResponseEntity<?> postReservarTurno(Map<String,String> request){
+    public ResponseEntity<?> postReservarTurno(Map<String,String> request, String token){
+        Session session = sessionCacheService.getSession(token);
+        if (session == null) { //significa que el login es invalido
+            return Utils.genResponseError("Tu login es inválido.");
+        }
         try{
             Turno turno = this.turnoRepository.getReferenceById(Long.valueOf(request.get("id")));
             turno.setOcupado(true);
@@ -132,7 +153,11 @@ public class PacienteService {
 
     }
     
-    public List<Turno> getTurnosMedicoByDiaByMes(String dia, String mes, String IdMedico){
+    public List<Turno> getTurnosMedicoByDiaByMes(String dia, String mes, String IdMedico, String token){
+        Session session = sessionCacheService.getSession(token);
+        if (session == null) { //significa que el login es invalido
+            return null;
+        }
         System.out.println("GET: /turnos/{dia}/{IdMedico}" + " dia: " + dia + " medico: " + IdMedico + "mes " + mes );
         int aux_mes;
         long aux_id;

@@ -68,8 +68,14 @@ public class SessionCacheService {
         Cache cache = cacheManager.getCache("infoSession");
         Cache.ValueWrapper vWrapper = cache.get(token);
         if (vWrapper == null) return null;
-
+        
         Session session = (Session) vWrapper.get();
+        Date now = new Date();
+        Date twentyMinutesAgo = new Date(now.getTime() - 20 * 60 * 1000); // Subtract 20 minutes from current time
+        if(session.getLastActivity().before(twentyMinutesAgo)) {
+            cache.evictIfPresent(token);
+            return null;
+        }
         session.setLastActivity(new Date());
         return session;
     }

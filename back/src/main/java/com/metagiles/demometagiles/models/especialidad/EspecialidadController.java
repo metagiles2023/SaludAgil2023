@@ -7,19 +7,27 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.metagiles.demometagiles.models.sesion.Session;
+import com.metagiles.demometagiles.models.sesion.SessionCacheService;
 import com.metagiles.demometagiles.utils.Utils;
 
 @RestController
 public class EspecialidadController {
     private final EspecialidadRepository repository;
+    private final SessionCacheService sessionCacheService;
 
-    public EspecialidadController(EspecialidadRepository repository) {
+    public EspecialidadController(EspecialidadRepository repository, SessionCacheService sessionCacheService) {
         this.repository = repository;
+        this.sessionCacheService = sessionCacheService;
     }
 
     @GetMapping("/medico/especialidad")
-    public List<Especialidad> getAll() {
+    public List<Especialidad> getAll(@RequestBody String token) {
         System.out.println("getting especialidades");
+        Session session = sessionCacheService.getSession(token);
+        if (session == null) { //significa que el login es invalido
+            return null;
+        }
         List<Especialidad> fichas = null;
         try {
             fichas = repository.findAll();
