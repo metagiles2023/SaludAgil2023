@@ -11,20 +11,20 @@ import org.springframework.stereotype.Service;
 
 import com.metagiles.demometagiles.models.usuario.AuthUsuario;
 import com.metagiles.demometagiles.models.usuario.Usuario;
-import com.metagiles.demometagiles.models.usuario.UsuarioService;
+import com.metagiles.demometagiles.models.usuario.UsuarioRepository;
 import com.metagiles.demometagiles.utils.Utils;
 
 @Service
 public class SessionCacheService {
     private final CacheManager cacheManager;
     private final JwtUtil jwtUtil;
-    private final UsuarioService usuarioService;
+    private final UsuarioRepository usuarioRepository;
     private String secretKey;
 
-    public SessionCacheService(CacheManager cacheManager, JwtUtil jwtUtil, UsuarioService usuarioService) {
+    public SessionCacheService(CacheManager cacheManager, JwtUtil jwtUtil, UsuarioRepository usuarioRepository) {
         this.cacheManager = cacheManager;
         this.jwtUtil = jwtUtil;
-        this.usuarioService = usuarioService;
+        this.usuarioRepository = usuarioRepository;
     }
 
     /*
@@ -34,7 +34,7 @@ public class SessionCacheService {
      */
     public ResponseEntity<?> createSession(String dni, String password) throws Exception {
         // Se verifican los datos del usuario y el token de seguridad.
-        ArrayList<Usuario> usuarios = usuarioService.getUsuarios(dni);
+        ArrayList<Usuario> usuarios = usuarioRepository.getBydni(dni);
         System.out.println("vino dni" + dni);
         Usuario usuario = usuarios.get(0); //TODO: obtener el de mas alto rol.
         Cache cache = cacheManager.getCache("infoSession");
