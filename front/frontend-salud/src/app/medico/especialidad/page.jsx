@@ -26,12 +26,12 @@ export default function Home() {
 
     return (
         <div className="flex flex-col min-h-screen">
-            <Header /> 
+            
             <main className='flex-1'>
                 <ListaEspecialidades especialidades={datos} />
                 <Redireccionador mensaje="Crear Especialidad" ruta="/medico/especialidad/crear"/>
             </main>
-            <Footer />
+            
         </div>
     );
     }

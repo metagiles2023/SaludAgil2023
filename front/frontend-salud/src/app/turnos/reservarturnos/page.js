@@ -26,7 +26,7 @@ export default function ReservarTurnos() {
     return (
         <>
             <div className="flex flex-col min-h-screen">
-                <Header />
+                
                 <main className="flex-1 flex flex-col justify-center items-center ">
                     <div className="flex items-center py-4 md:py-8 lg:py-20 xl:py-28 2xl:py-32 gap-8">
                         <div className="text-black text-2xl font-bold">Especialidad:</div>
@@ -53,7 +53,7 @@ export default function ReservarTurnos() {
                       </div>
                     </div>
                 </main>
-                <Footer />
+                
             </div>
         </>
     )

@@ -12,7 +12,7 @@ export const Login = (props) => {
     const [pass, setPass] = useState(''); //Ignorada
 
     const [textoBackend, setTextoBackend] = useState('');
-    console.log(session)
+    //console.log(session)
     function clearForm() {
         setDNI('')
         setPass('')
