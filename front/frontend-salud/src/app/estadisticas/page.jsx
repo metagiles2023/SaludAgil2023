@@ -8,7 +8,7 @@ import Graficos from '@/components/Graficos/Graficos'
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
-      <Header /> 
+      
       <main className='flex-1 flex justify-center items-center'>
         <div>
           <p className='m-2'>Grafico de lineas</p>
@@ -17,7 +17,7 @@ export default function Home() {
           </div>
         </div>
       </main>
-      <Footer />
+      
     </div>
   )
 }

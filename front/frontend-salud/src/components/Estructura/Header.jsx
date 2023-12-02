@@ -1,7 +1,13 @@
+"use client"
 import Link from "next/link";
 import NavBar from "../NavBar/NavBar";
+import { useSession } from "next-auth/react";
 
 const Header = () => {
+    const { data: session } = useSession(); // useSession hook to get the current user
+    const user = session?.user
+    console.log("Current user:", user);
+    
     return (
         <>
             <div className="Header flex top-0 left-0 w-full h-20 items-center justify-between bg-[#0bb5c2] px-9">
@@ -10,7 +16,7 @@ const Header = () => {
                         <img src="/logo.png" alt="Logo" className="h-16"></img>                    
                         <h1 className="font-semibold text-5xl xl:text-6xl px-4"> SaludAgil</h1>
                     </Link>
-                    <NavBar />
+                    <NavBar user={user}/>
                 </div>
                 <div className= "flex items-center">
                     <img className="px-8" src="/notificacion.svg" alt="Notificaciones"></img>

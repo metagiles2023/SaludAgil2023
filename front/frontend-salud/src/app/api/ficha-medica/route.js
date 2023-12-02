@@ -1,7 +1,7 @@
 
 // Hay que cambiarle las rutas: no lo quiero tocar para que no haya conflicto con los que estan haciendo los filtros.
 export async function POST(request) { 
-    console.log('Post al backend /ficha-medica/getAl')
+    console.log('Post al backend /ficha-medica/getAll')
     const resultBody = await request.json()
     const res = await fetch(process.env.URL_BACKEND + '/ficha-medica', {
         method: 'POST',

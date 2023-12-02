@@ -12,12 +12,12 @@ export default function Home() {
     return (
         
         <div className="flex flex-col min-h-screen">
-            <Header /> 
+             
             <main className="flex-1">
                 <FormularioMultiple formulario={selectedUserType} />
                 <Redireccionador mensaje="Volver" ruta="/medico/especialidad"/>
             </main>
-            <Footer />
+            
         </div>
     );
 }

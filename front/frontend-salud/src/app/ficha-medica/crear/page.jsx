@@ -11,10 +11,10 @@ export default function Home() {
 
     return (
         <main className="flex flex-col">
-            <Header />
+            
             <FormularioMultiple formulario={selectedType} />
             <Redireccionador mensaje="Volver" ruta="/ficha-medica/ver"/>
-            <Footer />
+            
         </main>
     );
 }

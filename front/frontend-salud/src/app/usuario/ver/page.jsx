@@ -33,7 +33,7 @@ export default function Home() {
 
     return (
         <div className="flex flex-col min-h-screen">
-        <Header /> 
+        
         <main className="flex-1 flex flex-col">
                 <div className='my-4'/>
                 <div className="flex gap-20 my-0">
@@ -46,7 +46,7 @@ export default function Home() {
             <ListaMultiple lista={selectedUserType} datos={datos}  />
             <Redireccionador mensaje="Crear Usuario" ruta="/usuario/crear" />
         </main>
-        <Footer />
+        
     </div>
     );
     }

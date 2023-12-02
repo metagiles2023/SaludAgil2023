@@ -40,7 +40,7 @@ export default function MisTurnos() {
     return (
         <>
             <div className="flex flex-col min-h-screen">
-                <Header />
+                
                 <main className="flex flex-col flex-1 items-center">
                     <h1 className="flex h-14 font-bold text-black text-5xl text-center my-6">Mis Turnos</h1>
                     <div className='flex w-full flex-1 items-center justify-center px-20'>
@@ -59,7 +59,7 @@ export default function MisTurnos() {
                         )}
                     </div>
                 </main>
-                <Footer />
+                
             </div>
         </>
     );

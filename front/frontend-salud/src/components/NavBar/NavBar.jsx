@@ -1,4 +1,6 @@
-const NavBar = () => {
+const NavBar = ( { user={} } ) => {
+    console.log('im the navbar and the user is ')
+    console.log(user)
     return (
         <nav className="flex items-center">
             <div className="w-full" id="NavBar">
@@ -9,20 +11,33 @@ const NavBar = () => {
                     <li>
                     <a href="/blog" className="text-white hover:text-blue-500 hover:bg-transparent">Blog</a>
                     </li>
+                    {user && user.usuario && (user.usuario.rol == 'medico' || user.usuario.rol == 'administrador') ? (
+                        <li>
+                            <a href="/ficha-medica/ver" className="text-white hover:text-blue-500 hover:bg-transparent">Fichas Medicas</a>
+                        </li>
+                    ) : null}
+                    {user && user.usuario && (user.usuario.rol == 'medico' || user.usuario.rol == 'administrador') ? (
+                        <li>
+                            <a href="/usuario/ver" className="text-white hover:text-blue-500 hover:bg-transparent">Usuarios</a>
+                        </li>
+                    ) : null}
+                    {user && user.usuario && (user.usuario.rol == 'medico' || user.usuario.rol == 'administrador') ? (
+                        <li>
+                            <a href="/estadisticas" className="text-white hover:text-blue-500 hover:bg-transparent">Estadisticas</a>
+                        </li>
+                    ) : null}
+                    {user && user.usuario && (user.usuario.rol == 'medico' || user.usuario.rol == 'administrador') ? (
+                        <li>
+                            <a href="/medico/especialidad" className="text-white hover:text-blue-500 hover:bg-transparent">Especialidades</a>
+                        </li>
+                    ) : null}
+                    {user && user.usuario ? (
+                        <li>
+                            <a href="/turnos" className="text-white hover:text-blue-500 hover:bg-transparent">Portal Pacientes</a>
+                        </li>
+                    ) : null}
                     <li>
-                    <a href="/ficha-medica/ver" className="text-white hover:text-blue-500 hover:bg-transparent">Fichas Medicas</a>
-                    </li>
-                    <li>
-                    <a href="/usuario/ver" className="text-white hover:text-blue-500 hover:bg-transparent">Usuarios</a>
-                    </li>
-                    <li>
-                    <a href="/estadisticas" className="text-white hover:text-blue-500 hover:bg-transparent">Estadisticas</a>
-                    </li>
-                    <li>
-                    <a href="/medico/especialidad" className="text-white hover:text-blue-500 hover:bg-transparent">Especialidades</a>
-                    </li>
-                    <li>
-                    <a href="/turnos" className="text-white hover:text-blue-500 hover:bg-transparent">Portal Pacientes</a>
+                        {user && user.usuario ? (user.usuario.nombre) + `(${user.usuario.rol})` : "No logueado"}
                     </li>
                 </ul>
             </div>
