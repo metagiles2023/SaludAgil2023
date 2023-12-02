@@ -14,7 +14,7 @@ const authOptions = {
                 }
             },
             async authorize(credentials, req) {
-                const res = await fetch(process.env.URL + '/api/login', {
+                const res = await fetch('http://localhost:3000/api/login', {
                     //Esta es la ruta que obtenes el usuario con sus credenciales
                     method: 'POST',
                     headers: {
@@ -39,14 +39,20 @@ const authOptions = {
     },
     callbacks: {
         async jwt({ token, user, session, trigger, ...rest }) {
+            console.log('user:',user)
             if (user) {
                 token.token = user.token;
+                token.usuario = user.usuario
+                token.lastActivity = user.lastActivity
             }
             return { ...token, ...user };
         },
 
         async session({ session, token }) {
+            console.log('session:',session)
             session.user.token = token.token;
+            session.user.usuario = token.usuario
+            session.user.lastActivity = token.lastActivity
             return session;
         },
     },

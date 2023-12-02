@@ -12,7 +12,7 @@ export const Login = (props) => {
     const [pass, setPass] = useState(''); //Ignorada
 
     const [textoBackend, setTextoBackend] = useState('');
-    
+    console.log(session)
     function clearForm() {
         setDNI('')
         setPass('')
@@ -20,28 +20,12 @@ export const Login = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const formData = {
-            dni: e.target.dni.value
-        }
-        console.log(formData)
-        fetch('/api/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
-        }).then((res) => res.json())
-        .then(async (user) => {
-            if (!user) {
-                setTextoBackend("No existe dicho usuario o la password es incorrecta.")
-            } else {
-                const result = await signIn('credentials', {
-                    username: formData.dni,
-                    password: "password",
-                    redirect: true,
-                    callbackUrl: searchParams.get('callbackUrl') ?? '/',
-                });
-            }
+        const data = new FormData(e.currentTarget)
+        console.log('pipipipi')
+        console.log(data)
+        const result = await signIn('credentials', {
+            dni: data.get('dni'),
+            password: "password",
         });
         // try {
         //     const response = fetch('/api/login', {
@@ -78,7 +62,7 @@ export const Login = (props) => {
             <h2 style={{ fontSize: '40px' , fontWeight: 'bold'}}>LOGIN</h2>
             <form className="login-form" onSubmit={handleSubmit}>
                 <label htmlFor="dni" style={{ fontSize: '23px' }}>DNI</label>
-                <input value={dni} onChange={(e) => setDNI(e.target.value)}type="dni" placeholder="43040506" id="dni" name="DNI" style={{color: 'black'}} />
+                <input value={dni} onChange={(e) => setDNI(e.target.value)}type="dni" placeholder="43040506" id="dni" name="dni" style={{color: 'black'}} />
                 <label htmlFor="password" style={{ fontSize: '23px' }}>Contraseña</label>
                 <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="********" id="password" name="password" style={{color: 'black'}} />
                 <button type="submit" className="white-background">Login</button>

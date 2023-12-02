@@ -4,6 +4,8 @@ export async function POST(request) {
         dni: body.dni,
         password: body.password
     }
+    console.log(`dni es ${data.dni}`)
+
     const res = await fetch(process.env.URL_BACKEND + '/login', {
         method: 'POST',
         body: JSON.stringify(data),
@@ -21,9 +23,9 @@ export async function POST(request) {
         console.log('construir user con este objeto:')
         console.log(resultado)
         const user = {
-            dni: "lslslsl",
-            nombre: "skskskks",
-            rol: "sldslldslls"
+            usuario: resultado.usuario,
+            token: resultado.token,
+            lastActivity: resultado.lastActivity,
         }
         return new Response(JSON.stringify(user));
     }
