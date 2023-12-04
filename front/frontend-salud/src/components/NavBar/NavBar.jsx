@@ -36,9 +36,15 @@ const NavBar = ( { user={} } ) => {
                             <a href="/turnos" className="text-white hover:text-blue-500 hover:bg-transparent">Portal Pacientes</a>
                         </li>
                     ) : null}
-                    <li>
-                        {user && user.usuario ? (user.usuario.nombre) + `(${user.usuario.rol})` : "No logueado"}
-                    </li>
+                    {user && user.usuario ? (
+                        <li>
+                            {user.usuario.nombre}({user.usuario.rol})
+                        </li>
+                    ): null }
+                    {user && user.usuario ? (<li>
+                        <a href="/logout" className="text-white hover:text-blue-500 hover:bg-transparent">Logout</a>
+                    </li>) : null}
+                    
                 </ul>
             </div>
         </nav>
