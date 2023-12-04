@@ -36,7 +36,7 @@ public class PacienteService {
             System.out.println("findAllPacientes: token invalido");
             return null;
         }
-        if(session.getUsuario().getRol().equals("admin") || session.getUsuario().getRol().equals("medico")){
+        if(session.getUsuario().getRol().equals("administrador") || session.getUsuario().getRol().equals("medico")){
             System.out.println("Retorno pacientes findAll");
             return pacienteRepository.findAll();
         }

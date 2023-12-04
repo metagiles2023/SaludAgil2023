@@ -34,6 +34,9 @@ public class SessionCacheService {
         // Se verifican los datos del usuario y el token de seguridad.
         System.out.println("createSession: buscando usuarios con dni" + dni);
         ArrayList<Usuario> usuarios = usuarioRepository.getBydni(dni);
+        if (usuarios.size() == 0) 
+            return Utils.genResponseError("No hay usuarios para dicho DNI");   
+        
         System.out.println("vino dni" + dni);
         Usuario usuario = null;
         //obtener el de mas alto rol.
@@ -50,6 +53,7 @@ public class SessionCacheService {
                 break;
             }
         }
+        
         System.out.println("im logging in a " + usuario.getRol() + "with dni " + usuario.getDni());
         Cache cache = cacheManager.getCache(cacheName);
         AuthUsuario authUsuario = authenticateUsuario(password, usuario); // Mock de autenticacion

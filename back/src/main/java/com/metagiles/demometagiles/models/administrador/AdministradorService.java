@@ -18,7 +18,11 @@ import lombok.RequiredArgsConstructor;
 public class AdministradorService {
     private final AdministradorRepository administradorRepository;
     private final SessionCacheService sessionCacheService;
-    public List<Administrador> findAllAdministradores(String token){ 
+
+    public List<Administrador> findAllAdministradores(String token){
+        if (token == "noToken") { // Solo para dev
+            return administradorRepository.findAll();
+        }
         Session session = sessionCacheService.getSession(token);
         if (session == null) {
             System.out.println("findAllAdministradores: token invalido");
@@ -30,10 +34,20 @@ public class AdministradorService {
 
     
 
-    public ResponseEntity<?> crearAdministrador(Administrador administradorRequest, String token) {
-        if (!administradorRepository.existsBydni(administradorRequest.getDni())) {
+    public ResponseEntity<?> crearAdministrador(Administrador administradorRequest) {
+        if (administradorRepository.existsBydni(administradorRequest.getDni())) {
             return Utils.genResponseError("Administrador ya existe.");
         }
-        return ResponseEntity.ok(Utils.jsonificar("ok"));
+        Administrador administrador = new Administrador();
+        administrador.setApellido(administradorRequest.getApellido());
+        administrador.setNombre(administradorRequest.getNombre());
+        if (!Utils.esDniValido(administradorRequest.getDni()))
+            return Utils.genResponseError("DNI input invalido: " + administradorRequest.getDni());
+        
+        administrador.setDni(administradorRequest.getDni());
+        administrador.setEmail(administradorRequest.getEmail());
+        administrador.setRol("administrador");
+        Administrador savedAdministrador = administradorRepository.save(administrador);
+        return ResponseEntity.ok(Utils.jsonificar("id", savedAdministrador.getIdUsuario()));
     }
 }

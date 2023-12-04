@@ -70,7 +70,7 @@ public class MedicoController {
         if(session == null) {
             return Utils.genResponseError("Tu login es inválido.");
         }
-        if(!session.getUsuario().getRol().equals("admin")){
+        if(!session.getUsuario().getRol().equals("administrador")){
             return Utils.genResponseError("No tienes permiso para hacer eso.");
         }
         System.out.println("Creando medico");
