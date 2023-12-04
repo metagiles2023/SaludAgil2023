@@ -1,6 +1,4 @@
 'use client'
-import Header from "@/components/Estructura/Header";
-import Footer from "@/components/Estructura/Footer";
 import AutoComplete from "@/components/Turno/AutoComplete";
 import { useState } from 'react';
 import MedicoCard from "@/components/Turno/MedicoCard";
