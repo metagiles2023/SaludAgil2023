@@ -1,13 +1,10 @@
 package com.metagiles.demometagiles.models.sesion;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.apache.catalina.SessionIdGenerator;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.Cache.ValueWrapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +18,6 @@ public class SessionCacheService {
     private final CacheManager cacheManager;
     private final JwtUtil jwtUtil;
     private final UsuarioRepository usuarioRepository;
-    private String secretKey;
     private String cacheName = "infoSession";
     public SessionCacheService(CacheManager cacheManager, JwtUtil jwtUtil, UsuarioRepository usuarioRepository) {
         this.cacheManager = cacheManager;
@@ -36,6 +32,7 @@ public class SessionCacheService {
      */
     public ResponseEntity<?> createSession(String dni, String password) throws Exception {
         // Se verifican los datos del usuario y el token de seguridad.
+        System.out.println("createSession: buscando usuarios con dni" + dni);
         ArrayList<Usuario> usuarios = usuarioRepository.getBydni(dni);
         System.out.println("vino dni" + dni);
         Usuario usuario = null;

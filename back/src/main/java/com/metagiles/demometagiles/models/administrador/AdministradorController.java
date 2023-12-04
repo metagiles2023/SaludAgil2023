@@ -1,17 +1,17 @@
-package com.metagiles.demometagiles.models.fichamedica;
+package com.metagiles.demometagiles.models.administrador;
 import java.util.List;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.metagiles.demometagiles.models.Filtro.FiltroRequest;
 
 @RestController
-public class FichaMedicaController {
-    private final FichaMedicaService fichaMedicaService;
+public class AdministradorController {
+    private final AdministradorService administradorService;
 
-    public FichaMedicaController(FichaMedicaService fichaMedicaService) {
-        this.fichaMedicaService = fichaMedicaService;
+    public AdministradorController(AdministradorService administradorService) {
+        this.administradorService = administradorService;
     }
 
     /* Necesita un JSON en el body (por eso es POST) de la siguiente manera
@@ -25,10 +25,10 @@ public class FichaMedicaController {
             paciente: 2
         }
     */
-    @PostMapping("/ficha-medica")
-    public List<FichaMedica> getAll(@RequestBody FiltroRequest fRequest, @RequestHeader("Authorization") String token) {
+    @PostMapping("/administrador")
+    public List<Administrador> getAll(@RequestHeader("Authorization") String token) {
         System.out.println("im getting token " + token);
-        return fichaMedicaService.findAllFichaMedicas(fRequest, token);
+        return administradorService.findAllAdministradores(token);
     }
     
     /*
@@ -45,8 +45,8 @@ public class FichaMedicaController {
      * 
      * Retorna un JSON con el id del usuario agregado.
      */
-    @PostMapping("/ficha-medica/create")
-    public ResponseEntity<?> crearFichaMedica(@RequestBody FichaMedica request, @RequestHeader("Authorization") String token) {
-        return fichaMedicaService.crearFichaMedica(request, token);
+    @PostMapping("/administrador/create")
+    public ResponseEntity<?> crearAdministrador(@RequestBody Administrador request, @RequestHeader HttpHeaders headers) {
+        return administradorService.crearAdministrador(request, "xxx");
     }
 }

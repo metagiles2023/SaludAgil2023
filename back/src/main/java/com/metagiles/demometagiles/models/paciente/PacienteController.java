@@ -2,13 +2,10 @@ package com.metagiles.demometagiles.models.paciente;
 
 import java.util.*;
 
-import com.metagiles.demometagiles.utils.SendEmail;
 import com.metagiles.demometagiles.utils.Utils;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

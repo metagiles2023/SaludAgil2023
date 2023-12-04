@@ -18,14 +18,16 @@ public class UsuarioController {
     }
 
     @GetMapping("/usuario")
-    List<Usuario> getAll(@RequestBody String dni, @RequestHeader("Authorization") String token) {
-        return usuarioService.getUsuarios(dni, token);
+    List<Usuario> getAllUsuarios(@RequestHeader("Authorization") String token) {
+        System.out.println("(controller) getUsuarios");
+        return usuarioService.getAllUsuarios(token);
     }
 
-    // @PostMapping("/users/create")
-    // List<Usuario> createUser() {
-    //     System.out.println("hi!");
-    //     return repository.;
-    // }
+    //Solo para development
+    @GetMapping("/usuarioNoToken")
+    List<Usuario> getAllUsuariosNoToken() {
+        System.out.println("(controller) getUsuariosNoToken");
+        return usuarioService.getAllUsuariosNoToken();
+    }
 
 }

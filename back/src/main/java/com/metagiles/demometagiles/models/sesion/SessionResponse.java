@@ -1,7 +1,5 @@
 package com.metagiles.demometagiles.models.sesion;
 
-import java.util.Date;
-
 import com.metagiles.demometagiles.models.usuario.Usuario;
 
 public class SessionResponse {

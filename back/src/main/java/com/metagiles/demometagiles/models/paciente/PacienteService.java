@@ -33,12 +33,15 @@ public class PacienteService {
     public List<Paciente> findAllPacientes(String token) {
         Session session = sessionCacheService.getSession(token);
         if (session == null) { //significa que el login es invalido
+            System.out.println("findAllPacientes: token invalido");
             return null;
         }
         if(session.getUsuario().getRol().equals("admin") || session.getUsuario().getRol().equals("medico")){
+            System.out.println("Retorno pacientes findAll");
             return pacienteRepository.findAll();
         }
-        return null;
+        System.out.println("Retorno pacientes vacio");
+        return new ArrayList<>();
     }
 
     public ResponseEntity<?> createPaciente(Paciente request) {
@@ -143,7 +146,7 @@ public class PacienteService {
             System.out.println("EXITO al crear turno");
             String emailReceiver = request.get("email");
             String body = "Se ha confirmado el turno para la siguiente fecha: " + turno.getDate().toString() + " con el medico: " + turno.getMedico().getApellido() + " " + turno.getMedico().getNombre();
-            SendEmail email = new SendEmail(emailReceiver,"Confirmacion de turno",body);
+            new SendEmail(emailReceiver,"Confirmacion de turno",body);
             return ResponseEntity.ok(Utils.jsonificar("successful", "no message"));
         } catch (Exception e) {
             e.printStackTrace();
@@ -245,7 +248,7 @@ public class PacienteService {
             String apellidoMedico = t.getMedico().getApellido();
             String horaTurno = t.getDate().toString();
             String body = "Buenos dias! \n \n Te recordamos que hoy tenes el siguiente turno: "+horaTurno+" con el medico: "+apellidoMedico+", "+nombreMedico;
-            SendEmail email = new SendEmail(emailPaciente,"Recordatorio de turno",body);
+            new SendEmail(emailPaciente,"Recordatorio de turno",body);
 
         }
     }
