@@ -64,7 +64,7 @@ function contadorPorMedico(datos, medicos){
 function buscardorEspecialidad(id, medicos){
 
     var salida = medicos.filter(item => item.idUsuario === id);
-    return salida[0].especialidad;
+    return (salida && salida.length > 0) ? salida[0].especialidad : "no-especialidad";
 }
 
 function contadorPorEspecialidad(datos, medicos){

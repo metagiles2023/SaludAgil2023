@@ -3,10 +3,14 @@ import React, { useState, useEffect } from 'react';
 import GraficoBarras from './GraficoBarras';
 import GraficoTorta from './GraficoTorta';
 import GraficoLineas from './GraficoLineas';
+import { useSession } from 'next-auth/react';
 const controller = new AbortController(); // Create an AbortController
 const signal = controller.signal; // Get the signal from the controller
 
 const Graficos = () => {
+    // Manejo usuarios
+    const { data: session } = useSession()
+    const [token, setToken] = useState([])
 
     //cargo las fichas medicas sin filtros
     const [filtro, setFiltro] = useState({});
@@ -28,12 +32,21 @@ const Graficos = () => {
 
     const [showLastComponent, setShowLastComponent] = useState(false);
     
+    useEffect(()=>{
+        let user = session?.user
+        let token = user && user.token ? user.token : "no-token-for-fichasmedicasfiltradas"
+        console.log('graficos: token set at' + token)
+        setToken(token)
+    }, [session])
 
     useEffect(() => {
         // Make an HTTP GET request to your backend API
         fetch("/api/ficha-medica", {
                 method: 'POST',
-                body: JSON.stringify(filtro),
+                body: JSON.stringify({
+                    other: filtro,
+                    token: token
+                }),
                 headers: {
                     "Content-Type": "application/json"
                 },
@@ -46,13 +59,14 @@ const Graficos = () => {
             .catch((error) => {
             console.error('Error fetching data:', error);
             });
-    }, [filtro]);
+    }, [filtro, token]);
     
 
     useEffect(() => {
         // Make an HTTP GET request to your backend API
         fetch("/api/medico", {
-                method: 'GET',
+                method: 'POST',
+                body: JSON.stringify({token: token}),
                 signal: signal, // Provide the signal option
             })
             .then(async (response) => {

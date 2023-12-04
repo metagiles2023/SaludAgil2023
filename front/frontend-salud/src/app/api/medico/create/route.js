@@ -4,9 +4,10 @@ export async function POST(request) {
     const res = await fetch(process.env.URL_BACKEND + '/medico', {
         method: 'POST',
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": body.token
         },
-        body: JSON.stringify(body)
+        body: JSON.stringify(body.other)
     });
     const resultado = await res.json();
     console.log(res.status, resultado)

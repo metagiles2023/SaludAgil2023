@@ -1,10 +1,13 @@
 "use client"
-import { skeleton } from '@nextui-org/react';
 import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
+import { useSession } from 'next-auth/react'; // Import useSession hook
+
 //Pido disculpas por lo que van a leer a continuacion
 //No pasa nada, pedimos perdon por el componente FichasMedicasFiltradas
 const Formulario = ({ fields, url, tema }) => {
+    const { data: session } = useSession(); // useSession hook to get the current user
+    const [ token, setToken ] = useState([])
     const initialFormData = {};
     fields && fields.forEach && fields.forEach((element) => {
         initialFormData[element] = '';
@@ -18,10 +21,17 @@ const Formulario = ({ fields, url, tema }) => {
     const [medicos, setMedicos] = useState([]);
     const [pacientes, setPacientes] = useState([])
 
-    useEffect(() => { 
+    useEffect(()=>{
+        let user = session?.user
+        let token = user && user.token ? user.token : "no-token-for-formulario"
+        setToken(token)
+    }, [session])
+
+    useEffect(() => {
         if (tema === "medico" && fields.includes("especialidad")) {
             fetch("/api/medico/especialidad", {
-                method: 'GET'
+                method: 'POST',
+                body: JSON.stringify({token: token})
             })
                 .then(async (response) => {
                     console.log('ha llegado la respuesta de la api del front');
@@ -38,7 +48,8 @@ const Formulario = ({ fields, url, tema }) => {
         }
         if (tema === "ficha medica" && fields.includes("medico")) {
             fetch("/api/medico", {
-                method: 'GET'
+                method: 'POST',
+                body: JSON.stringify({token: token})
             })
                 .then(async (response) => {
                     console.log('ha llegado la respuesta de la api del front');
@@ -55,7 +66,8 @@ const Formulario = ({ fields, url, tema }) => {
         }
         if (tema === "ficha medica" && fields.includes("paciente")) {
             fetch("/api/paciente", {
-                method: 'GET' //TODO make POST
+                method: 'POST',
+                body: JSON.stringify({token: token})
             })
                 .then(async (response) => {
                     console.log('ha llegado la respuesta de la api del front');
@@ -70,7 +82,7 @@ const Formulario = ({ fields, url, tema }) => {
                     console.error('Error:', error);
                 });
         }
-    }, [tema, fields]);
+    }, [tema, fields, token]);
 
     //Tema mensajito
     useEffect(() => {
@@ -105,6 +117,7 @@ const Formulario = ({ fields, url, tema }) => {
     
 
     const handleSubmit = (e) => {
+        const token = session?.user?.token ? session.user.token : ""
         e.preventDefault();
         console.log('llamando api ' + url);
         console.log(formData)
@@ -113,7 +126,10 @@ const Formulario = ({ fields, url, tema }) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(formData)
+            body: JSON.stringify({
+                other: formData,
+                token: token
+            })
         })
             .then((response) => {
                 console.log('ha llegado la respuesta de the api del front');

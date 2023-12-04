@@ -1,8 +1,6 @@
 export async function POST(request) {
     const body = await request.json()
-    console.log('internal: /api/paciente. token is')
-    console.log(body.token)
-    const res = await fetch(process.env.URL_BACKEND + '/paciente', {
+    const res = await fetch(process.env.URL_BACKEND + '/administrador', {
         method: 'GET',
         cache: "no-store",
         headers: {

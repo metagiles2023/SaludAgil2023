@@ -28,11 +28,11 @@ const GraficoTorta = ({data, labels}) => {
 
     useEffect(() => {
 
-        var emergencia = data.filter(item => item.usoEmergencia === true);
+        var emergencia = data && data.filter ? data.filter(item => item.usoEmergencia === true) : [];
         
         countsEmergencia = Array(2).fill(0);
         countsEmergencia[0] = emergencia.length;
-        countsEmergencia[1] = (data.length - countsEmergencia[0]); 
+        countsEmergencia[1] = data ? (data.length - countsEmergencia[0]) : ""; 
 
         setChartData({
             labels: labels,

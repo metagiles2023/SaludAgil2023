@@ -13,7 +13,7 @@ const ListaEspecialidades = ({ especialidades }) => {
             </tr>
         </thead>
         <tbody>
-            {especialidades.map((fila) => (
+            {especialidades && especialidades.map && especialidades.map((fila) => (
             <tr key={fila.idEspecialidad}>
                 <td>{fila.nombre}</td>
                 <td>{fila.descripcion}</td>

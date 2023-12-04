@@ -1,6 +1,11 @@
+import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 
 export const Register = (props) => {
+    // Manejo usuarios
+    const { data: session } = useSession()
+    
+    // No esta bien que sean useState todos. No pasa nada.
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState(''); //Ignorada
     const [nombre, setNombre] = useState('');
@@ -20,6 +25,8 @@ export const Register = (props) => {
     //TODO: mensajes de error
 
     const handleSubmit = (e) => {
+        const user = session?.user
+        const token = user && user.token ? user.token : "no-token-for-registro"
         e.preventDefault();
         console.log(email);
         //console.log(e.target)
@@ -36,7 +43,10 @@ export const Register = (props) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(formData)
+            body: JSON.stringify({
+                other: formData,
+                token: token
+            })
         })
             .then(async (response) => {
                 console.log('ha llegado la respuesta de the api del front');

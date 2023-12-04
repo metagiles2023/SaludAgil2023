@@ -2,14 +2,11 @@
 export async function POST(request) {
     try {
         const resultBody = await request.json();
-        let body = JSON.stringify(resultBody.other)
         console.log('voy a enviar pedido al backend con token ' + resultBody.token)
-        console.log('el pedido que hago tiene body: ')
-        console.log(body)
         const res = await fetch(process.env.URL_BACKEND + '/ficha-medica', {
             method: 'POST',
             cache: "no-store",
-            body: body,
+            body: JSON.stringify(resultBody.other),
             headers: {
                 "Content-Type": "application/json",
                 'Authorization': `${resultBody.token}`

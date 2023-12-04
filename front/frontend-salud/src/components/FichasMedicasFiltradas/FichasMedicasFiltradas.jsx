@@ -24,18 +24,18 @@ const FichasMedicasFiltradas = () => {
     const [toDate, setToDate] = useState(new Date());
     const [ultiPaciente, setUltiPaciente] = useState(null);
     const [ultiMedico, setUltiMedico] = useState(null);
+
     useEffect(() => {
         let user = session?.user
         let token = user && user.token ? user.token : "no-token-for-fichasmedicasfiltradas"
-        console.log('user:')
-        console.log(user)
         setToken(token)
     }, [session])
     
     useEffect(() => {
         // Make an HTTP GET request to your backend API
         fetch("/api/medico", {
-                method: 'GET',
+                method: 'POST',
+                body: JSON.stringify({token: token}),
                 signal: signal, // Provide the signal option
             })
             .then(async (response) => {
@@ -50,7 +50,7 @@ const FichasMedicasFiltradas = () => {
             .catch((error) => {
             console.error('Error fetching data:', error);
             });
-    }, []); // Al inicio
+    }, [token]); // Al inicio
     
     useEffect(() => {
         // Make an HTTP GET request to your backend API

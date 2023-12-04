@@ -1,37 +1,47 @@
 "use client" //para que ejecute cosas en el cliente
 import React, { useState, useEffect } from 'react';
-import Header from '@/components/Estructura/Header'
-import Footer from '@/components/Estructura/Footer'
 import ListaMultiple from '@/components/SeleccionMultiples/ListaMultiple';
-import { CartelDescripcion } from '@/components/carteles/CartelDescripcion';
-import { CartelDescripcionChildren } from '@/components/carteles/CartelDescripcionChildren'
 import { Redireccionador } from '@/components/Redireccionador/Redireccionador';
+import { useSession } from 'next-auth/react'; // Import useSession hook
+import { CartelDescripcion } from '@/components/carteles/CartelDescripcion';
 
 export default function Home() {
     const [datos, setDatos] = useState([]);
     const [selectedUserType, setSelectedUserType] = useState('usuario');
-    
+    const { data: session } = useSession(); // useSession hook to get the current user
+    const [token, setToken] = useState([])
+
+    useEffect(()=>{
+        let user = session?.user
+        let token = user && user.token ? user.token : "no-token-for-usuario-ver-page"
+        setToken(token)
+    }, [session])
+
     useEffect(() => {
-    // Make an HTTP GET request to your backend API
-    fetch(`/api/${selectedUserType}`, {
-        method: 'GET',
-    })
-        .then((response) => response.json())
-        .then((data) => {
-        // Update the fichaMedica state with the data from the backend
-        setDatos(data);
+        // Make an HTTP GET request to your backend API
+        console.log(`envio a /api/${selectedUserType} con token`)
+        console.log(token)
+        fetch(`/api/${selectedUserType}`, {
+            method: 'POST',
+            body: JSON.stringify({ token: token })
         })
-        .catch((error) => {
-        console.error('Error fetching data:', error);
-        });
-    }, [selectedUserType]); // The empty dependency array ensures the effect runs only once
+            .then((response) => response.json())
+            .then((data) => {
+                // Update the fichaMedica state with the data from the backend
+                setDatos(data);
+            })
+            .catch((error) => {
+                console.error('Error fetching data:', error);
+            });
+    }, [selectedUserType, token]); // The empty dependency array ensures the effect runs only once
 
     const handleUserTypeChange = (newUserType) => {
         console.log(newUserType)
         setSelectedUserType(()=>newUserType);
       };
-
-    return (
+    
+    if (session && session.user && session.user.usuario && (session.user.usuario.rol == 'administrador' || session.user.usuario.rol == 'medico')) {
+        return (
         <div className="flex flex-col min-h-screen">
         
         <main className="flex-1 flex flex-col">
@@ -49,4 +59,9 @@ export default function Home() {
         
     </div>
     );
-    }
+    } else return (
+    <div>
+        <CartelDescripcion mensaje="Acceso no autorizado. Debe ser administrador o medico para ver los usuarios"/>
+    </div>
+    )
+}

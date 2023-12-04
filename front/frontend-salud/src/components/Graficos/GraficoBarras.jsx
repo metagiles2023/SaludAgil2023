@@ -48,8 +48,8 @@ const GraficoBarras = ({ data, labels}) => {
 
     useEffect(() => {
 
-        var graves = data.filter(item => item.esGrave === true);
-        var leves = data.filter(item => item.esGrave === false);
+        var graves = data && data.filter ? data.filter(item => item.esGrave === true) : [];
+        var leves = data && data.filter ? data.filter(item => item.esGrave === false) : [];
 
         countsGraves = contadorPorMes(graves);
         countsLeves = contadorPorMes(leves);
