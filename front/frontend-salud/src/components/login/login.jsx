@@ -27,33 +27,8 @@ export const Login = (props) => {
             dni: data.get('dni'),
             password: "password",
         });
-        // try {
-        //     const response = fetch('/api/login', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify(formData)
-        //     })
-        //     const responseData = await response.json();
-            
-        //     console.log('ha llegado la respuesta de la api del front');
-        //     console.log(responseData);
-        //     if (response.status >= 400) {
-        //         if (response.statusText) {
-        //             console.log('hay status text y es ' + response.statusText);
-        //             setTextoBackend(response.statusText);
-        //         }
-        //     } else {
-        //         // Store user information in sessionStorage
-        //         sessionStorage.setItem('userData', JSON.stringify(responseData));
-        //         // Redirect or perform any other actions
-        //         //redirect to somewhere
-        //         clearForm();
-        //     }
-        // } catch (err) {
-        //     console.error('Error:', err);
-        // }
+        
+        clearForm()
     }
     
 

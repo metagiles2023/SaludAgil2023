@@ -11,14 +11,9 @@ export default function Home() {
     const toggleForm = (formName) => {
         setCurrentForm(formName);
     }
-
-    let user={
-        nombre: "No logueado"
-    }
     
     return (
         <div>
-            
             <main className='flex-1 flex justify-center items-center'>
                 <div></div>
                 <div className="App">
@@ -28,7 +23,6 @@ export default function Home() {
                 </div>
                 <div></div>
             </main>
-            
         </div>     
     )
 }

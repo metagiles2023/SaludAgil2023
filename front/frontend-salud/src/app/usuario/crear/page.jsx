@@ -1,11 +1,8 @@
 "use client" //para que ejecute cosas en el cliente
 import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react'; // Import useSession hook
-import Header from '@/components/Estructura/Header'
-import Footer from '@/components/Estructura/Footer'
 import FormularioMultiple from '@/components/SeleccionMultiples/FormularioMultiple';
 import { CartelDescripcion } from '@/components/carteles/CartelDescripcion';
-import { CartelDescripcionChildren } from '@/components/carteles/CartelDescripcionChildren'
 import { Redireccionador } from '@/components/Redireccionador/Redireccionador';
 
 export default function Home() {
