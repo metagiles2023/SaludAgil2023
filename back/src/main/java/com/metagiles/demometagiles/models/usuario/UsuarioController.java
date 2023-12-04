@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.metagiles.demometagiles.models.sesion.Session;
@@ -17,7 +18,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/usuario")
-    List<Usuario> getAll(@RequestBody String dni, @RequestBody String token) {
+    List<Usuario> getAll(@RequestBody String dni, @RequestHeader("Authorization") String token) {
         return usuarioService.getUsuarios(dni, token);
     }
 

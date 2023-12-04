@@ -22,7 +22,7 @@ public class EspecialidadController {
     }
 
     @GetMapping("/medico/especialidad")
-    public List<Especialidad> getAll(@RequestBody String token) {
+    public List<Especialidad> getAll(@RequestHeader("Authorization") String token) {
         System.out.println("getting especialidades");
         Session session = sessionCacheService.getSession(token);
         if (session == null) { //significa que el login es invalido
@@ -48,12 +48,12 @@ public class EspecialidadController {
      * Retorna un JSON con el id de la especialidad agregada, o un json { "error": "..."}
      */
     @PostMapping("/medico/especialidad")
-    public ResponseEntity<?> crearEspecialidad(@RequestBody Especialidad request, @RequestBody String token) {
+    public ResponseEntity<?> crearEspecialidad(@RequestBody Especialidad request, @RequestHeader("Authorization") String token) {
         Session session = sessionCacheService.getSession(token);
         if (session == null) { //significa que el login es invalido
             return Utils.genResponseError("Token invalido");
         }
-        if (session.getUsuario().getRol().equals("usuario")) {
+        if (session.getUsuario().getRol().equals("paciente")) {
             return Utils.genResponseError("No tiene permisos para crear especialidades.");
         }
         try {

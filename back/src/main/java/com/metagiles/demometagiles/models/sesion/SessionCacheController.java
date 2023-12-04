@@ -1,8 +1,11 @@
 package com.metagiles.demometagiles.models.sesion;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -20,7 +23,7 @@ public class SessionCacheController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> deleteSession(@RequestBody String token) throws Exception {
+    public ResponseEntity<?> deleteSession(@RequestHeader("Authorization") String token) throws Exception {
         return sessionCacheService.deleteSession(token);
     }
 

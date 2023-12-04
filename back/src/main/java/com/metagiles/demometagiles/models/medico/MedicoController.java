@@ -23,7 +23,7 @@ public class MedicoController {
     }
 
     @GetMapping("/medico")
-    List<Medico> getAll(@RequestBody String token) {
+    List<Medico> getAll(@RequestHeader("Authorization") String token) {
         if(sessionCacheService.getSession(token) == null) {
             return null;
         }
@@ -34,7 +34,7 @@ public class MedicoController {
     }
 
     @GetMapping("/medico/getById")
-    public ResponseEntity<?> getById(@RequestParam("id") Long idUsuario, @RequestBody String token) {
+    public ResponseEntity<?> getById(@RequestParam("id") Long idUsuario, @RequestHeader("Authorization") String token) {
         Medico medico = null;
         Session session = sessionCacheService.getSession(token);
         if(session == null) {
@@ -67,7 +67,7 @@ public class MedicoController {
      * Retorna un JSON con el id del usuario agregado.
      */
     @PostMapping("/medico")
-    public ResponseEntity<?> createMedico(@RequestBody Medico request, @RequestBody String token) {
+    public ResponseEntity<?> createMedico(@RequestBody Medico request, @RequestHeader("Authorization") String token) {
         Session session = sessionCacheService.getSession(token);
         if(session == null) {
             return Utils.genResponseError("Tu login es inválido.");
@@ -101,7 +101,7 @@ public class MedicoController {
     }
 
     @GetMapping("/medico/getByEspecialidad")
-    public List<Medico> getMedicosByEspecialidad(@RequestParam(name = "especialidad") String especialidad, @RequestBody String token){
+    public List<Medico> getMedicosByEspecialidad(@RequestParam(name = "especialidad") String especialidad, @RequestHeader("Authorization") String token){
         Session session = sessionCacheService.getSession(token);
         if(session == null) {
             return null;

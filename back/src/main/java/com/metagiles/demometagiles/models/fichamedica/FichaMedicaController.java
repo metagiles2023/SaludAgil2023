@@ -1,6 +1,7 @@
 package com.metagiles.demometagiles.models.fichamedica;
 import java.util.List;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +27,8 @@ public class FichaMedicaController {
         }
     */
     @PostMapping("/ficha-medica")
-    public List<FichaMedica> getAll(@RequestBody FiltroRequest fRequest, @RequestBody String token) {
+    public List<FichaMedica> getAll(@RequestBody FiltroRequest fRequest, @RequestHeader("Authorization") String token) {
+        System.out.println("im getting token " + token);
         return fichaMedicaService.findAllFichaMedicas(fRequest, token);
     }
     
@@ -45,7 +47,10 @@ public class FichaMedicaController {
      * Retorna un JSON con el id del usuario agregado.
      */
     @PostMapping("/ficha-medica/create")
-    public ResponseEntity<?> crearFichaMedica(@RequestBody FichaMedica request, @RequestBody String token) {
-        return fichaMedicaService.crearFichaMedica(request, token);
+    public ResponseEntity<?> crearFichaMedica(@RequestBody FichaMedica request, @RequestHeader HttpHeaders headers) {
+        headers.forEach((key, value) -> {
+            System.out.println(String.format("Header '%s' = %s", key, value));
+        });
+        return fichaMedicaService.crearFichaMedica(request, "xxx");
     }
 }

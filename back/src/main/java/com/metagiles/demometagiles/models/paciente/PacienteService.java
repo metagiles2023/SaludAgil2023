@@ -75,7 +75,7 @@ public class PacienteService {
         if (session == null) { //significa que el login es invalido
             return Utils.genResponseError("Tu login es inválido.");
         }
-        if(session.getUsuario().getRol().equals("usuario")){
+        if(session.getUsuario().getRol().equals("paciente")){
             return Utils.genResponseError("No tienes permiso para hacer eso.");
         }
         Paciente paciente = null;
