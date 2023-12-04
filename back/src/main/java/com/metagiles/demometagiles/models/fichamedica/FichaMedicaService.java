@@ -44,7 +44,7 @@ public class FichaMedicaService {
             return null;   //no tiene permisos para eso
         }
         System.out.println("getting fichas medicas");
-        List<FichaMedica> fichas = null;
+        List<FichaMedica> fichas = new ArrayList<>();
         try {
             fichas = fichaMedicaRepository.findAll();
             fichas = filtrarFichas(fichas, filtroRequest);

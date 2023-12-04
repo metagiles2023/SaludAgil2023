@@ -2,6 +2,7 @@
 export async function POST(request) {
     try {
         const resultBody = await request.json();
+        if (!resultBody?.token) throw new Error("no resultBody.token")
         console.log('voy a enviar pedido al backend con token ' + resultBody.token)
         const res = await fetch(process.env.URL_BACKEND + '/ficha-medica', {
             method: 'POST',
@@ -14,7 +15,7 @@ export async function POST(request) {
             signal: request.signal
         });
         
-        console.log('se hizo el post al backend');
+        console.log('se hizo el post al backend de ficha-medica get');
         
         const resultado = await res.json();
         if (res.status >= 400) {

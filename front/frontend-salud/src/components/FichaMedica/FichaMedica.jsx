@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import './fichaMedica.css'; 
 
 
-const ListaFichasMedicas = ({ fichasMedicas, pacientes, medicos}) => {
+const ListaFichasMedicas = ({ fichasMedicas, pacientes, medicos }) => {
 
     const [nombresMedicos, setNombresMedicos] = useState({});
     const [nombresPacientes, setNombresPacientes] = useState({});
@@ -21,7 +21,7 @@ const ListaFichasMedicas = ({ fichasMedicas, pacientes, medicos}) => {
     useEffect(() => {
     
         const nombresPacientesMap = {};
-        pacientes && pacientes.forEach && pacientes.forEach((paciente) => {
+        pacientes.forEach((paciente) => {
             nombresPacientesMap[paciente.idUsuario] = `${paciente.nombre} ${paciente.apellido}`;
         });
 

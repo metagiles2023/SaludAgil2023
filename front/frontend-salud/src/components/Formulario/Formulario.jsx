@@ -65,6 +65,7 @@ const Formulario = ({ fields, url, tema }) => {
                 });
         }
         if (tema === "ficha medica" && fields.includes("paciente")) {
+            
             fetch("/api/paciente", {
                 method: 'POST',
                 body: JSON.stringify({token: token})

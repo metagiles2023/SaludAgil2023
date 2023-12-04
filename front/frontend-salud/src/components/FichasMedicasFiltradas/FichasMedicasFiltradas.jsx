@@ -41,7 +41,7 @@ const FichasMedicasFiltradas = () => {
             .then(async (response) => {
                 const respuesta = await response.json()
                 if (response.status >= 400) {
-                    console.log('error getting fichas medicas')
+                    console.log('error getting medicos')
                     console.log(response.statusText)
                 }else {
                     setMedicos(respuesta)
@@ -54,14 +54,17 @@ const FichasMedicasFiltradas = () => {
     
     useEffect(() => {
         // Make an HTTP GET request to your backend API
-        fetch("/api/paciente", {
-                method: 'GET', //TODO make POST
+        console.log('voy a llamar al back-front con token')
+        console.log(token)
+        fetch("/api/paciente", { //TODO arreglar
+                method: 'POST',
+                body: JSON.stringify({token: token}),
                 signal: signal, // Provide the signal option,
             })
             .then(async (response) => {
                 const respuesta = await response.json()
                 if (response.status >= 400) {
-                    console.log('error getting fichas medicas')
+                    console.log('error getting pacientes')
                     console.log(response.statusText)
                 }else {
                     setPacientes(respuesta)
@@ -70,7 +73,7 @@ const FichasMedicasFiltradas = () => {
             .catch((error) => {
             console.error('Error fetching data:', error);
             });
-    }, []); // Al inicio
+    }, [token]); // Al inicio
 
     useEffect(() => {
         // Make an HTTP GET request to your backend API
@@ -318,7 +321,7 @@ const FichasMedicasFiltradas = () => {
                         </div>
                     </div>
                     <div >
-                        <ListaFichasMedicas fichasMedicas={fichasMedicas} pacientes={pacientes} medicos={medicos}/>
+                        <ListaFichasMedicas fichasMedicas={fichasMedicas} pacientes={pacientes} medicos={medicos} />
                     </div>
         </div>
     );}

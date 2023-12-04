@@ -1,8 +1,10 @@
 'use client'
 import { Autocomplete, TextField } from '@mui/material';
 import { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
+
 function AutoComplete({onEspecialidadChange}) {
- 
+ const { data: session } = useSession()
   function capitalizeFirstLetter(str) {
     const firstLetter = str.charAt(0).toUpperCase();
     const remainingLetters = str.slice(1);
@@ -20,9 +22,12 @@ function AutoComplete({onEspecialidadChange}) {
   };
 
   useEffect(() => {
+    const user = session?.user
+    const token = user?.token ? user.token : "no-token-for-autocomplete"
     // Fetch data from the API using fetch() or any other HTTP client library
     fetch("/api/turnosdisponibles/especialidades",{
-      method: 'GET',
+      method: 'POST',
+      body: JSON.stringify({token: token})
     })
     .then(async (res) => {
           const data = await res.json();
@@ -33,7 +38,7 @@ function AutoComplete({onEspecialidadChange}) {
           console.log(output);
           setEspecialidades(output);
       });
-  }, []);
+  }, [session]);
 
 
   return (
