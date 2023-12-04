@@ -68,7 +68,7 @@ const Graficos = () => {
 
         const nombresMedicoMap = {};
         const especialidadMedicoMap = {};
-        medicos.forEach((medico) => {
+        medicos && medicos.forEach && medicos.forEach((medico) => {
             nombresMedicoMap[medico.idUsuario] = `${medico.nombre} ${medico.apellido}`;
             especialidadMedicoMap[medico.especialidad] = `${medico.especialidad}`;
         });

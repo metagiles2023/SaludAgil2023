@@ -11,7 +11,7 @@ const ListaFichasMedicas = ({ fichasMedicas, pacientes, medicos}) => {
     useEffect(() => {
     
         const nombresMedicosMap = {};
-        medicos.forEach((medico) => {
+        medicos && medicos.forEach && medicos.forEach((medico) => {
             nombresMedicosMap[medico.idUsuario] = `${medico.nombre} ${medico.apellido}`;
         });
 
@@ -21,7 +21,7 @@ const ListaFichasMedicas = ({ fichasMedicas, pacientes, medicos}) => {
     useEffect(() => {
     
         const nombresPacientesMap = {};
-        pacientes.forEach((paciente) => {
+        pacientes && pacientes.forEach && pacientes.forEach((paciente) => {
             nombresPacientesMap[paciente.idUsuario] = `${paciente.nombre} ${paciente.apellido}`;
         });
 
@@ -43,7 +43,7 @@ const ListaFichasMedicas = ({ fichasMedicas, pacientes, medicos}) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {fichasMedicas.map((fila) => {
+                    {fichasMedicas && fichasMedicas.map && fichasMedicas.map((fila) => {
                         const nombreMedico = nombresMedicos[fila.medico] || '';
                         const nombrePaciente = nombresPacientes[fila.paciente] || '';
                         return (    

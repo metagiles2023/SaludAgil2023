@@ -1,3 +1,5 @@
+"use client"
+
 const Footer = () => {
     return (
       <div className="Footer w-full bg-[#0b636a] py-4 px-24">

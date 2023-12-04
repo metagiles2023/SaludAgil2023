@@ -20,8 +20,8 @@ export async function POST(request) {
             statusText: resultado,
         });
     } else {
-        console.log('construir user con este objeto:')
-        console.log(resultado)
+        // console.log('construir user con este objeto:')
+        // console.log(resultado)
         const user = {
             usuario: resultado.usuario,
             token: resultado.token,

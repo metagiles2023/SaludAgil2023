@@ -35,7 +35,7 @@ export default function turnosdisponibles() {
         .then(async (res) => {
           const data = await res.json();
           console.log(data);
-          data.forEach(element => {
+          data && data.forEach && data.forEach(element => {
             element.date = new Date(element.date);
           });
           data.sort((a,b) => { return a.date - b.date})

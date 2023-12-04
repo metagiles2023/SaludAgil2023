@@ -1,6 +1,6 @@
-const NavBar = ( { user={} } ) => {
-    console.log('im the navbar and the user is ')
-    console.log(user)
+"use client"
+
+const NavBar = ( { user } ) => {
     return (
         <nav className="flex items-center">
             <div className="w-full" id="NavBar">

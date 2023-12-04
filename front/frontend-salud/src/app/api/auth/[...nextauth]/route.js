@@ -39,7 +39,7 @@ const authOptions = {
     },
     callbacks: {
         async jwt({ token, user, session, trigger, ...rest }) {
-            console.log('user:',user)
+            //console.log('user:',user)
             if (user) {
                 token.token = user.token;
                 token.usuario = user.usuario
@@ -49,7 +49,7 @@ const authOptions = {
         },
 
         async session({ session, token }) {
-            console.log('session:',session)
+            //console.log('session:',session)
             session.user.token = token.token;
             session.user.usuario = token.usuario
             session.user.lastActivity = token.lastActivity

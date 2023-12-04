@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react";
 const Header = () => {
     const { data: session } = useSession(); // useSession hook to get the current user
     const user = session?.user
-    console.log("Current user:", user);
+    //console.log("Current user:", user);
     
     return (
         <>

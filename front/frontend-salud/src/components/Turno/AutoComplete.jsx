@@ -27,7 +27,7 @@ function AutoComplete({onEspecialidadChange}) {
     .then(async (res) => {
           const data = await res.json();
           const output = [];
-          data.forEach(element => {
+          data && data.forEach && data.forEach(element => {
             output.push(capitalizeFirstLetter(element.nombre));
           });
           console.log(output);

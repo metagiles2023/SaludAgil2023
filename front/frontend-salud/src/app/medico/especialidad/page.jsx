@@ -1,12 +1,11 @@
 "use client" //para que ejecute cosas en el cliente
 import React, { useState, useEffect } from 'react';
-import Header from '@/components/Estructura/Header'
-import Footer from '@/components/Estructura/Footer'
-import { CartelDescripcion } from '@/components/carteles/CartelDescripcion';
+import { useSession } from 'next-auth/react';
 import { Redireccionador } from '@/components/Redireccionador/Redireccionador';
 import ListaEspecialidades from '@/components/Especialidad/ListaEspecialidades'
 
 export default function Home() {
+    const { data: session } = useSession(); // useSession hook to get the current user
     const [datos, setDatos] = useState([]);
     useEffect(() => {
         // Make an HTTP GET request to your backend API

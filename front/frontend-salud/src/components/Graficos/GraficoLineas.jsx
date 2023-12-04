@@ -31,7 +31,7 @@ function contadorPorMes(datos) {
 
     var salida = Array(12).fill(0);
 
-    datos.forEach( item => {
+    datos && datos.forEach && datos.forEach( item => {
     const mes = new Date(item.date).getMonth();
     salida[mes]++;
 
@@ -48,11 +48,11 @@ function contadorPorMedico(datos, medicos){
     //["maria", "damian", "marcelo", "dr zunini"]
     //[0,1,3,5];
 
-    medicos.forEach((medico) => {
+    medicos && medicos.forEach && medicos.forEach((medico) => {
         contadorFichasMap[medico.idUsuario] = 0;
     });
 
-    datos.forEach((ficha) => {
+    datos && datos.forEach && datos.forEach((ficha) => {
         contadorFichasMap[ficha.medico]++;
     });
 
@@ -72,11 +72,11 @@ function contadorPorEspecialidad(datos, medicos){
     const contadorFichasMap = {};
     var salida = [];
 
-    medicos.forEach((medico) => {
+    medicos && medicos.forEach && medicos.forEach((medico) => {
         contadorFichasMap[medico.especialidad] = 0;
     });
 
-    datos.forEach((ficha) => {
+    datos && datos.forEach && datos.forEach((ficha) => {
         var identificador = ficha.medico;
         var especialidad = buscardorEspecialidad(identificador, medicos);
         contadorFichasMap[especialidad]++;

@@ -27,7 +27,7 @@ function contadorPorMes(datos) {
 
     var salida = Array(12).fill(0);
 
-    datos.forEach( item => {
+    datos && datos.forEach && datos.forEach( item => {
     const mes = new Date(item.date).getMonth();
     salida[mes]++;
 

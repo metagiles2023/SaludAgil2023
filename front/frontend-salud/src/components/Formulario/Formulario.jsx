@@ -6,7 +6,7 @@ import DatePicker from 'react-datepicker';
 //No pasa nada, pedimos perdon por el componente FichasMedicasFiltradas
 const Formulario = ({ fields, url, tema }) => {
     const initialFormData = {};
-    fields.forEach((element) => {
+    fields && fields.forEach && fields.forEach((element) => {
         initialFormData[element] = '';
     });
 
@@ -55,7 +55,7 @@ const Formulario = ({ fields, url, tema }) => {
         }
         if (tema === "ficha medica" && fields.includes("paciente")) {
             fetch("/api/paciente", {
-                method: 'GET'
+                method: 'GET' //TODO make POST
             })
                 .then(async (response) => {
                     console.log('ha llegado la respuesta de la api del front');

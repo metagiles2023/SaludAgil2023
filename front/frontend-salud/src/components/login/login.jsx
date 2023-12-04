@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { SessionProvider } from 'next-auth/react';
 import { useSession, signIn } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
+import { user } from "@nextui-org/react";
 
 export const Login = (props) => {
     const { data: session } = useSession();
@@ -19,6 +20,10 @@ export const Login = (props) => {
     }
 
     const handleSubmit = async (e) => {
+        if (user && user.usuario) {
+            console.log('re-login no permitido')
+            return
+        }
         e.preventDefault();
         const data = new FormData(e.currentTarget)
         console.log('pipipipi')

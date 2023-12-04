@@ -7,10 +7,12 @@ import "react-datepicker/dist/react-datepicker.css";
 import Selector from '../Selector/Selector';
 const controller = new AbortController(); // Create an AbortController
 const signal = controller.signal; // Get the signal from the controller
-
+import { useSession } from 'next-auth/react'; // Import useSession hook
 
 const FichasMedicasFiltradas = () => {
-
+    const { data: session } = useSession(); // useSession hook to get the current user
+    const [token, setToken] = useState([])
+    
     //se inicializa el filtro vacio para traer todas las fichas
     const [filtroSeleccionado, setFiltroSeleccionado] = useState({})
 
@@ -22,7 +24,14 @@ const FichasMedicasFiltradas = () => {
     const [toDate, setToDate] = useState(new Date());
     const [ultiPaciente, setUltiPaciente] = useState(null);
     const [ultiMedico, setUltiMedico] = useState(null);
-
+    useEffect(() => {
+        let user = session?.user
+        let token = user && user.token ? user.token : "no-token-for-fichasmedicasfiltradas"
+        console.log('user:')
+        console.log(user)
+        setToken(token)
+    }, [session])
+    
     useEffect(() => {
         // Make an HTTP GET request to your backend API
         fetch("/api/medico", {
@@ -31,7 +40,12 @@ const FichasMedicasFiltradas = () => {
             })
             .then(async (response) => {
                 const respuesta = await response.json()
-                setMedicos(respuesta);
+                if (response.status >= 400) {
+                    console.log('error getting fichas medicas')
+                    console.log(response.statusText)
+                }else {
+                    setMedicos(respuesta)
+                }
             })
             .catch((error) => {
             console.error('Error fetching data:', error);
@@ -41,12 +55,17 @@ const FichasMedicasFiltradas = () => {
     useEffect(() => {
         // Make an HTTP GET request to your backend API
         fetch("/api/paciente", {
-                method: 'GET',
-                signal: signal, // Provide the signal option
+                method: 'GET', //TODO make POST
+                signal: signal, // Provide the signal option,
             })
             .then(async (response) => {
                 const respuesta = await response.json()
-                setPacientes(respuesta);
+                if (response.status >= 400) {
+                    console.log('error getting fichas medicas')
+                    console.log(response.statusText)
+                }else {
+                    setPacientes(respuesta)
+                }
             })
             .catch((error) => {
             console.error('Error fetching data:', error);
@@ -57,7 +76,10 @@ const FichasMedicasFiltradas = () => {
         // Make an HTTP GET request to your backend API
         fetch("/api/ficha-medica", {
                 method: 'POST',
-                body: JSON.stringify(filtroSeleccionado),
+                body: JSON.stringify({
+                    other: filtroSeleccionado,
+                    token: token
+                }),
                 headers: {
                     "Content-Type": "application/json"
                 },
@@ -65,12 +87,17 @@ const FichasMedicasFiltradas = () => {
             })
             .then(async (response) => {
                 const respuesta = await response.json()
-                setFichasMedicas(respuesta);
+                if (response.status >= 400) {
+                    console.log('error getting fichas medicas')
+                    console.log(response.statusText)
+                }else {
+                    setFichasMedicas(respuesta)
+                }
             })
             .catch((error) => {
             console.error('Error fetching data:', error);
             });
-    }, [filtroSeleccionado]); //cuando cambia el body,
+    }, [filtroSeleccionado, token]); // POST a /api/ficha-medica
 
     const reiniciar = () => {
         if ("fechaDesde" in filtroSeleccionado){
