@@ -43,8 +43,7 @@ export const Login = (props) => {
             <form className="login-form" onSubmit={handleSubmit}>
                 <label htmlFor="dni" style={{ fontSize: '23px' }}>DNI</label>
                 <input value={dni} onChange={(e) => setDNI(e.target.value)}type="dni" placeholder="43040506" id="dni" name="dni" style={{color: 'black'}} />
-                <label htmlFor="password" style={{ fontSize: '23px' }}>Contraseña</label>
-                <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="********" id="password" name="password" style={{color: 'black'}} />
+                
                 <button type="submit" className="white-background">Login</button>
             </form>
             <label>{textoBackend}</label>

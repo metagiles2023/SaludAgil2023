@@ -30,7 +30,7 @@ function dias(index) {
 
     return (
         <div className="flex flex-col min-h-screen">
-            <Header />
+
             <main className="flex-1 flex justify-center items-center">
                 <div className="flex  bg-white border-blue-500 border-[2px] rounded-[30px] overflow-hidden">
                     <div className="flex flex-col pb-5"> 
@@ -56,7 +56,7 @@ function dias(index) {
                     </div>
                 </div>
             </main>
-            <Footer />
+
         </div>
 
     );

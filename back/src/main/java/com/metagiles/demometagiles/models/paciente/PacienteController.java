@@ -59,10 +59,7 @@ public class PacienteController {
         return pacienteService.getById(idUsuario,token);
     }
 
-    @PostMapping(value = "/reservar/turno")
-    public ResponseEntity<?> postReservarTurno(@RequestBody Map<String,String> request, @RequestHeader("Authorization") String token){
-        return pacienteService.postReservarTurno(request,token);
-    };
+
 
     //devuelve un mapa donde la key es el id del turno y el value es la fecha
     @GetMapping(value = "/turnosByMedico")
@@ -73,10 +70,17 @@ public class PacienteController {
     //devuelve los turnos de un paciente en base a su id
     //Devuelve un mapa con todos los turnos en el siguiente formato
     // idTurno-idPaciente-idMedico-Date
+    /*
+        @PostMapping(value = "/reservar/turno")
+    public ResponseEntity<?> postReservarTurno(@RequestBody Map<String,String> request, @RequestHeader("Authorization") String token){
+        return pacienteService.postReservarTurno(request,token);
+    };
+
     @GetMapping(value = "/misturnos/{id}")
     public List<String> getTurnosByIdPaciente (@PathVariable String id){
         return pacienteService.getTurnosByIdPaciente(id);
     }
+
 
     @PostMapping(value = "/misturnos/cancelar")
     public ResponseEntity<?> cancelarTurnoByIdPaciente(@RequestBody Map<String,String> request, @RequestHeader("Authorization") String token){
@@ -87,6 +91,7 @@ public class PacienteController {
     public void darInfoTurno (@PathVariable String pid, @PathVariable String mail, @PathVariable String nrotelefono) throws Exception {
         pacienteService.darInfoTurno(pid, mail, nrotelefono);
     }
+    */
 
     // Método para simular el chequeo con la API de la facultad
     @GetMapping(value = "/paciente/isInscripto")

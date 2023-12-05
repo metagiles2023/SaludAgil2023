@@ -5,9 +5,10 @@ export async function POST(request) {
     console.log(resultBody)
     const res = await fetch('http://localhost:8080/reservar/turno', {
         method: 'POST',
-        body: JSON.stringify(resultBody),
+        body: JSON.stringify(resultBody.other),
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": resultBody.token
         },
     });
     const resultado = await res.json();

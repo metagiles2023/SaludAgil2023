@@ -1,6 +1,6 @@
 package com.metagiles.demometagiles.models.turno;
 
-import com.metagiles.demometagiles.models.entity.Turno;
+import com.metagiles.demometagiles.models.turno.Turno;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

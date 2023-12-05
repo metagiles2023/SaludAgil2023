@@ -22,10 +22,13 @@ public class EspecialidadController {
     @GetMapping("/medico/especialidad")
     public List<Especialidad> getAll(@RequestHeader("Authorization") String token) {
         System.out.println("getting especialidades");
+
         Session session = sessionCacheService.getSession(token);
         if (session == null) { //significa que el login es invalido
             return null;
         }
+
+
         List<Especialidad> fichas = null;
         try {
             fichas = repository.findAll();

@@ -3,9 +3,9 @@ package com.metagiles.demometagiles.models.medico;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import com.metagiles.demometagiles.models.sesion.Session;
 import com.metagiles.demometagiles.models.sesion.SessionCacheService;
 import com.metagiles.demometagiles.utils.Utils;
@@ -15,10 +15,10 @@ import com.metagiles.demometagiles.utils.Utils;
 public class MedicoController {
     private final MedicoRepository medicoRepository;
     private final SessionCacheService sessionCacheService;
-    public MedicoController(MedicoRepository medicoRepository, SessionCacheService sessionCacheService) {
     private final MedicoService medicoService;
 
-    public MedicoController(MedicoRepository medicoRepository, MedicoService medicoService) {
+    @Autowired
+    public MedicoController(MedicoRepository medicoRepository, SessionCacheService sessionCacheService,MedicoService medicoService) {
         this.medicoRepository = medicoRepository;
         this.sessionCacheService = sessionCacheService;
         this.medicoService = medicoService;
@@ -35,6 +35,7 @@ public class MedicoController {
     @GetMapping("/medico")
     List<Medico> getAll(@RequestHeader("Authorization") String token) {
         if(sessionCacheService.getSession(token) == null) {
+            System.out.println("/MEDICO SESION ES NULL");
             return null;
         }
         System.out.println("Recuperando medicos");

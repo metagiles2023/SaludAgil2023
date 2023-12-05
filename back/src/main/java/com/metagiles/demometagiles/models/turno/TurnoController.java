@@ -3,15 +3,13 @@ package com.metagiles.demometagiles.models.turno;
 import java.util.List;
 import java.util.Map;
 
+import com.metagiles.demometagiles.models.sesion.Session;
+import com.metagiles.demometagiles.models.sesion.SessionCacheService;
+import com.metagiles.demometagiles.models.usuario.Usuario;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.persistence.Id;
 
@@ -21,12 +19,21 @@ import jakarta.persistence.Id;
 public class TurnoController {
 
     private final TurnoService turnoService;
-    public TurnoController(TurnoService turnoService) {
+    private final SessionCacheService sessionCacheService;
+    public TurnoController(TurnoService turnoService, SessionCacheService sessionCacheService) {
         this.turnoService = turnoService;
+        this.sessionCacheService = sessionCacheService;
     }
 
     @PostMapping(value = "/reservar/turno")
-    public ResponseEntity<?> postReservarTurno(@RequestBody Map<String,String> request){
+    public ResponseEntity<?> postReservarTurno(@RequestBody Map<String,String> request, @RequestHeader("Authorization") String token){
+        Session session = sessionCacheService.getSession(token);
+        if (session == null) { //significa que el login es invalido
+            return null;
+        }
+
+        Usuario usuarioPaciente = session.getUsuario();
+        System.out.println( "ID del paciente: " + usuarioPaciente.getIdUsuario());
         return turnoService.postReservarTurno(request);
     };
 
@@ -59,13 +66,10 @@ public class TurnoController {
         turnoService.darInfoTurno(pid, mail, nrotelefono);
     }
 
-    @PostMapping(value ="/agregarturno")
-    public ResponseEntity<?> agregarTurno(@RequestBody Map<String,String> request){
-        return turnoService.agregarTurno(request);
-    }
-
     @PostMapping(value ="/agregarturnos")
     public ResponseEntity<?> agregarTurnos(@RequestBody Map<String,String> request){
         return turnoService.agregarTurnos(request);
     }
+
+
 }

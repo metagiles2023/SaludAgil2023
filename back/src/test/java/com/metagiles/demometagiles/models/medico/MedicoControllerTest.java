@@ -30,13 +30,13 @@ public class MedicoControllerTest {
 
     @Mock
     private SessionCacheService sessionCacheService;
-
+    /*
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         medicoController = new MedicoController(medicoRepository, sessionCacheService);
     }
-
+    */
     // @Test
     // @DisplayName("Se simula el caso en el que se solicitan todos los médicos")
     // public void testGetAll() {

@@ -16,8 +16,8 @@ export async function POST(request) {
         });
         
         console.log('se hizo el post al backend de ficha-medica get');
-        
         const resultado = await res.json();
+        console.log(resultado);
         if (res.status >= 400) {
             // logica de control de errores
             return new Response(JSON.stringify(null), {

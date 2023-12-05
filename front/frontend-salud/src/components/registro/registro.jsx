@@ -82,8 +82,7 @@ export const Register = (props) => {
             <input value={obraSocial} name="obraSocial" onChange={(e) => setObraSocial(e.target.value)} id="obraSocial" placeholder="OSDE,OMINT,... " style={{color: 'black'}} />
             <label htmlFor="email" style={{ fontSize: '23px' }}>Email</label>
             <input value={email} onChange={(e) => setEmail(e.target.value)}type="email" placeholder="youremail@gmail.com" id="email" name="email" style={{color: 'black'}} />
-            <label htmlFor="password" style={{ fontSize: '23px' }}>Contraseña</label>
-            <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="********" id="password" name="password" style={{color: 'black'}}/>
+            
             <button type="submit" className="white-background">Registrar</button>
         </form>
         <label>{textoBackend}</label>

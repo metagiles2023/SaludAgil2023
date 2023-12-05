@@ -1,31 +1,23 @@
 package com.metagiles.demometagiles.models.turno;
 
-import java.text.DateFormat;
-import java.text.DateFormatSymbols;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.metagiles.demometagiles.models.medico.MedicoRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.metagiles.demometagiles.models.medico.Medico;
-import com.metagiles.demometagiles.models.medico.MedicoRepository;
 import com.metagiles.demometagiles.models.paciente.Paciente;
 import com.metagiles.demometagiles.models.paciente.PacienteRepository;
-import com.metagiles.demometagiles.models.usuario.UsuarioController;
 import com.metagiles.demometagiles.utils.SendEmail;
 import com.metagiles.demometagiles.utils.Utils;
 import lombok.RequiredArgsConstructor;

@@ -14,7 +14,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.metagiles.demometagiles.models.repository.TurnoRepository;
+
 import com.metagiles.demometagiles.models.sesion.SessionCacheController;
 import com.metagiles.demometagiles.models.sesion.SessionCacheService;
 
@@ -35,10 +35,10 @@ public class PacienteServiceTest {
 
     @Mock
     private PacienteMapper pacienteMapper;
-
+    /*
     @Mock //esto hay que sacarlo despues
     private TurnoRepository turnoRepository; //Agregado sin saber lo que estoy haciendo: chequear. @Mauro.
-
+    */
     @Mock
     private Utils utils;
 

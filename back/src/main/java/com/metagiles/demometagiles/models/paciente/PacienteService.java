@@ -6,15 +6,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.metagiles.demometagiles.models.turno.TurnoRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.metagiles.demometagiles.models.turno.Turno;
-import com.metagiles.demometagiles.models.turno.TurnoRepository;
-import com.metagiles.demometagiles.models.entity.Turno;
-import com.metagiles.demometagiles.models.repository.TurnoRepository;
+
 import com.metagiles.demometagiles.models.sesion.Session;
 import com.metagiles.demometagiles.models.sesion.SessionCacheService;
 import com.metagiles.demometagiles.utils.SendEmail;
@@ -27,7 +26,7 @@ public class PacienteService {
     private final PacienteRepository pacienteRepository;
     private final PacienteMapper pacienteMapper;
     private final SessionCacheService sessionCacheService;
-
+    private final TurnoRepository turnoRepository;
 
     public List<Paciente> findAllPacientes(String token) {
         Session session = sessionCacheService.getSession(token);

@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function Turnos() {
     return (
         <div className="flex flex-col min-h-screen">
-            <Header />
+            
             <main className="flex-1 flex justify-center items-center">
                 <Link href="/portalMedico/cargarTurnos" className="btn_cargar_turno flex w-3/12 h-[40vh] m-14 gap-8 justify-center items-center bg-slate-200 px-14 rounded-[30px] shadow-2xl shadow-gray-600">
                     <img src="/sumar.svg" alt="Cargar turno" className="w-4/12" />
@@ -20,7 +20,7 @@ export default function Turnos() {
                     </div>
                 </Link>
             </main>
-            <Footer />
+
         </div>
     )
 }

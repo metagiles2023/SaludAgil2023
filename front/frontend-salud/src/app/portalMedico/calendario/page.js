@@ -34,7 +34,7 @@ export default function mostrarTurnosMedico() {
 
   return (
     <div className='flex flex-col min-h-screen'>
-      <Header />
+
       <main className='flex-1 flex'>
         <div className='flex-1 flex justify-center items-center'>
           <div className='flex w-5/6 h-[50vh] justify-center items-center'>
@@ -70,7 +70,7 @@ export default function mostrarTurnosMedico() {
           </div>
         </div>
       </main>
-      <Footer />
+
     </div>
   )
 }

@@ -36,20 +36,25 @@ const NavBar = ( { user } ) => {
                             <a href="/turnos" className="text-white hover:text-blue-500 hover:bg-transparent">Portal Pacientes</a>
                         </li>
                     ) : null}
+                    
+                    {user && user.usuario && (user.usuario.rol == 'medico' || user.usuario.rol == 'administrador') ? (
+                        <li>
+                            <a href="/portalMedico" className="text-white hover:text-blue-500 hover:bg-transparent">Portal Medico</a>
+                        </li>
+                    ) : null}
+
                     {user && user.usuario ? (
                         <li>
                             {user.usuario.nombre}({user.usuario.rol})
                         </li>
                     ): null }
+
+
+
                     {user && user.usuario ? (<li>
                         <a href="/logout" className="text-white hover:text-blue-500 hover:bg-transparent">Logout</a>
                     </li>) : null}
 
-                    {user && user.usuario && (user.usuario.rol == 'medico' || user.usuario.rol == 'administrador') ? (
-                        <li>
-                            <a href="/portalMedico" className="text-white hover:text-blue-500 hover:bg-transparent">Estadisticas</a>
-                        </li>
-                    ) : null}
 
 
                 </ul>

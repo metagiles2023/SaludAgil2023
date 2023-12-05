@@ -9,13 +9,13 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.metagiles.demometagiles.models.entity.Turno;
+
 import com.metagiles.demometagiles.models.medico.Medico;
 import com.metagiles.demometagiles.models.paciente.Paciente;
 import com.metagiles.demometagiles.models.paciente.PacienteMapper;
 import com.metagiles.demometagiles.models.paciente.PacienteRepository;
 import com.metagiles.demometagiles.models.paciente.PacienteService;
-import com.metagiles.demometagiles.models.repository.TurnoRepository;
+
 import com.metagiles.demometagiles.utils.Utils;
 
 import static org.junit.jupiter.api.Assertions.*;

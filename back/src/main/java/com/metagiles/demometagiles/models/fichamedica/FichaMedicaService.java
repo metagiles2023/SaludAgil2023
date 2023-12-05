@@ -3,6 +3,7 @@ package com.metagiles.demometagiles.models.fichamedica;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.metagiles.demometagiles.models.medico.MedicoRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,6 @@ import com.metagiles.demometagiles.models.Filtro.FiltroGrave;
 import com.metagiles.demometagiles.models.Filtro.FiltroMedico;
 import com.metagiles.demometagiles.models.Filtro.FiltroPaciente;
 import com.metagiles.demometagiles.models.Filtro.FiltroRequest;
-import com.metagiles.demometagiles.models.medico.MedicoRepository;
 import com.metagiles.demometagiles.models.paciente.PacienteRepository;
 import com.metagiles.demometagiles.models.sesion.Session;
 import com.metagiles.demometagiles.models.sesion.SessionCacheService;
@@ -49,6 +49,7 @@ public class FichaMedicaService {
             fichas = fichaMedicaRepository.findAll();
             fichas = filtrarFichas(fichas, filtroRequest);
             System.out.println("fichas length " + fichas.size());
+            System.out.println(fichas.toString());
             return fichas;
         } catch (Exception e) {
             System.out.println(e.getMessage());

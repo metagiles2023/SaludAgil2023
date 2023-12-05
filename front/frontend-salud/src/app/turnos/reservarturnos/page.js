@@ -1,16 +1,33 @@
 'use client'
 import AutoComplete from "@/components/Turno/AutoComplete";
-import { useState } from 'react';
+
 import MedicoCard from "@/components/Turno/MedicoCard";
+import { useSession } from 'next-auth/react'; // Import useSession hook
+import { useState,useEffect } from 'react';
+
+
 export default function ReservarTurnos() {
+
+    //sesion
+    const { data: session } = useSession(); // useSession hook to get the current user
+    const [token, setToken] = useState([])
     const [especialidadSeleccionada, setEspecialidadSeleccionada] = useState(null);
     const [medicos, setMedicos] = useState(null);
+
+    useEffect(() => {
+      let user = session?.user
+      let token = user && user.token ? user.token : "no-token-for-fichasmedicasfiltradas"
+      setToken(token)
+    }, [session])
+
+
     const handleEspecialidadChange = (newValue) => {
       setEspecialidadSeleccionada(newValue);
       console.log(`Especialidad seleccionada: ${newValue}`);
       if(newValue != null){
           fetch(`/api/turnosdisponibles/medicos?especialidad=${newValue}`,{
-            method: 'GET',
+            method: 'POST',
+            body : JSON.stringify({token: token})
           })
           .then(async (res) => {
                 const data = await res.json();
@@ -19,6 +36,8 @@ export default function ReservarTurnos() {
             });
       }
     };
+
+
 
 
     return (

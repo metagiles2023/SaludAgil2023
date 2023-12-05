@@ -1,8 +1,5 @@
 package com.metagiles.demometagiles.models.usuario;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.DiscriminatorType;
@@ -108,5 +105,5 @@ public abstract class Usuario {
         return String.valueOf(this.idUsuario);
     }
 
-    
+
 }

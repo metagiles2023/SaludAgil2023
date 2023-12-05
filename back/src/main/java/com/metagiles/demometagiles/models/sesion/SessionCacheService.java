@@ -3,13 +3,13 @@ package com.metagiles.demometagiles.models.sesion;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.metagiles.demometagiles.models.usuario.Usuario;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.metagiles.demometagiles.models.usuario.AuthUsuario;
-import com.metagiles.demometagiles.models.usuario.Usuario;
 import com.metagiles.demometagiles.models.usuario.UsuarioRepository;
 import com.metagiles.demometagiles.utils.Utils;
 

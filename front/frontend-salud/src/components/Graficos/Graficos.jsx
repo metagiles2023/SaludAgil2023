@@ -64,19 +64,25 @@ const Graficos = () => {
 
     useEffect(() => {
         // Make an HTTP GET request to your backend API
+        console.log("token graficos");
+        console.log(token);
         fetch("/api/medico", {
                 method: 'POST',
-                body: JSON.stringify({token: token}),
+                body: JSON.stringify({
+                    token: token
+                }),
                 signal: signal, // Provide the signal option
             })
             .then(async (response) => {
+                console.log(".then");
+                console.log(response);
                 const respuesta = await response.json()
                 setMedicos(respuesta);
             })
             .catch((error) => {
             console.error('Error fetching data:', error);
             });
-    }, []); // Al inicio
+    }, [token]); // Al inicio
 
     useEffect(() => {
 

@@ -8,10 +8,14 @@ import "./Calendar.css"
 import { useState,useEffect } from 'react';
 import Popup from '@/components/Turno/Popup';
 import { Alert, Snackbar,CircularProgress, LinearProgress } from '@mui/material';
-
+import { useSession } from 'next-auth/react'; // Import useSession hook
 
 
 export default function turnosdisponibles({params}) {
+    //sesion
+    const { data: session } = useSession(); // useSession hook to get the current user
+    const [token, setToken] = useState([])
+
     const now = new Date();
     const maxima_fecha = new Date();
     maxima_fecha.setMonth(now.getMonth() + 2)
@@ -25,6 +29,15 @@ export default function turnosdisponibles({params}) {
     const [idTurno,setIdTurno] = useState(0);
     const horizontal = 'center';
     const vertical = 'bottom';
+
+    useEffect(() => {
+      let user = session?.user
+      let token = user && user.token ? user.token : "no-token-for-fichasmedicasfiltradas"
+      setToken(token)
+    }, [session])
+
+
+
    const handle = ((dia,mes,user) =>{
         mes += 1;
         let idMedico = params.id;
@@ -71,7 +84,9 @@ export default function turnosdisponibles({params}) {
     // })
     fetch("/api/turnosdisponibles/reservar", {
         method: "POST",
-        body: JSON.stringify(body)
+        body: JSON.stringify({
+           other: body,
+           token: token})
     })
         .then(async (response) => {
             console.log('ha llegado la respuesta de la api del front');

@@ -1,5 +1,6 @@
 export async function POST(request) {
-    const body = await request.json() //
+    const body = await request.json()
+    console.log(body);
     const res = await fetch(`http://localhost:8080/medico/especialidad`, {
         method: 'GET',
         cache: "no-store",

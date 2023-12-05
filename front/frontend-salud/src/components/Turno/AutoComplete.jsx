@@ -24,6 +24,7 @@ function AutoComplete({onEspecialidadChange}) {
   useEffect(() => {
     const user = session?.user
     const token = user?.token ? user.token : "no-token-for-autocomplete"
+    console.log(token);
     // Fetch data from the API using fetch() or any other HTTP client library
     fetch("/api/turnosdisponibles/especialidades",{
       method: 'POST',
