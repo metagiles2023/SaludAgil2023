@@ -1,11 +1,16 @@
-import Header from "@/components/Estructura/Header";
-import Footer from "@/components/Estructura/Footer";
+"use client"
+import { CartelDescripcion } from "@/components/carteles/CartelDescripcion";
 import Link from "next/link";
+import { useSession } from 'next-auth/react'; // Import useSession hook
 
 export default function Turnos() {
-    return (
-        <div className="flex flex-col min-h-screen">
-            <Header />
+    const { data: session } = useSession(); // useSession hook to get the current user
+
+    if (session && session.user && session.user.usuario) {
+
+        return (
+            <div className="flex flex-col min-h-screen">
+            
             <main className="flex-1 flex justify-center items-center">
                 <Link href="/turnos/reservarturnos" className="btn_sacar_turno flex w-3/12 h-[40vh] m-14 justify-center items-center bg-slate-200 px-14 rounded-[30px] shadow-2xl shadow-gray-600">
                     <img src="/lupa.svg" alt="Buscar turno" className="w-4/12" />
@@ -20,7 +25,14 @@ export default function Turnos() {
                     </div>
                 </Link>
             </main>
-            <Footer />
+            
         </div>
     )
+    } else {
+        return (
+            <div>
+                <CartelDescripcion mensaje="Acceso no autorizado. Debe estar logueado para ver esta pagina."/>
+            </div>
+        )
+    }
 }

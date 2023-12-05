@@ -16,53 +16,26 @@ ChartJS.register(
     Legend
 );
 
-const GraficoTorta = () => {
+const GraficoTorta = ({data, labels}) => {
 
     const[chartData, setChartData] = useState({
         datasets: []
     });
 
-    var niveles = ['Emergencia', 'Comun'];
-
-    //cargar fichas medicos sin filtro  
-    const [filtro, setFiltro] = useState({});
     const [chartOptions, setChartOptions] = useState({});
-    const [fichasMedicas, setFichasMedicas] = useState([]);
 
     var countsEmergencia = Array(2).fill(0);
 
     useEffect(() => {
-        // Make an HTTP GET request to your backend API
-        fetch("/api/ficha-medica", {
-                method: 'POST',
-                body: JSON.stringify(filtro),
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                signal: signal, // Provide the signal option
-            })
-            .then(async (response) => {
-                const respuesta = await response.json()
-                setFichasMedicas(respuesta);
-            })
-            .catch((error) => {
-            console.error('Error fetching data:', error);
-            });
-    }, [filtro]);
 
-    useEffect(() => {
-
-        var emergencia = fichasMedicas.filter(item => item.usoEmergencia === true);
+        var emergencia = data && data.filter ? data.filter(item => item.usoEmergencia === true) : [];
         
         countsEmergencia = Array(2).fill(0);
         countsEmergencia[0] = emergencia.length;
-        countsEmergencia[1] = (fichasMedicas.length - countsEmergencia[0]); 
-
-        console.log(countsEmergencia);
-
+        countsEmergencia[1] = data ? (data.length - countsEmergencia[0]) : ""; 
 
         setChartData({
-            labels: niveles,
+            labels: labels,
             datasets: [
                 {
                     label: 'Servicio Emergencia',
@@ -95,7 +68,7 @@ const GraficoTorta = () => {
             responsitive: true
         })
 
-    }, [fichasMedicas]);
+    }, [data]);
 
     return(
         <Pie data={chartData} options={chartOptions} />

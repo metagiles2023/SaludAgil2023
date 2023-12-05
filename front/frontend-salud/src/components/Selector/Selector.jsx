@@ -40,12 +40,13 @@ const Selector = ({onSelectOption, usuarios}) => {
 
     const closeDropdown = (option, index) => {
         setMedicoSeleccionado({ nombre: option.nombre, apellido: option.apellido, index: index});
-        if(ultiOption && ultiOption.idUsuario === option.idUsuario)
+        if(ultiOption && ultiOption.idUsuario === option.idUsuario){
             setTitulo(tituloOriginal);
-        else
+            setUltiOption(null);
+        }else{
             setTitulo(`${option.nombre} ${option.apellido}`);
-        
-        setUltiOption(option);
+            setUltiOption(option);
+        }
         onSelectOption(option);
         setIsDropdownOpen(false);
     }
@@ -64,7 +65,7 @@ const Selector = ({onSelectOption, usuarios}) => {
                 <div className='origin-top-right absolute left-0 mt-2'>
                     <div className="w-64 bg-white border border-gray-300 rounded shadow-md overflow-y-auto max-h-48">
                         <div className='py-1'>
-                            {datos.map((option, index) => (
+                            {datos && datos.map && datos.map((option, index) => (
                                 <a href='#' key={index} className='block px-4 py-2 hover:bg-gray-100' onClick={() => closeDropdown(option, index)}>
                                     <div className="flex items-center">
                                         <span className="mr-2">{`${option.idUsuario}`}</span>

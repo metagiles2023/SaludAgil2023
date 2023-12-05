@@ -3,7 +3,7 @@ import './medico.css';
 
 const ListaMedicos = ({ medicos }) => {
     return (
-    <div className="medicoTable text-black">
+    <div className="medicoTable text-black" style={{ "backgroundColor": "white" }}>
         <table>
         <thead>
             <tr>

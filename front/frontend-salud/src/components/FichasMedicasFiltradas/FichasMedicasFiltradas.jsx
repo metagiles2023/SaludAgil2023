@@ -7,10 +7,12 @@ import "react-datepicker/dist/react-datepicker.css";
 import Selector from '../Selector/Selector';
 const controller = new AbortController(); // Create an AbortController
 const signal = controller.signal; // Get the signal from the controller
-
+import { useSession } from 'next-auth/react'; // Import useSession hook
 
 const FichasMedicasFiltradas = () => {
-
+    const { data: session } = useSession(); // useSession hook to get the current user
+    const [token, setToken] = useState([])
+    
     //se inicializa el filtro vacio para traer todas las fichas
     const [filtroSeleccionado, setFiltroSeleccionado] = useState({})
 
@@ -24,40 +26,63 @@ const FichasMedicasFiltradas = () => {
     const [ultiMedico, setUltiMedico] = useState(null);
 
     useEffect(() => {
-        // Make an HTTP GET request to your backend API
-        fetch("/api/medico", {
-                method: 'GET',
-                signal: signal, // Provide the signal option
-            })
-            .then(async (response) => {
-                const respuesta = await response.json()
-                setMedicos(respuesta);
-            })
-            .catch((error) => {
-            console.error('Error fetching data:', error);
-            });
-    }, []); // Al inicio
-
+        let user = session?.user
+        let token = user && user.token ? user.token : "no-token-for-fichasmedicasfiltradas"
+        setToken(token)
+    }, [session])
+    
     useEffect(() => {
         // Make an HTTP GET request to your backend API
-        fetch("/api/paciente", {
-                method: 'GET',
+        fetch("/api/medico", {
+                method: 'POST',
+                body: JSON.stringify({token: token}),
                 signal: signal, // Provide the signal option
             })
             .then(async (response) => {
                 const respuesta = await response.json()
-                setPacientes(respuesta);
+                if (response.status >= 400) {
+                    console.log('error getting medicos')
+                    console.log(response.statusText)
+                }else {
+                    setMedicos(respuesta)
+                }
             })
             .catch((error) => {
             console.error('Error fetching data:', error);
             });
-    }, []); // Al inicio
+    }, [token]); // Al inicio
+    
+    useEffect(() => {
+        // Make an HTTP GET request to your backend API
+        console.log('voy a llamar al back-front con token')
+        console.log(token)
+        fetch("/api/paciente", { //TODO arreglar
+                method: 'POST',
+                body: JSON.stringify({token: token}),
+                signal: signal, // Provide the signal option,
+            })
+            .then(async (response) => {
+                const respuesta = await response.json()
+                if (response.status >= 400) {
+                    console.log('error getting pacientes')
+                    console.log(response.statusText)
+                }else {
+                    setPacientes(respuesta)
+                }
+            })
+            .catch((error) => {
+            console.error('Error fetching data:', error);
+            });
+    }, [token]); // Al inicio
 
     useEffect(() => {
         // Make an HTTP GET request to your backend API
         fetch("/api/ficha-medica", {
                 method: 'POST',
-                body: JSON.stringify(filtroSeleccionado),
+                body: JSON.stringify({
+                    other: filtroSeleccionado,
+                    token: token
+                }),
                 headers: {
                     "Content-Type": "application/json"
                 },
@@ -65,12 +90,17 @@ const FichasMedicasFiltradas = () => {
             })
             .then(async (response) => {
                 const respuesta = await response.json()
-                setFichasMedicas(respuesta);
+                if (response.status >= 400) {
+                    console.log('error getting fichas medicas')
+                    console.log(response.statusText)
+                }else {
+                    setFichasMedicas(respuesta)
+                }
             })
             .catch((error) => {
             console.error('Error fetching data:', error);
             });
-    }, [filtroSeleccionado]); //cuando cambia el body,
+    }, [filtroSeleccionado, token]); // POST a /api/ficha-medica
 
     const reiniciar = () => {
         if ("fechaDesde" in filtroSeleccionado){
@@ -109,12 +139,14 @@ const FichasMedicasFiltradas = () => {
                 setFiltroSeleccionado(
                     {...filtroSeleccionado, ...nuevoFiltro}
                 )}
+            setUltiMedico(null);
         }else {
             const nuevoFiltro = {"medico": optionSelected.idUsuario};
             setFiltroSeleccionado(
                 {...filtroSeleccionado, ...nuevoFiltro}
-            )}
-        setUltiMedico(optionSelected);
+            )
+            setUltiMedico(optionSelected);
+            }
     }
     
     const handleFiltrarPaciente = (optionSelected) => {
@@ -125,12 +157,14 @@ const FichasMedicasFiltradas = () => {
                 setFiltroSeleccionado(
                     {...filtroSeleccionado, ...nuevoFiltro}
                 )}
+            setUltiPaciente(null);
         }else {
             const nuevoFiltro = {"paciente": optionSelected.idUsuario};
             setFiltroSeleccionado(
                 {...filtroSeleccionado, ...nuevoFiltro}
-            )}
-        setUltiPaciente(optionSelected);
+            )
+            setUltiPaciente(optionSelected);
+        }
     }
 
     const handleOnCheckbox = e => {
@@ -257,11 +291,11 @@ const FichasMedicasFiltradas = () => {
                 <div className="flex flex-row space-x-4">
                     <div className="w-1/2">
                         <h2 className='font-bold text-2xl'> Fecha Desde</h2>
-                        <DatePicker dateFormat='yyyy/MM/dd' selected={startDate} onChange={(date) => dateForHandle(date)} />
+                        <DatePicker className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' dateFormat='yyyy/MM/dd' selected={startDate} onChange={(date) => dateForHandle(date)} />
                     </div>
                     <div className="w-1/2">
                         <h2 className='font-bold text-2xl'> Fecha Hasta</h2>
-                        <DatePicker dateFormat='yyyy/MM/dd' selected={toDate} onChange={(date) => dateToHandle(date)} />
+                        <DatePicker className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' dateFormat='yyyy/MM/dd' selected={toDate} onChange={(date) => dateToHandle(date)} />
                     </div>
                 </div>
                     <div className="flex flex-row space-x-4">
@@ -287,7 +321,7 @@ const FichasMedicasFiltradas = () => {
                         </div>
                     </div>
                     <div >
-                        <ListaFichasMedicas fichasMedicas={fichasMedicas} pacientes={pacientes} medicos={medicos}/>
+                        <ListaFichasMedicas fichasMedicas={fichasMedicas} pacientes={pacientes} medicos={medicos} />
                     </div>
         </div>
     );}

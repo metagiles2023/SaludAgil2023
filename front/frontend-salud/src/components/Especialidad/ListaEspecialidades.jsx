@@ -4,7 +4,7 @@ import './especialidades.css';
 const ListaEspecialidades = ({ especialidades }) => {
     console.log('me llegaron las especialidades: ' + especialidades)
     return (
-    <div className="especialidadTable text-black text-xl">
+    <div className="especialidadTable text-black text-xl" style={{ "backgroundColor": "white" }}>
         <table>
         <thead>
             <tr>
@@ -13,7 +13,7 @@ const ListaEspecialidades = ({ especialidades }) => {
             </tr>
         </thead>
         <tbody>
-            {especialidades.map((fila) => (
+            {especialidades && especialidades.map && especialidades.map((fila) => (
             <tr key={fila.idEspecialidad}>
                 <td>{fila.nombre}</td>
                 <td>{fila.descripcion}</td>

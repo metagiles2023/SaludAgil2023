@@ -1,12 +1,33 @@
 "use client"
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './fichaMedica.css'; 
-
-
 
 
 const ListaFichasMedicas = ({ fichasMedicas, pacientes, medicos }) => {
 
+    const [nombresMedicos, setNombresMedicos] = useState({});
+    const [nombresPacientes, setNombresPacientes] = useState({});
+
+    useEffect(() => {
+    
+        const nombresMedicosMap = {};
+        medicos && medicos.forEach && medicos.forEach((medico) => {
+            nombresMedicosMap[medico.idUsuario] = `${medico.nombre} ${medico.apellido}`;
+        });
+
+        setNombresMedicos(nombresMedicosMap);
+    }, [medicos]);
+
+    useEffect(() => {
+    
+        const nombresPacientesMap = {};
+        pacientes.forEach((paciente) => {
+            nombresPacientesMap[paciente.idUsuario] = `${paciente.nombre} ${paciente.apellido}`;
+        });
+
+        setNombresPacientes(nombresPacientesMap);
+    }, [pacientes]);
+    
     return (
         <div className='fichaMedicaTable' style={{ "backgroundColor": "white" }}>
             <table>
@@ -22,18 +43,14 @@ const ListaFichasMedicas = ({ fichasMedicas, pacientes, medicos }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {fichasMedicas.map((fila) => {
-                        const indexMedico = medicos.findIndex((item) => item.idUsuario === fila.medico)
-                        const medico = medicos[indexMedico]
-                        const indexPaciente = pacientes.findIndex((item) => item.idUsuario === fila.paciente)
-                        const paciente = pacientes[indexPaciente]
-                        const nombreCompletoMedico = `${medico.apellido}, ${medico.nombre} (${medico.dni})`
-                        const nombreCompletoPaciente = `${paciente.apellido}, ${paciente.nombre} (${paciente.dni})`
+                    {fichasMedicas && fichasMedicas.map && fichasMedicas.map((fila) => {
+                        const nombreMedico = nombresMedicos[fila.medico] || '';
+                        const nombrePaciente = nombresPacientes[fila.paciente] || '';
                         return (    
                             <tr key={fila.idFichaMedica}>
                                 <td>{fila.idFichaMedica}</td>
-                                <td>{nombreCompletoMedico}</td>
-                                <td>{nombreCompletoPaciente}</td>
+                                <td>{nombreMedico}</td>
+                                <td>{nombrePaciente}</td>
                                 <td>{fila.date}</td>
                                 <td>{fila.diagnostico}</td>
                                 <td>{fila.esGrave ? "Si" : "No"}</td>

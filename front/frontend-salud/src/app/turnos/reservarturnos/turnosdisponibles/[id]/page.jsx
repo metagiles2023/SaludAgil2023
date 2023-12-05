@@ -34,7 +34,7 @@ export default function turnosdisponibles({params}) {
         .then(async (res) => {
           const data = await res.json();
           console.log(data);
-          data.forEach(element => {
+          data && data.forEach && data.forEach(element => {
             element.date = new Date(element.date);
           });
           data.sort((a,b) => { return a.date - b.date})
@@ -100,7 +100,7 @@ export default function turnosdisponibles({params}) {
 
   return (
     <div className='flex flex-col min-h-screen'>
-      <Header />
+      
       <main className='flex-1 flex'>
         <div className='flex-1 flex justify-center items-center'>
           <div className='flex w-2/3 h-2/3 justify-center items-center'>
@@ -181,7 +181,7 @@ export default function turnosdisponibles({params}) {
           
         </Snackbar>
       </main>
-      <Footer />
+      
     </div>
   )
 }

@@ -27,7 +27,7 @@ function contadorPorMes(datos) {
 
     var salida = Array(12).fill(0);
 
-    datos.forEach( item => {
+    datos && datos.forEach && datos.forEach( item => {
     const mes = new Date(item.date).getMonth();
     salida[mes]++;
 
@@ -35,49 +35,27 @@ function contadorPorMes(datos) {
     return salida;
 }
 
-const GraficoBarras = () => {
+const GraficoBarras = ({ data, labels}) => {
 
     const[chartData, setChartData] = useState({
         datasets: []
     });
-
-    //cargar fichas medicos sin filtro  
-    const [filtro, setFiltro] = useState({})
+    
     const [chartOptions, setChartOptions] = useState({});
-    const [fichasMedicas, setFichasMedicas] = useState([]);
 
     var countsGraves = Array(12).fill(0);
     var countsLeves = Array(12).fill(0);
 
     useEffect(() => {
-        // Make an HTTP GET request to your backend API
-        fetch("/api/ficha-medica", {
-                method: 'POST',
-                body: JSON.stringify(filtro),
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                signal: signal, // Provide the signal option
-            })
-            .then(async (response) => {
-                const respuesta = await response.json()
-                setFichasMedicas(respuesta);
-            })
-            .catch((error) => {
-            console.error('Error fetching data:', error);
-            });
-    }, [filtro]); 
 
-    useEffect(() => {
-
-        var graves = fichasMedicas.filter(item => item.esGrave === true);
-        var leves = fichasMedicas.filter(item => item.esGrave === false);
+        var graves = data && data.filter ? data.filter(item => item.esGrave === true) : [];
+        var leves = data && data.filter ? data.filter(item => item.esGrave === false) : [];
 
         countsGraves = contadorPorMes(graves);
         countsLeves = contadorPorMes(leves);
 
         setChartData({
-            labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            labels: labels,
             datasets: [
                 {
                     label: 'GRAVES',
@@ -108,7 +86,7 @@ const GraficoBarras = () => {
             responsitive: true
         })
 
-    }, [fichasMedicas]);
+    }, [data]);
     
     return(
         <Bar data={chartData} options={chartOptions} /> 

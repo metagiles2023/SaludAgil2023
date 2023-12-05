@@ -31,7 +31,7 @@ function contadorPorMes(datos) {
 
     var salida = Array(12).fill(0);
 
-    datos.forEach( item => {
+    datos && datos.forEach && datos.forEach( item => {
     const mes = new Date(item.date).getMonth();
     salida[mes]++;
 
@@ -39,46 +39,85 @@ function contadorPorMes(datos) {
     return salida;
 }
 
-const GraficoLineas = () => {
+function contadorPorMedico(datos, medicos){
+
+    const contadorFichasMap = {};
+    var salida = [];
+
+    //un mapa que por cada medico.id me de la cantidad de fichas medicas
+    //["maria", "damian", "marcelo", "dr zunini"]
+    //[0,1,3,5];
+
+    medicos && medicos.forEach && medicos.forEach((medico) => {
+        contadorFichasMap[medico.idUsuario] = 0;
+    });
+
+    datos && datos.forEach && datos.forEach((ficha) => {
+        contadorFichasMap[ficha.medico]++;
+    });
+
+    salida = Object.values(contadorFichasMap);
+    return salida;
+    
+}
+
+function buscardorEspecialidad(id, medicos){
+
+    var salida = medicos.filter(item => item.idUsuario === id);
+    return (salida && salida.length > 0) ? salida[0].especialidad : "no-especialidad";
+}
+
+function contadorPorEspecialidad(datos, medicos){
+
+    const contadorFichasMap = {};
+    var salida = [];
+
+    medicos && medicos.forEach && medicos.forEach((medico) => {
+        contadorFichasMap[medico.especialidad] = 0;
+    });
+
+    datos && datos.forEach && datos.forEach((ficha) => {
+        var identificador = ficha.medico;
+        var especialidad = buscardorEspecialidad(identificador, medicos);
+        contadorFichasMap[especialidad]++;
+    });
+
+    salida = Object.values(contadorFichasMap);
+    return salida;
+}
+
+const GraficoLineas = ({ data, labels, tipo, medicos}) => {
 
     const[chartData, setChartData] = useState({
         datasets: []
     });
 
-    var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-
-    const [filtro, setFiltro] = useState({});
     const [chartOptions, setChartOptions] = useState({});
-    const [fichasMedicas, setFichasMedicas] = useState([]);
 
     var casos = Array(12).fill(0);
-
-    useEffect(() => {
-        // Make an HTTP GET request to your backend API
-        fetch("/api/ficha-medica", {
-                method: 'POST',
-                body: JSON.stringify(filtro),
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                signal: signal, // Provide the signal option
-            })
-            .then(async (response) => {
-                const respuesta = await response.json()
-                setFichasMedicas(respuesta);
-            })
-            .catch((error) => {
-            console.error('Error fetching data:', error);
-            });
-    }, [filtro]);
-
+    
+    //texto que va por encima del grafico
+    var texto = "";
 
     useEffect(() => {
 
-        casos = contadorPorMes(fichasMedicas);
+        if (tipo === "meses") {
+            texto = "CASOS TOTALES POR MES";
+            casos = contadorPorMes(data);
+        } 
+
+        if (tipo === "medicos") {
+            texto = "TURNOS POR MEDICOS";
+            casos = contadorPorMedico(data, medicos);
+        }
+
+        if (tipo === "especialidad"){
+            texto = "TURNOS POR ESPECIALIDADES";
+            casos = contadorPorEspecialidad(data, medicos); 
+        }
 
         setChartData({
-            labels: meses,
+            labels: labels,
             datasets: [
                 {
                     label: 'CASOS',
@@ -101,14 +140,14 @@ const GraficoLineas = () => {
                 },
                 title: {
                     display: true,
-                    text: "CASOS TOTALES POR"
+                    text: texto 
                 }
             },
             maintainAspectRatio: false,
             responsitive: true
         })
 
-    }, [fichasMedicas] );
+    }, [data] );
 
     return <Line data={chartData} options={chartOptions} />
 }

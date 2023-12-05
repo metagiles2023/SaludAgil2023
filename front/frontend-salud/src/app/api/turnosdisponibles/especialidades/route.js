@@ -1,7 +1,11 @@
-export async function GET(req) {
+export async function POST(request) {
+    const body = await request.json() //
     const res = await fetch(`http://localhost:8080/medico/especialidad`, {
         method: 'GET',
         cache: "no-store",
+        headers: {
+            "Authorization": body.token
+        }
     });
     const resultado = await res.json();
     console.log(resultado);

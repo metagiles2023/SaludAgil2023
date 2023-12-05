@@ -1,11 +1,15 @@
 "use client"
-import { skeleton } from '@nextui-org/react';
 import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
+import { useSession } from 'next-auth/react'; // Import useSession hook
+
 //Pido disculpas por lo que van a leer a continuacion
+//No pasa nada, pedimos perdon por el componente FichasMedicasFiltradas
 const Formulario = ({ fields, url, tema }) => {
+    const { data: session } = useSession(); // useSession hook to get the current user
+    const [ token, setToken ] = useState([])
     const initialFormData = {};
-    fields.forEach((element) => {
+    fields && fields.forEach && fields.forEach((element) => {
         initialFormData[element] = '';
     });
 
@@ -17,10 +21,17 @@ const Formulario = ({ fields, url, tema }) => {
     const [medicos, setMedicos] = useState([]);
     const [pacientes, setPacientes] = useState([])
 
-    useEffect(() => { 
+    useEffect(()=>{
+        let user = session?.user
+        let token = user && user.token ? user.token : "no-token-for-formulario"
+        setToken(token)
+    }, [session])
+
+    useEffect(() => {
         if (tema === "medico" && fields.includes("especialidad")) {
             fetch("/api/medico/especialidad", {
-                method: 'GET'
+                method: 'POST',
+                body: JSON.stringify({token: token})
             })
                 .then(async (response) => {
                     console.log('ha llegado la respuesta de la api del front');
@@ -37,7 +48,8 @@ const Formulario = ({ fields, url, tema }) => {
         }
         if (tema === "ficha medica" && fields.includes("medico")) {
             fetch("/api/medico", {
-                method: 'GET'
+                method: 'POST',
+                body: JSON.stringify({token: token})
             })
                 .then(async (response) => {
                     console.log('ha llegado la respuesta de la api del front');
@@ -53,8 +65,10 @@ const Formulario = ({ fields, url, tema }) => {
                 });
         }
         if (tema === "ficha medica" && fields.includes("paciente")) {
+            
             fetch("/api/paciente", {
-                method: 'GET'
+                method: 'POST',
+                body: JSON.stringify({token: token})
             })
                 .then(async (response) => {
                     console.log('ha llegado la respuesta de la api del front');
@@ -69,7 +83,7 @@ const Formulario = ({ fields, url, tema }) => {
                     console.error('Error:', error);
                 });
         }
-    }, [tema, fields]);
+    }, [tema, fields, token]);
 
     //Tema mensajito
     useEffect(() => {
@@ -104,6 +118,7 @@ const Formulario = ({ fields, url, tema }) => {
     
 
     const handleSubmit = (e) => {
+        const token = session?.user?.token ? session.user.token : ""
         e.preventDefault();
         console.log('llamando api ' + url);
         console.log(formData)
@@ -112,7 +127,10 @@ const Formulario = ({ fields, url, tema }) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(formData)
+            body: JSON.stringify({
+                other: formData,
+                token: token
+            })
         })
             .then((response) => {
                 console.log('ha llegado la respuesta de the api del front');
@@ -145,7 +163,7 @@ const Formulario = ({ fields, url, tema }) => {
         if (element === "especialidad") {
             return (
                 <div key={i} className="mb-2">
-                    <label htmlFor={element} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"> {capFirst(element)}: </label>
+                    <label htmlFor={element} className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"> {capFirst(element)}: </label>
                     <select
                         id={element}
                         name={element}
@@ -166,7 +184,7 @@ const Formulario = ({ fields, url, tema }) => {
         } else if (tema === "ficha medica" && element === "medico") {
             return (
                 <div key={i} className="mb-2">
-                    <label htmlFor={element} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"> {capFirst(element)}: </label>
+                    <label htmlFor={element} className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"> {capFirst(element)}: </label>
                     <select
                         id={element}
                         name={element}
@@ -187,7 +205,7 @@ const Formulario = ({ fields, url, tema }) => {
         } else if (tema === "ficha medica" && element === "paciente") {
             return (
                 <div key={i} className="mb-2">
-                    <label htmlFor={element} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"> {capFirst(element)}: </label>
+                    <label htmlFor={element} className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"> {capFirst(element)}: </label>
                     <select
                         id={element}
                         name={element}
@@ -208,7 +226,7 @@ const Formulario = ({ fields, url, tema }) => {
         } else if (tema === "ficha medica" && (element === "esGrave" || element === "usoEmergencia")) {
             return (
                 <div key={i} className='mb-2'>
-                  <label htmlFor={element} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  <label htmlFor={element} className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">
                     {capFirst(element)}:
                   </label>
                   <input
@@ -223,7 +241,7 @@ const Formulario = ({ fields, url, tema }) => {
         } else if (tema === "ficha medica" && element === "fecha") {
             return (
                 <div key={i} className='mb-2'>
-                  <label htmlFor={element} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  <label htmlFor={element} className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">
                     {capFirst(element)}:
                   </label>
                   {/* <input
@@ -236,7 +254,7 @@ const Formulario = ({ fields, url, tema }) => {
                     placeholder={`${capFirst(element)} del ${tema}`}
                     required
                   /> */}
-                  <DatePicker dateFormat='yyyy/MM/dd' selected={selectedDate} onChange={handleChangeDate}/>
+                  <DatePicker className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' dateFormat='yyyy/MM/dd' selected={selectedDate} onChange={handleChangeDate}/>
                 </div>
               );
         }
@@ -244,24 +262,25 @@ const Formulario = ({ fields, url, tema }) => {
         // Casos normales (string)
         return (
             <div key={i} className='mb-2'>
-                <label htmlFor={element} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{capFirst(element)}:</label>
-                <input
+                <label htmlFor={element} className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">{capFirst(element)}:</label>
+                <textarea
                     type="text"
                     id={element}
                     name={element}
                     value={formData[element]}
                     onChange={handleChange}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder={`${capFirst(element)} del ${tema}`} required
+                    style={{ width: '1200px', height: '200px' }}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-700 py-16 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder={`${capFirst(element)} del ${tema}`} required
                 />
             </div>
         )
     };
 
     return (
-        <div className="text-xl text-black border border-gray-600 p-4">
+        <div className="text-xl text-black border border-gray-600 p-6">
             <form onSubmit={handleSubmit}>
                 {fields.map(renderField)}
-                <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover-bg-blue-700 dark:focus:ring-blue-800">Crear {capFirst(tema)}</button>
+                <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base sm:w-auto px-6 py-4 text-center dark:bg-blue-600 dark:hover-bg-blue-700 dark:focus:ring-blue-800">Crear {capFirst(tema)}</button>
             </form>
             <label>{textoBackend}</label>
         </div>

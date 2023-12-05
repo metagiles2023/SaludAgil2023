@@ -1,6 +1,8 @@
 "use client" //para que ejecute cosas en el cliente
 import FormularioMultiple from '@/components/SeleccionMultiples/FormularioMultiple';
 import NavBar from '@/components/NavBar/NavBar';
+import Header from '@/components/Estructura/Header';
+import Footer from '@/components/Estructura/Footer';
 import { CartelDescripcion } from '@/components/carteles/CartelDescripcion';
 import { Redireccionador } from '@/components/Redireccionador/Redireccionador';
 
@@ -9,14 +11,10 @@ export default function Home() {
 
     return (
         <main className="flex flex-col">
-            <div>
-                <NavBar />
-            </div>
-
-            <CartelDescripcion mensaje="Pagina para crear fichas medicas" />
-
+            
             <FormularioMultiple formulario={selectedType} />
             <Redireccionador mensaje="Volver" ruta="/ficha-medica/ver"/>
+            
         </main>
     );
 }

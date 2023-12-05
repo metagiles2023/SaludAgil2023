@@ -2,7 +2,7 @@ import React from 'react';
 import ListaUsuarios from '../Usuario/Usuario';
 import ListaMedicos from '../Medico/Medico';
 import ListaPacientes from '../Paciente/Paciente';
-
+import ListaAdministradores  from '../Administrador/ListaAdministradores';
 const ListaMultiple = ({ lista, datos}) => {
     switch(lista) {
         case "usuario":
@@ -15,7 +15,7 @@ const ListaMultiple = ({ lista, datos}) => {
             )
         case "administrador":
             return (
-                <h1>estos son los administradores</h1>
+                <ListaAdministradores administradores={datos}/>
             )    
         case "paciente":
             return (

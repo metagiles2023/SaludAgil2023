@@ -1,17 +1,28 @@
-import Header from '@/components/Estructura/Header';
-import Footer from '@/components/Estructura/Footer';
-import NavBar from '@/components/NavBar/NavBar';
-import { CartelDescripcion } from '@/components/carteles/CartelDescripcion';
+"use client";
+
+import React, { useEffect, useState } from 'react';
+import { Login } from "@/components/login/login";
+import { Register } from "@/components/registro/registro";
 
 
 export default function Home() {
+    const [currentForm, setCurrentForm] = useState('login');
+    
+    const toggleForm = (formName) => {
+        setCurrentForm(formName);
+    }
+    
     return (
-        <div className="flex flex-col min-h-screen">
-            <Header />
+        <div>
             <main className='flex-1 flex justify-center items-center'>
-                <CartelDescripcion mensaje="Pagina principal de Salud Agil 2023"/>
+                <div></div>
+                <div className="App">
+                {
+                     currentForm === "login" ? <Login onFormSwitch={toggleForm} /> : <Register onFormSwitch={toggleForm} />
+                }
+                </div>
+                <div></div>
             </main>
-            <Footer />
         </div>     
     )
 }

@@ -3,7 +3,7 @@ import './usuario.css';
 
 const ListaUsuarios = ({ usuarios }) => {
     return (
-    <div className="usuarioTable text-black">
+    <div className="usuarioTable text-black" style={{ "backgroundColor": "white" }} >
         <table>
         <thead>
             <tr>
@@ -15,7 +15,7 @@ const ListaUsuarios = ({ usuarios }) => {
             </tr>
         </thead>
         <tbody>
-            {usuarios.map((fila) => (
+            {usuarios && usuarios.map && usuarios.map((fila) => (
             <tr key={fila.idUsuario}>
                 <td>{fila.idUsuario}</td>
                 <td>{fila.rol}</td>

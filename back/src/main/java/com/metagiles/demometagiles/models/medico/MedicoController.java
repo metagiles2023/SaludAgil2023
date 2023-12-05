@@ -5,15 +5,22 @@ import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.metagiles.demometagiles.models.sesion.Session;
+import com.metagiles.demometagiles.models.sesion.SessionCacheService;
 import com.metagiles.demometagiles.utils.Utils;
 
 
 @RestController
 public class MedicoController {
     private final MedicoRepository medicoRepository;
+    private final SessionCacheService sessionCacheService;
+    public MedicoController(MedicoRepository medicoRepository, SessionCacheService sessionCacheService) {
     private final MedicoService medicoService;
+
     public MedicoController(MedicoRepository medicoRepository, MedicoService medicoService) {
         this.medicoRepository = medicoRepository;
+        this.sessionCacheService = sessionCacheService;
         this.medicoService = medicoService;
     }
 
@@ -26,7 +33,10 @@ public class MedicoController {
 
 
     @GetMapping("/medico")
-    List<Medico> getAll() {
+    List<Medico> getAll(@RequestHeader("Authorization") String token) {
+        if(sessionCacheService.getSession(token) == null) {
+            return null;
+        }
         System.out.println("Recuperando medicos");
         List<Medico> medicos = medicoRepository.findAll();
         System.out.println("Recupero " + medicos.size() + " medicos");
@@ -34,8 +44,12 @@ public class MedicoController {
     }
 
     @GetMapping("/medico/getById")
-    public ResponseEntity<?> getById(@RequestParam("id") Long idUsuario) {
+    public ResponseEntity<?> getById(@RequestParam("id") Long idUsuario, @RequestHeader("Authorization") String token) {
         Medico medico = null;
+        Session session = sessionCacheService.getSession(token);
+        if(session == null) {
+            return Utils.genResponseError("Tu login es inválido.");
+        }
         try {
             Optional<Medico> medicoOpt = medicoRepository.findById(idUsuario);
             if (medicoOpt.isPresent()) {
@@ -63,7 +77,14 @@ public class MedicoController {
      * Retorna un JSON con el id del usuario agregado.
      */
     @PostMapping("/medico")
-    public ResponseEntity<?> createMedico(@RequestBody Medico request) {
+    public ResponseEntity<?> createMedico(@RequestBody Medico request, @RequestHeader("Authorization") String token) {
+        Session session = sessionCacheService.getSession(token);
+        if(session == null) {
+            return Utils.genResponseError("Tu login es inválido.");
+        }
+        if(!session.getUsuario().getRol().equals("administrador")){
+            return Utils.genResponseError("No tienes permiso para hacer eso.");
+        }
         System.out.println("Creando medico");
         try {
             // Parse JSON request data into a Medico object
@@ -90,7 +111,11 @@ public class MedicoController {
     }
 
     @GetMapping("/medico/getByEspecialidad")
-    public List<Medico> getMedicosByEspecialidad(@RequestParam(name = "especialidad") String especialidad){
+    public List<Medico> getMedicosByEspecialidad(@RequestParam(name = "especialidad") String especialidad, @RequestHeader("Authorization") String token){
+        Session session = sessionCacheService.getSession(token);
+        if(session == null) {
+            return null;
+        }
         System.out.println("Especialidad: " + especialidad);
         List<Medico> medicos = medicoRepository.getByEspecialidad(especialidad);
         System.out.println("medicos: " + medicos.toString());

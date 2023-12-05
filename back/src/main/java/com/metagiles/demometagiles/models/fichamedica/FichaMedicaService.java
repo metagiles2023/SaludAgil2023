@@ -17,6 +17,8 @@ import com.metagiles.demometagiles.models.Filtro.FiltroPaciente;
 import com.metagiles.demometagiles.models.Filtro.FiltroRequest;
 import com.metagiles.demometagiles.models.medico.MedicoRepository;
 import com.metagiles.demometagiles.models.paciente.PacienteRepository;
+import com.metagiles.demometagiles.models.sesion.Session;
+import com.metagiles.demometagiles.models.sesion.SessionCacheService;
 import com.metagiles.demometagiles.utils.Utils;
 
 import lombok.RequiredArgsConstructor;
@@ -28,10 +30,21 @@ public class FichaMedicaService {
     private final FichaMedicaRepository fichaMedicaRepository;
     private final MedicoRepository medicoRepository;
     private final PacienteRepository pacienteRepository;
+    private final SessionCacheService sessionCacheService;
 
-    public List<FichaMedica> findAllFichaMedicas(FiltroRequest filtroRequest){ 
+    public List<FichaMedica> findAllFichaMedicas(FiltroRequest filtroRequest, String token){ 
+        System.out.println("findAllFichasMedicas, token: " + token);
+        Session session = sessionCacheService.getSession(token);
+        if (session == null) { //significa que el login es invalido
+            System.out.println("No esta logueado. Salgo");
+            return null;
+        }
+        if(session.getUsuario().getRol().equals("paciente")){
+            System.out.println("Permisos incorrectos. Salgo");
+            return null;   //no tiene permisos para eso
+        }
         System.out.println("getting fichas medicas");
-        List<FichaMedica> fichas = null;
+        List<FichaMedica> fichas = new ArrayList<>();
         try {
             fichas = fichaMedicaRepository.findAll();
             fichas = filtrarFichas(fichas, filtroRequest);
@@ -89,7 +102,18 @@ public class FichaMedicaService {
         return filteredFichas;
     }
 
-    public ResponseEntity<?> crearFichaMedica(FichaMedica fichaMedicaRequest) {
+    public ResponseEntity<?> crearFichaMedica(FichaMedica fichaMedicaRequest, String token) {
+        Session session = sessionCacheService.getSession(token);
+        if (session == null) { //significa que el login es invalido
+            return Utils.genResponseError("Token invalido");
+        }
+        if (session.getUsuario().getRol().equals("medico")) {
+            if (session.getUsuario().getIdUsuario() != fichaMedicaRequest.getMedico()) {
+                Utils.genResponseError("No puedes crear una ficha médica para otro medico.");
+            }
+        } else if (session.getUsuario().getRol().equals("paciente")) {
+            return Utils.genResponseError("No tiene permisos para crear fichas medicas.");
+        }
         try {
             if (!medicoRepository.existsById(fichaMedicaRequest.getMedico())) {
                 return Utils.genResponseError("Medico no existe.");

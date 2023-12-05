@@ -1,14 +1,13 @@
 export async function POST(request) {
     const body = await request.json();
     console.log(`internal: ficha-medica/create/post.js body is ${JSON.stringify(body)}`)
-    console.log('PARA FICHA MEDICA, ENVIO ESTO')
-    console.log(body)
     const res = await fetch(process.env.URL_BACKEND + '/ficha-medica/create', {
         method: 'POST',
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": body.token
         },
-        body: JSON.stringify(body)
+        body: JSON.stringify(body.other)
     });
     const resultado = await res.json();
     console.log(res.status, resultado)

@@ -1,55 +1,67 @@
 "use client" //para que ejecute cosas en el cliente
 import React, { useState, useEffect } from 'react';
-import Header from '@/components/Estructura/Header'
-import Footer from '@/components/Estructura/Footer'
 import ListaMultiple from '@/components/SeleccionMultiples/ListaMultiple';
-import { CartelDescripcion } from '@/components/carteles/CartelDescripcion';
-import { CartelDescripcionChildren } from '@/components/carteles/CartelDescripcionChildren'
 import { Redireccionador } from '@/components/Redireccionador/Redireccionador';
+import { useSession } from 'next-auth/react'; // Import useSession hook
+import { CartelDescripcion } from '@/components/carteles/CartelDescripcion';
 
 export default function Home() {
     const [datos, setDatos] = useState([]);
     const [selectedUserType, setSelectedUserType] = useState('usuario');
-    
+    const { data: session } = useSession(); // useSession hook to get the current user
+    const [token, setToken] = useState([])
+
+    useEffect(()=>{
+        let user = session?.user
+        let token = user && user.token ? user.token : "no-token-for-usuario-ver-page"
+        setToken(token)
+    }, [session])
+
     useEffect(() => {
-    // Make an HTTP GET request to your backend API
-    fetch(`/api/${selectedUserType}`, {
-        method: 'GET',
-    })
-        .then((response) => response.json())
-        .then((data) => {
-        // Update the fichaMedica state with the data from the backend
-        setDatos(data);
+        // Make an HTTP GET request to your backend API
+        console.log(`envio a /api/${selectedUserType} con token`)
+        console.log(token)
+        fetch(`/api/${selectedUserType}`, {
+            method: 'POST',
+            body: JSON.stringify({ token: token })
         })
-        .catch((error) => {
-        console.error('Error fetching data:', error);
-        });
-    }, [selectedUserType]); // The empty dependency array ensures the effect runs only once
+            .then((response) => response.json())
+            .then((data) => {
+                // Update the fichaMedica state with the data from the backend
+                setDatos(data);
+            })
+            .catch((error) => {
+                console.error('Error fetching data:', error);
+            });
+    }, [selectedUserType, token]); // The empty dependency array ensures the effect runs only once
 
     const handleUserTypeChange = (newUserType) => {
         console.log(newUserType)
         setSelectedUserType(()=>newUserType);
       };
-
-    return (
+    
+    if (session && session.user && session.user.usuario && (session.user.usuario.rol == 'administrador' || session.user.usuario.rol == 'medico')) {
+        return (
         <div className="flex flex-col min-h-screen">
-        <Header /> 
+        
         <main className="flex-1 flex flex-col">
-            <div className='flex justify-center'>
-                <CartelDescripcion mensaje="Pagina para ver usuarios"/>
-            </div>
-            <CartelDescripcionChildren>
-                <div className="flex gap-20 my-4">
-                <button onClick={() => handleUserTypeChange('usuario')}>Todos los usuarios</button>
-                <button onClick={() => handleUserTypeChange('paciente')}>Pacientes</button>
-                <button onClick={() => handleUserTypeChange('medico')}>Médicos</button>
-                <button onClick={() => handleUserTypeChange('administrador')}>Administradores</button>
+                <div className='my-4'/>
+                <div className="flex gap-20 my-0">
+                <button className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base sm:w-auto px-6 py-4 text-center dark:bg-blue-600 dark:hover-bg-blue-700 dark:focus:ring-blue-800' onClick={() => handleUserTypeChange('usuario')}>Todos los usuarios</button>
+                <button className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base sm:w-auto px-6 py-4 text-center dark:bg-blue-600 dark:hover-bg-blue-700 dark:focus:ring-blue-800' onClick={() => handleUserTypeChange('paciente')}>Pacientes</button>
+                <button className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base sm:w-auto px-6 py-4 text-center dark:bg-blue-600 dark:hover-bg-blue-700 dark:focus:ring-blue-800' onClick={() => handleUserTypeChange('medico')}>Médicos</button>
+                <button className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base sm:w-auto px-6 py-4 text-center dark:bg-blue-600 dark:hover-bg-blue-700 dark:focus:ring-blue-800' onClick={() => handleUserTypeChange('administrador')}>Administradores</button>
                 </div>
-            </CartelDescripcionChildren>
-            <ListaMultiple lista={selectedUserType} datos={datos} />
-            <Redireccionador mensaje="Crear Usuario" ruta="/usuario/crear"/>
+            
+            <ListaMultiple lista={selectedUserType} datos={datos}  />
+            <Redireccionador mensaje="Crear Usuario" ruta="/usuario/crear" />
         </main>
-        <Footer />
+        
     </div>
     );
-    }
+    } else return (
+    <div>
+        <CartelDescripcion mensaje="Acceso no autorizado. Debe ser administrador o medico para ver los usuarios"/>
+    </div>
+    )
+}

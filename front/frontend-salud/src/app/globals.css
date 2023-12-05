@@ -26,3 +26,54 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+.auth-form-container, .login-form, .register-form {
+  display: flex;
+  flex-direction: column;
+}
+label {
+  text-align: left;
+  padding: 0.25rem 0;
+}
+
+input {
+  margin: 0.5rem 0;
+  padding: 1rem;
+  border: none;
+  border-radius: 10px;
+}
+
+button {
+  border: none;
+  background-color: rgb(255, 255, 255);
+  padding: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #7439db;
+}
+
+.link-btn {
+  background: none;
+  color: rgb(0, 0, 0);
+  text-decoration: underline;
+}
+
+.App {
+  text-align: center;
+  display: flex;
+  width: 100%; /* Ajusta el ancho según tus necesidades */
+  min-height: 80vh;
+  align-items: center;
+  justify-content: center;
+  color: rgb(255, 255, 255);
+  background-image: linear-gradient(to bottom, #0bb5c2, rgb(9, 154, 147) , #0b636a);
+}
+
+.white-background {
+  background-color: #fff; /* Fondo blanco */
+  color: #333; /* Color del texto */
+  padding: 10px 20px; /* Ajusta el relleno según tus necesidades */
+  border: 1px solid #ccc; /* Añade un borde opcional */
+  border-radius: 4px; /* Añade esquinas redondeadas opcionalmente */
+  cursor: pointer; /* Cambia el cursor al pasar por encima del botón */
+}

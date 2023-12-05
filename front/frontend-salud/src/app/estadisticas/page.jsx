@@ -1,28 +1,29 @@
-import Header from '@/components/Estructura/Header'
-import Footer from '@/components/Estructura/Footer'
-import GraficoLineas from '@/components/Graficos/GraficoLineas'
-import GraficoBarras from '@/components/Graficos/GraficoBarras'
-import GraficoTorta from '@/components/Graficos/GraficoTorta'
+"use client"
+import Graficos from '@/components/Graficos/Graficos'
+import { CartelDescripcion } from '@/components/carteles/CartelDescripcion'
+import { useSession } from 'next-auth/react'; // Import useSession hook
 
 export default function Home() {
-  return (
-    <div className="flex flex-col min-h-screen">
-      <Header /> 
-      <main className='flex-1 flex justify-center items-center'>
-        <div>
-          <p className='m-2'>Grafico de lineas</p>
-          <div className='bg-light mx-auto px-2 border border-2 border-primary' style={{width:"450px", height:"230px", "backgroundColor": "white"}}>
-            <GraficoBarras />
-          </div>
-          <div className='bg-light mx-auto px-2 border border-2 border-primary' style={{width:"450px", height:"230px", "backgroundColor": "white"}}>
-            <GraficoLineas />
-          </div>
-          <div className='bg-light mx-auto px-2 border border-2 border-primary' style={{width:"450px", height:"230px", "backgroundColor": "white"}}>
-            <GraficoTorta />
-          </div>
+    const { data: session } = useSession(); // useSession hook to get the current user
+
+    if (session && session.user && session.user.usuario && 
+        (session.user.usuario.rol == 'administrador' || session.user.usuario.rol == 'medico')) {
+    return (
+        <div className="flex flex-col min-h-screen">
+
+            <main className='flex-1 flex justify-center items-center'>
+                <div>
+                    <p className='m-2'>Grafico de lineas</p>
+                    <div className='my-12'>
+                        <Graficos></Graficos>
+                    </div>
+                </div>
+            </main>
+
         </div>
-      </main>
-      <Footer />
-    </div>
-  )
+    )} else {
+        return (<div>
+            <CartelDescripcion mensaje="Acceso no autorizado. Debe ser medico o administrador para ver esta pagina"/>
+        </div>)
+    }
 }
