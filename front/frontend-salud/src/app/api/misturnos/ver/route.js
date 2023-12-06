@@ -1,8 +1,14 @@
-export async function GET() {
+export async function POST(request) {
+    const body = await request.json()
+    console.log("BODY::");
+    console.log(body);
     try {
-        const res = await fetch(`http://localhost:8080/misturnos/2`, {
+        const res = await fetch(`http://localhost:8080/misturnos`, {
             method: 'GET',
-            cache: "no-store"
+            cache: "no-store",
+            headers: {
+                "Authorization": body.token
+            }
         });
 
         // Check if response is not successful

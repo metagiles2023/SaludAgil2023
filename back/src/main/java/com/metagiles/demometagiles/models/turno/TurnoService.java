@@ -74,8 +74,7 @@ public class TurnoService {
         } catch (NumberFormatException e) {
             return null;
         }
-        List<Turno> turnos = this.turnoRepository.getTurnosMedicoByDiaByMes(aux_id,aux_dia,aux_mes);
-        return turnos;
+        return this.turnoRepository.getTurnosMedicoByDiaByMes(aux_id,aux_dia,aux_mes);
     }
 
     public List<String> getTurnosByIdPaciente (String id){

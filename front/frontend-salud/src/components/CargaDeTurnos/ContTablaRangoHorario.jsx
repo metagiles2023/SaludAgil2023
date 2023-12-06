@@ -12,6 +12,8 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import OutlinedInput from '@mui/material/OutlinedInput';
+import { useSession } from 'next-auth/react'; // Import useSession hook
+import {useEffect } from 'react';
 
 const ITEM_HEIGHT = 100;
 const ITEM_PADDING_TOP = 16;
@@ -80,6 +82,18 @@ const horas = [
   ];
 
 export default function Turnos({ selectedDays }) {
+
+
+    //sesion
+    const { data: session } = useSession(); // useSession hook to get the current user
+    const [token, setToken] = useState([])
+
+    useEffect(() => {
+        let user = session?.user
+        let token = user && user.token ? user.token : "no-token-for-fichasmedicasfiltradas"
+        setToken(token)
+      }, [session])
+
     const MenuProps = {
         PaperProps: {
             style: {
@@ -122,9 +136,9 @@ export default function Turnos({ selectedDays }) {
         
         
         try {
-            const response = await fetch(`/api/portalmedico/cargarTurnos`, {
+            const response = await fetch(`/api/portalmedico/cargarTurnos?hi=${bodySend.horaini}&hf=${bodySend.horafin}&dia=${bodySend.dia}&tiempoturno=${bodySend.tiempoturno}`, {
                 method: 'POST',
-                body: JSON.stringify(bodySend),
+                body: JSON.stringify({token: token}),
                 headers: {
                     'Content-Type': 'application/json',
                 },

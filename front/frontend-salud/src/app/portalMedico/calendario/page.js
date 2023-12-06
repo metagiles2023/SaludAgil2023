@@ -1,11 +1,12 @@
 "use client"
 import React from 'react'
-import Header from '@/components/Estructura/Header'
-import Footer from '@/components/Estructura/Footer'
+
 import PacienteCard from '@/components/Calendario/PacienteCard'
 import Calendar from 'react-calendar'
 import "./Calendar.css"
 import { useState } from 'react';
+import { useSession } from 'next-auth/react'; // Import useSession hook
+import {useEffect } from 'react';
 
 export default function mostrarTurnosMedico() {
     const now = new Date();
@@ -13,24 +14,58 @@ export default function mostrarTurnosMedico() {
     maxima_fecha.setMonth(now.getMonth() + 2)
     const [selectedDate, setSelectedDate] = useState(null);
     const [data, setData] = useState(null);
+    //sesion
+    const { data: session } = useSession(); // useSession hook to get the current user
+    const [token, setToken] = useState([])
+    
+ 
+
+    useEffect(() => {
+      let user = session?.user
+      let token = user && user.token ? user.token : "no-token-for-fichasmedicasfiltradas"
+      setToken(token)
+    }, [session])
+/*
+    const handle = ((dia,mes) =>{
+      mes += 1;
+      fetch(`/api/portalmedico/calendario?dia=${dia}&mes=${mes}`,{
+          method: 'POST',
+          body: JSON.stringify({token: token})
+        })
+      .then(async (res) => {
+      const data = await res.json();
+      console.log(data);
+      data.forEach(element => {
+          element.date = new Date(element.date);
+      });
+      data.sort((a,b) => { return a.date - b.date})
+      console.log(data);
+      setData(data);
+      })
+})
+*/
+    const handle = ((dia,mes) =>{
   
-    const handle = ((dia,mes,user) =>{
-            mes += 1;
-            fetch(`/api/portalmedico/calendario?dia=${dia}&mes=${mes}&idMedico=${1}`,{
-                method: 'GET',
+            mes+=1;
+            console.log("dia");
+            console.log(dia);
+            console.log(mes);
+            fetch(`/api/portalmedico/calendario?dia=${dia}&mes=${mes}`,{
+                method: 'POST',
+                body: JSON.stringify({token: token})
               })
             .then(async (res) => {
-            const data = await res.json();
-            console.log(data);
-            data.forEach(element => {
-                element.date = new Date(element.date);
-            });
-            data.sort((a,b) => { return a.date - b.date})
-            console.log(data);
-            setData(data);
+              const data = await res.json();
+              console.log(data);
+              data.forEach(element => {
+                  element.date = new Date(element.date);
+              });
+              data.sort((a,b) => { return a.date - b.date})
+              console.log(data);
+              setData(data);
             })
-            
     })
+
 
   return (
     <div className='flex flex-col min-h-screen'>
@@ -45,7 +80,7 @@ export default function mostrarTurnosMedico() {
                 setSelectedDate(day)
                 const selectedDay = day.getDate();
                 const selectedMonth = day.getMonth();
-                handle(selectedDay,selectedMonth,1)}}
+                handle(selectedDay,selectedMonth)}}
             />
           </div>
         </div>

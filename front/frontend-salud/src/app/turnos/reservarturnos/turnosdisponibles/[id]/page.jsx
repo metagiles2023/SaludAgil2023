@@ -130,30 +130,15 @@ export default function turnosdisponibles({params}) {
             />
           </div>
         </div>
-        <div className='flex-1 flex items-center m-5'>
-          <div className='flex h-2/3'>
-            <div className='flex flex-col'>
-              <div>
+
+
+        <div className=' flex-col justify-center flex-1 flex items-center m-5'>
+              <div className='flex'>
                 <h1 className='text-2xl font-bold text-black'>Horarios:</h1>
-                <div className='flex gap-16'>
-                  <div className="flex items-center py-5 gap-4">
-                    <div className="text-black text-xl font-bold">Desde:</div>
-                    <div className="flex w-full h-12 bg-[#ebffff] shadow-[0px_20px_4px_#00000040] rounded-[30px] justify-between items-center px-5">
-                      <span className="font-medium text-gray-500 px-5">Seleccione un horario</span>
-                      <img className="w-6" alt="Seleccionar" src="/down_arrow.svg" />
-                    </div>
-                    <img className="w-6" alt="Lupa" src="/search_icon.svg" />
-                  </div>
-                  <div className="flex items-center py-5 gap-4">
-                    <div className="text-black text-xl font-bold">Hasta:</div>
-                    <div className="flex w-full h-12 bg-[#ebffff] shadow-[0px_20px_4px_#00000040] rounded-[30px] justify-between items-center px-5">
-                      <span className="font-medium text-gray-500 px-5">Seleccione un horario</span>
-                      <img className="w-6" alt="Seleccionar" src="/down_arrow.svg" />
-                    </div>
-                    <img className="w-6" alt="Lupa" src="/search_icon.svg" />
-                  </div>
-                </div>
+                
               </div>
+          <div className='flex h-[50vh] w-full justify-center items-center rounded-3xl bg-cyan-400 text-2xl m-5'>
+            <div className='flex flex-col'>
               <div className='flex-1 flex w-full h-full justify-center items-center rounded-3xl bg-cyan-400 text-2xl'>
                 <div className='flex flex-wrap'>
                     { data &&

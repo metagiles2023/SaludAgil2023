@@ -19,8 +19,7 @@ const Header = () => {
                     <NavBar user={user}/>
                 </div>
                 <div className= "flex items-center">
-                    <img className="px-8" src="/notificacion.svg" alt="Notificaciones"></img>
-                    <img src="/usuario.svg" alt="Usuario"></img>
+
                 </div>
             </div>
             <img className="fixed top-0 left-0 w-full h-screen object-cover -z-10" src="/fondo.png" alt="Fondo"></img>

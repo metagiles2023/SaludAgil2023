@@ -4,9 +4,16 @@ import Header from "@/components/Estructura/Header";
 import Footer from "@/components/Estructura/Footer";
 import Turno from "@/components/Turno";
 import ListaTurno from '@/components/Turno/Turno';
-
+import { useSession } from 'next-auth/react'; // Import useSession hook
+const controller = new AbortController(); // Create an AbortController
+const signal = controller.signal; // Get the signal from the controller
 
 export default function MisTurnos() {
+
+    //sesion
+    const { data: session } = useSession(); // useSession hook to get the current user
+    const [token, setToken] = useState([])
+
     var ListaTurnoNecesitaMasEspacio = false;
     var flechaPulsada = false;
 
@@ -16,13 +23,48 @@ export default function MisTurnos() {
     
     const toggleFlechaPulsada = () => flechaPulsada = !flechaPulsada;
 
+    useEffect(() => {
+        console.log("USE EFFECT MIS TURNOS")
+        let user = session?.user
+        let token = user && user.token ? user.token : "no-token-for-fichasmedicasfiltradas"
+        setToken(token)
+        console.log(session);
+      }, [session])
+
+   
+      
+      /*
+
+    useEffect(() => {
+        fetch(`/api/misturnos/ver`,{
+            method: 'POST',
+            body: JSON.stringify({token: token}),
+
+        }).then(async (response) => {
+            const data = await response.json();
+            console.log(data);
+            setDatos(data);
+        
+        });
+    }, [token]); // Al inicio
+
+    */
+    
     const fetchTurnos  = async () => {
-        const response = await fetch(`/api/misturnos/ver/`);
+        const response = await fetch(`/api/misturnos/ver`,{
+            method: 'POST',
+            body: JSON.stringify({token: token})
+        });
         const data = await response.json();
         console.log(data);
         setDatos(data);
 
     };
+    
+
+
+
+
 
     const handleFlechaIzquierdaClick = () => {
         toggleFlechaPulsada();
@@ -36,7 +78,7 @@ export default function MisTurnos() {
 
     useEffect(() => {
         fetchTurnos();
-    }, []);
+    }, [token]);
 
     return (
         <>

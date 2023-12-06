@@ -1,5 +1,6 @@
 export async function POST(request) {
     const body = await request.json()
+
     if (!body?.token) throw new Error("no body.token")
     const res = await fetch(process.env.URL_BACKEND + '/medico', {
         method: 'GET',

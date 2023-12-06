@@ -33,6 +33,8 @@ public class TurnoController {
         }
 
         Usuario usuarioPaciente = session.getUsuario();
+        request.put("idUsuario", String.valueOf(usuarioPaciente.getIdUsuario()));
+        System.out.println(request.toString());
         System.out.println( "ID del paciente: " + usuarioPaciente.getIdUsuario());
         return turnoService.postReservarTurno(request);
     };
@@ -44,16 +46,31 @@ public class TurnoController {
     };
 
     @GetMapping(value = "/misturnosmedico")
-    public List<Turno> getTurnosMedicoByDiaByMes(@RequestParam(name = "dia") String dia,@RequestParam(name = "mes") String mes ,@RequestParam(name = "id") String IdMedico){
-        return turnoService.getTurnosMedicoByDiaByMes(dia, mes, IdMedico);
+    public List<Turno> getTurnosMedicoByDiaByMes(@RequestParam(name = "dia") String dia,@RequestParam(name = "mes") String mes ,@RequestHeader("Authorization") String token){
+        Session session = sessionCacheService.getSession(token);
+        if (session == null) { //significa que el login es invalido
+            System.out.println("SSESION NULL MIS TURNOS MEDiCOS");
+            return null;
+        }
+
+        Usuario usuarioMedico = session.getUsuario();
+        return turnoService.getTurnosMedicoByDiaByMes(dia, mes,String.valueOf(usuarioMedico.getIdUsuario()) );
     }
 
     //devuelve los turnos de un paciente en base a su id
     //Devuelve un mapa con todos los turnos en el siguiente formato
     // idTurno-idPaciente-idMedico-Date
-    @GetMapping(value = "/misturnos/{id}")
-    public List<String> getTurnosByIdPaciente (@PathVariable String id){
-        return turnoService.getTurnosByIdPaciente(id);
+    @GetMapping(value = "/misturnos")
+    public List<String> getTurnosByIdPaciente (@RequestHeader("Authorization") String token){
+        Session session = sessionCacheService.getSession(token);
+        if (session == null) { //significa que el login es invalido
+            System.out.println("SESSION ES NULL");
+            return null;
+        }
+
+        Usuario usuarioPaciente = session.getUsuario();
+        System.out.println("PACIENTE: " + usuarioPaciente.getIdUsuario());
+        return turnoService.getTurnosByIdPaciente(String.valueOf(usuarioPaciente.getIdUsuario()));
     }
 
     @PostMapping(value = "/misturnos/cancelar")
@@ -67,7 +84,16 @@ public class TurnoController {
     }
 
     @PostMapping(value ="/agregarturnos")
-    public ResponseEntity<?> agregarTurnos(@RequestBody Map<String,String> request){
+    public ResponseEntity<?> agregarTurnos(@RequestBody Map<String,String> request,@RequestHeader("Authorization") String token){
+        Session session = sessionCacheService.getSession(token);
+        if (session == null) { //significa que el login es invalido
+            System.out.println("SESSION ES NULL en agregar turnos");
+            return null;
+        }
+        System.out.println("ESTA INICIADO SESIONNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
+        Usuario usuarioMedico = session.getUsuario();
+        request.put("idMedico",String.valueOf(usuarioMedico.getIdUsuario()));
+
         return turnoService.agregarTurnos(request);
     }
 

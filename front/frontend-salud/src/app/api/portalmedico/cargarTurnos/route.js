@@ -1,21 +1,30 @@
 export async function POST(req) {
     try {
-        const horaini = new URL(req.url).searchParams.get("horaini");
-        const horafin = new URL(req.url).searchParams.get("horafin");
+        
+        const horaini = new URL(req.url).searchParams.get("hi");
+        const horafin = new URL(req.url).searchParams.get("hf");
         const tiempoturno = new URL(req.url).searchParams.get("tiempoturno");
         const dia = new URL(req.url).searchParams.get("dia");
-        const idMedico = new URL(req.url).searchParams.get("idMedico");
+        
+        const resultBody = {
+            "horaini": horaini,
+            "horafin": horafin,
+            "dia": dia,
+            "tiempoturno": tiempoturno,
+        }
+        console.log("body req: ")
+        console.log("Parameters:", { horaini, horafin, tiempoturno, dia });
 
-        console.log("Parameters:", { horaini, horafin, tiempoturno, dia, idMedico });
+        const body = await req.json();
+        console.log("token cargarturnooooo:", body.token);
 
-        const resultBody = await req.json();
-        console.log("Request Body:", resultBody);
-
+        
         const response = await fetch(`http://localhost:8080/agregarturnos`, {
             method: 'POST',
             body: JSON.stringify(resultBody), 
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": body.token
             },
         });
 
@@ -31,8 +40,11 @@ export async function POST(req) {
                 "Content-Type": "application/json"
             },
         });
+
     } catch (error) {
         console.error('An error occurred:', error);
         throw new Error('Internal Server Error');
+        
     }
+
 }
