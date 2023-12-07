@@ -74,7 +74,15 @@ public class TurnoController {
     }
 
     @PostMapping(value = "/misturnos/cancelar")
-    public ResponseEntity<?> cancelarTurnoByIdPaciente (@RequestBody Map<String,String> request){
+    public ResponseEntity<?> cancelarTurnoByIdPaciente (@RequestBody Map<String,String> request,@RequestHeader("Authorization") String token){
+        System.out.println(request + " | " + token);
+        Session session = sessionCacheService.getSession(token);
+        if (session == null) { //significa que el login es invalido
+            System.out.println("SESSION ES NULL en agregar turnos");
+            return null;
+        }
+        Usuario usuarioPaciente = session.getUsuario();
+        request.put("pid",String.valueOf(usuarioPaciente.getIdUsuario()));
         return turnoService.cancelarTurnoByIdPaciente(request);
     }
 
@@ -87,7 +95,7 @@ public class TurnoController {
     public ResponseEntity<?> agregarTurnos(@RequestBody Map<String,String> request,@RequestHeader("Authorization") String token){
         Session session = sessionCacheService.getSession(token);
         if (session == null) { //significa que el login es invalido
-            System.out.println("SESSION ES NULL en agregar turnos");
+            System.out.println("SESSION ES NULL en cancelar turnos");
             return null;
         }
         System.out.println("ESTA INICIADO SESIONNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");

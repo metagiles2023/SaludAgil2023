@@ -1,7 +1,7 @@
 "use client"
 import React from 'react';
 import { useState, useEffect } from 'react';
-
+import { useSession } from 'next-auth/react'; // Import useSession hook
 
 const Selector = ({onSelectOption, usuarios}) => {
 
@@ -12,11 +12,21 @@ const Selector = ({onSelectOption, usuarios}) => {
     const [ultiOption, setUltiOption] = useState(null);
     
     const tituloOriginal = usuarios.charAt(0).toUpperCase() + usuarios.slice(1);
+    
+    //sesion
+    const { data: session } = useSession(); // useSession hook to get the current user
+    const [token, setToken] = useState([])
 
     useEffect(() => {
+        let user = session?.user
+        let token = user && user.token ? user.token : "no-token-for-fichasmedicasfiltradas"
         // Make an HTTP GET request to your backend API
         fetch(`/api/${usuarios}`, {
-            method: 'GET',
+            method: 'POST',
+            body: JSON.stringify({token: token}),
+            headers: {
+            'Content-Type': 'application/json',
+            },
         })  
             .then((response) => response.json())
             .then((data) => {
@@ -26,9 +36,7 @@ const Selector = ({onSelectOption, usuarios}) => {
             .catch((error) => {
             console.error('Error fetching data:', error);
             });
-        }, []); 
-    
-    
+        }, [session]); 
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [medicoSeleccionado, setMedicoSeleccionado] = useState(null);

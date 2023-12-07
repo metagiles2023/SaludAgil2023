@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { cancelarTurno } from '@/app/api/misturnos/cancelar/route';
 import ConfirmCancelar from './ConfirmCancelar';
+import { useSession } from 'next-auth/react'; // Import useSession hook
+import { useEffect} from 'react';
 
 function TurnoCard({ turno }) {
     const { id, medico_nombre, medico_apellido, medico_especialidad, date } = turno;
@@ -11,6 +13,19 @@ function TurnoCard({ turno }) {
     const hour = timePart.split(':')[0];
     const minute = timePart.split(':')[1];
 
+    //sesion
+    const { data: session } = useSession(); // useSession hook to get the current user
+    const [token, setToken] = useState([])
+    
+    useEffect(() => {
+        console.log("USE EFFECT MIS TURNOS")
+        let user = session?.user
+        let token = user && user.token ? user.token : "no-token-for-fichasmedicasfiltradas"
+        setToken(token)
+        console.log(session);
+      }, [session])
+
+
     // Constructing formatted date and time
     const formattedDate = `${parseInt(day)}/${parseInt(month)}/${year}`;
     const formattedTime = `${hour}:${minute}`;
@@ -20,15 +35,10 @@ function TurnoCard({ turno }) {
       };
 
     const handleConfirmCancel = async () => {
-        const bodySend = {
-        "tid": id,
-        "pid": 2
-        };
-
         try {
-        const response = await fetch(`/api/misturnos/cancelar?pid=2&tid=${id}`, {
+        const response = await fetch(`/api/misturnos/cancelar?tid=${id}`, {
             method: 'POST',
-            body: JSON.stringify(bodySend),
+            body: JSON.stringify({token: token,tid:id}),
             headers: {
             'Content-Type': 'application/json',
             },
@@ -36,15 +46,15 @@ function TurnoCard({ turno }) {
 
         if (response.ok) {
             // Request was successful, you can decide what to do here
-            window.location.reload();
         } else {
             // Handle errors or non-OK responses
             console.error('Request failed with status:', response.status);
         }
         } catch (error) {
-        console.error('An error occurred:', error);
+            console.error('An error occurred:', error);
         }
-
+        
+        window.location.reload();
         setShowDialog(false);
     };
 

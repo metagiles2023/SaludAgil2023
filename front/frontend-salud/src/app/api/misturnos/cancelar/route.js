@@ -1,26 +1,29 @@
-export async function POST(req) {
-    const pid = new URL(req.url).searchParams.get("pid");
-    const tid = new URL(req.url).searchParams.get("tid");
-    console.log("pid: " + pid + " tid: " + tid);
-    const resultBody = await req.json();
-    
+export async function POST(request) {
+    const body = await request.json();
+    console.log(`internal: cancelar body is ${JSON.stringify(body)}`)
+    const tid = new URL(request.url).searchParams.get("tid");
+        
+    const resultBody = {
+        "tid": tid,
+    }
     const response = await fetch(`http://localhost:8080/misturnos/cancelar`, {
         method: 'POST',
-        body: JSON.stringify(resultBody), 
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": body.token
         },
+        body: JSON.stringify(resultBody)
     });
-
-    if (!response.ok) {
-        const message = `An error has occurred: ${response.status}`;
-        throw new Error(message);
+    
+    const resultado = await response.json();
+    if (response.status >= 400) { //logica de control de errores
+        console.log("anda cancelar");
+        return new Response(JSON.stringify(null), {
+            status: response.status,
+            statusText: resultado.error, //espero que el backend me mande un error en el json
+        });
+    } else {
+        console.log("no anda cancelar");
+        return new Response(JSON.stringify(resultado));
     }
-
-    // Return a valid response, for example a JSON response
-    return new Response(JSON.stringify({ success: true }), {
-        headers: {
-            "Content-Type": "application/json"
-        },
-    });
 }

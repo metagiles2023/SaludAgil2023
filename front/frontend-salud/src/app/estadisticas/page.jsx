@@ -12,11 +12,8 @@ export default function Home() {
         <div className="flex flex-col min-h-screen">
 
             <main className='flex-1 flex justify-center items-center'>
-                <div>
-                    <p className='m-2'>Grafico de lineas</p>
-                    <div className='my-12'>
-                        <Graficos></Graficos>
-                    </div>
+                <div className='my-12'>
+                    <Graficos></Graficos>
                 </div>
             </main>
 

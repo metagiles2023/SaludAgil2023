@@ -49,10 +49,7 @@ export default function ReservarTurnos() {
                         <div className="text-black text-2xl font-bold">Especialidad:</div>
                             <AutoComplete
                                 onEspecialidadChange={handleEspecialidadChange}
-                            />
-                        <div className="flex w-full h-12 bg-[#ebffff] shadow-[0px_20px_4px_#00000040] rounded-[30px] justify-between items-center px-5">
-                        </div>
-    
+                            />    
                     </div>
                     <div className="flex flex-1 justify-center ">
                       <div className="flex h-2/3 gap-10">
